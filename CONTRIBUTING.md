@@ -4,7 +4,7 @@
 
 Feature -> Develop -> Master -> Staging -> Deployment
 
-- Deployment: actual production environment available publically
+- Deployment: actual production environment available publicly
 - Staging: simulated deployed state only available internally
 - Master: always "good" source of truth
 - Develop: "experimental / latest and greatest" code
