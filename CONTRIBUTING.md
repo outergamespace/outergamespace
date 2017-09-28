@@ -16,11 +16,10 @@ Feature -> Develop -> Master -> Staging -> Deployment
 2. Switch to the 'develop' branch.
 3. Create a new 'feature' branch named by feature (e.g. add-authentication).
 4. When you've finished with your fix or feature, rebase 'develop' changes into your branch to make sure you are caught up. Fix any conflicts, if any.
-5. Push your branch up to the repo so you can make a pull request with: git push -u origin <your-branch-name>
-6. Make a pull request to 'develop' branch.
-7. Your pull request will be reviewed by another maintainer. The point of code reviews is to help keep the codebase clean and of high quality and, equally as important, to help you grow as a programmer. If your code reviewer requests you make a change you don't understand, ask them why.
-8. Fix any issues raised by your code reviewer, and push your fixes as a single new commit.
-9. Once the pull request has been reviewed, it will be merged by another member of the team. Do not merge your own commits.
+5. Make a pull request to 'develop' branch.
+6. Your pull request will be reviewed by another maintainer. The point of code reviews is to help keep the codebase clean and of high quality and, equally as important, to help you grow as a programmer. If your code reviewer requests you make a change you don't understand, ask them why.
+7. Fix any issues raised by your code reviewer, and push your fixes as a single new commit.
+8. Once the pull request has been reviewed, it will be merged by another member of the team. Do not merge your own commits.
 
 ## Contributor Workflow
 
