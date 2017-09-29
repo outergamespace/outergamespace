@@ -1,0 +1,12 @@
++-----------------+------------------------------------------------------------------------------+----------+-----------+-------------+---------------------------------------------------------------------------+
+|   Event Name    |                                   Trigger                                    |  Server  | Game Host | Game Player |                              Expected Action                              |
++-----------------+------------------------------------------------------------------------------+----------+-----------+-------------+---------------------------------------------------------------------------+
+| joinGame        | Click 'join' button on GP                                                    | Receiver |           | Emitter     | Server adds player to game instance                                       |
+| newPlayer       | joinGame event                                                               | Emitter  | Receiver  |             | GH shows player name on screen                                            |
+| startGame       | Click 'start' button on GH                                                   | Receiver | Emitter   |             | Server emits message to start game                                        |
+| nextQuestion    | startGame event OR 3 seconds after showRoundScores trigger                   | Emitter  | Receiver  | Receiver    | GH and GP shows next question                                             |
+| submitAnswer    | Click 'submit' button on GP question page                                    | Receiver |           | Emitter     | Server updates record of players who have responded                       |
+| showRoundScores | After all four submitAnswers events OR 20 seconds after nextQuestion trigger | Emitter  | Receiver  | Receiver    | GH shows scores, GP shows text telling players to look at GH screen       |
+| showFinalScores | Same as showRoundScores, but only after final question                       | Emitter  | Receiver  | Receiver    | GH shows final scores, GP shows text telling players to look at GH screen |
+| restartGame     | Click 'restart' button on GH final scores page                               | Receiver | Emitter   |             | Server initializes new game instance                                      |
++-----------------+------------------------------------------------------------------------------+----------+-----------+-------------+---------------------------------------------------------------------------+
