@@ -1,13 +1,13 @@
-# Project Name
+# Outer Game Space
 
-> Pithy project description
+> Outer Game Space is a trivia game platform catered towards creating in-person game sessions played with Player clients and a central Host presenter. Games are meant to be played in-person with a group to deliver social real-time interaction and feedback.
 
 ## Team
 
-  - teamMember
-  - teamMember
-  - teamMember
-  - teamMember
+  - Leo Leung
+  - Lynne Daniels
+  - Adrian Humphrey
+  - Lam Bui
 
 ## Table of Contents
 
@@ -21,15 +21,12 @@
 
 ## Usage
 
-> Some usage instructions
+> TODO: When we have MVP up
 
 ## Requirements
 
-- Node 6.4.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Node 6.11.x
+- See package.json for more
 
 ## Development
 
@@ -38,14 +35,12 @@
 From within the root directory:
 
 ```sh
-npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
+View the project roadmap [here](https://docs.google.com/spreadsheets/d/1spVYH4ff5ihcrDYiS6ixOritzBoLicNzOykovLnOkRQ/edit?usp=sharing)
 
 
 ## Contributing
