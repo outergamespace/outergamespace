@@ -1,14 +1,36 @@
 # Contributing
 
-## General Workflow
+## Branching Strategy
+
+Feature -> Develop -> Master -> Staging -> Deployment
+
+- Deployment: actual production environment available publicly
+- Staging: simulated deployed state only available internally
+- Master: always "good" source of truth
+- Develop: "experimental / latest and greatest" code
+- Feature: individual feature implementations per-user
+
+## Internal Developer Workflow
+
+1. Clone the repo.
+2. Switch to the 'develop' branch.
+3. Create a new 'feature' branch named by feature (e.g. add-authentication).
+4. When you've finished with your fix or feature, rebase 'develop' changes into your branch to make sure you are caught up. Fix any conflicts, if any.
+5. Push your branch up to the repo so you can make a pull request with: git push -u origin <your-branch-name>
+6. Make a pull request to 'develop' branch.
+7. Your pull request will be reviewed by another maintainer. The point of code reviews is to help keep the codebase clean and of high quality and, equally as important, to help you grow as a programmer. If your code reviewer requests you make a change you don't understand, ask them why.
+8. Fix any issues raised by your code reviewer, and push your fixes as a single new commit.
+9. Once the pull request has been reviewed, it will be merged by another member of the team. Do not merge your own commits.
+
+## Contributor Workflow
 
 1. Fork the repo
-1. Cut a namespaced feature branch from master
-1. Make commits to your feature branch. Prefix each commit like so:
-1. When you've finished with your fix or feature, Rebase upstream changes into your branch. submit a pull request directly to master. Include a description of your changes.
-1. Your pull request will be reviewed by another maintainer. The point of code reviews is to help keep the codebase clean and of high quality and, equally as important, to help you grow as a programmer. If your code reviewer requests you make a change you don't understand, ask them why.
-1. Fix any issues raised by your code reviwer, and push your fixes as a single new commit.
-1. Once the pull request has been reviewed, it will be merged by another member of the team. Do not merge your own commits.
+2. Cut a namespaced feature branch from master
+3. Make commits to your feature branch. Prefix each commit like so:
+4. When you've finished with your fix or feature, Rebase upstream changes into your branch. submit a pull request directly to master. Include a description of your changes.
+5. Your pull request will be reviewed by another maintainer. The point of code reviews is to help keep the codebase clean and of high quality and, equally as important, to help you grow as a programmer. If your code reviewer requests you make a change you don't understand, ask them why.
+6. Fix any issues raised by your code reviewer, and push your fixes as a single new commit.
+7. Once the pull request has been reviewed, it will be merged by another member of the team. Do not merge your own commits.
 
 ## Detailed Workflow
 
@@ -37,7 +59,7 @@ These commands will help you do this:
 git checkout -b `your-branch-name`
 ```
 
-### Make commits to your feature branch. 
+### Make commits to your feature branch.
 
 Prefix each commit like so
   - (feat) Add a new feature
