@@ -16,26 +16,28 @@ app.get('/', function (req, res) {
 
 //Main page for clients to join current game
 app.get('/join', function (req, res) {
+
+    res.status(200);
+    
     //Check if there is already a game instance
     if ( gameInstance !== null){
-        //Allow the use to join through a socket
-        console.log("There is a current game running");
-
+        //Allow the user to join through a socket
+        
         //Simulate user passing in their desired username. Create new player and save them to the game isntancec
         var playerName = "newPlayer" + gameInstance.players.length;
         gameInstance.addPlayer( new Player(playerName) );
 
-        console.log( "Game Instacne => " , gameInstance );
+        res.send(JSON.stringify(gameInstance));
     }
     else{
         //Prompt the user that there is not a current game running, redirect user to start new game
-        console.log("There is not a current game running");
+        res.send("There is not a current game running");
 
         //Simulate user being prompted to start a game and create a new GameInstance
         gameInstance = new Game();
         
     }
-    res.send('Hello Client ! \n Please press button below to join the game');
+
 });
 
 io.on('connection', function (socket) {
