@@ -7,3 +7,5 @@ const PlayerListEntry = (props) => (
     <div className="player-list-entry-score">{props.player.score}</div>
   </div>
 );
+
+export default PlayerListEntry;
