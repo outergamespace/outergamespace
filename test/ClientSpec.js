@@ -1,4 +1,5 @@
-var expect = require('chai').expect;
+/* eslint-env mocha */
+const expect = require('chai').expect;
 
 describe('Client', () => {
   describe('[REPLACE ME] test template', () => {
