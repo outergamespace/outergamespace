@@ -1,0 +1,11 @@
+div {
+	border: 1px solid gray;
+	margin: auto;
+	padding: 1em;
+}
+.container {
+	max-width: 850px;
+}
+.ul {
+	list-style-type: none;
+}
