@@ -1,14 +1,24 @@
 //This is a game class, implemented right now as a Singleton
 
 //Global variable for game instance
-let instance = null;
+let gameInstance = null;
 
-class Game{
-    constructor(){
-        if(!instance){
-            instance = this;
+class Game {
+    constructor() {
+        if (!gameInstance) {
+            gameInstance = this;
         }
-        
-      return instance;
+
+        this.players = [];
+
+        return gameInstance;
     }
+
+    addPlayer(player) {
+        this.players.push(player);
+    }
+
 }
+
+module.exports.Game = Game;
+module.exports.gameInstance = gameInstance;
