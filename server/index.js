@@ -21,8 +21,9 @@ app.get('/join', function (req, res) {
     
     //Check if there is already a game instance
     if ( gameInstance !== null){
-        //Allow the user to join through a socket
+        //Allow the use to join through a socket
         
+
         //Simulate user passing in their desired username. Create new player and save them to the game isntancec
         var playerName = "newPlayer" + gameInstance.players.length;
         gameInstance.addPlayer( new Player(playerName) );

@@ -18,6 +18,10 @@ class Game {
         this.players.push(player);
     }
 
+    endGame(){
+        gameInstance = null;
+    }
+
 }
 
 module.exports.Game = Game;
