@@ -11,5 +11,14 @@
 <body>
   <div id="app"></div>
   <script type="text/javascript" src="dist/index_bundle.js"></script>
+  <script src="bower_components/socket.io-client/dist/socket.io.js"></script>
+  <script>
+    var socket = io('http://localhost:8080'); 
+    socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
+      
+      console.log("Connected successfully");
+
+    });
+  </script>
 </body>
 </html>
