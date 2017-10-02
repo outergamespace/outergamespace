@@ -10,7 +10,8 @@ app.use(express.static(__dirname + '/../client/'));
 
 //Main web page for the host (projector)
 app.get('/', function (req, res) {
-
+    res.status(200);
+    res.send();
 });
 
 //Main page for clients to join current game
@@ -47,3 +48,6 @@ io.on('connection', function (socket) {
         console.log(data);
     });
 });
+
+//Export the server in order to run mocha test
+module.exports = server;

@@ -1,10 +1,23 @@
 /* eslint-env mocha */
 const expect = require('chai').expect;
+var request = require('supertest');
 
-describe('Server', () => {
-  describe('[REPLACE ME] test template', () => {
-    it('[REPLACE ME] should return true for matching "test template" text', () => {
-      expect('test template').to.equal('test template');
-    });
+describe('loading express', function () {
+  var server;
+  beforeEach(function () {
+    server = require('../server/index.js');
+  });
+  afterEach(function () {
+    server.close();
+  });
+  it('responds to /', function testSlash(done) {
+  request(server)
+    .get('/')
+    .expect(200, done);
+  });
+  it('404 everything else', function testPath(done) {
+    request(server)
+      .get('/foo/bar')
+      .expect(404, done);
   });
 });
