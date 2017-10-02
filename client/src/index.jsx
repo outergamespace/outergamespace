@@ -10,13 +10,35 @@ class App extends React.Component {
     this.state = {
     // screen: will be 'venue' or 'player'
     // first to sign in is presenter, then change state to player?
+      screen: 'presenter',
     };
+    this.toggleScreen = this.toggleScreen.bind(this);
   }
-
+  // use to change display from presenter to viewer
+  toggleScreen() {
+    console.log('toggleScreen clicked', this.state.screen);
+    if (this.state.screen === 'presenter') {
+      this.setState({ screen: 'player' });
+    } else {
+      this.setState({ screen: 'presenter' });
+    }
+  }
   render() {
+    const screen = this.state.screen;
+    let display;
+    if (screen === 'presenter') {
+      display = <PreGame players={this.props.players} />;
+    } else if (screen === 'player') {
+      display = 'Player Screen Placeholder';
+    } else {
+      display = 'Oops, screen is undefined';
+    }
     return (
       <div>
-        <PreGame players={this.props.players} />
+        <button onClick={this.toggleScreen}>Toggle Screen Presenter/Viewer</button>
+        <div>
+          {display}
+        </div>
       </div>
     );
   }
