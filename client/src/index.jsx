@@ -1,22 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PreGame from './components/presenter/PreGame.jsx';
 
-//TODO import component files
+// TODO import component files
 
 class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			// screen: will be 'venue' or 'player'
-			//TODO - how do we decide which it will be?
-			// first to sign in?, then change state to player?
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+    // screen: will be 'venue' or 'player'
+    // first to sign in is presenter, then change state to player?
+    };
+  }
+
   render() {
     return (
-      <div>Hello World</div>
-    )
+      <div>
+        <PreGame players={this.props.players} />
+      </div>
+    );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+
+// use this dummy data until DB is connected
+const players = [{
+  name: 'player1',
+  score: 0,
+  avatar: 'avatar',
+},
+{
+  name: 'player1',
+  score: 0,
+  avatar: 'avatar',
+},
+{
+  name: 'player1',
+  score: 0,
+  avatar: 'avatar',
+},
+{
+  name: 'player1',
+  score: 0,
+  avatar: 'avatar',
+},
+];
+
+ReactDOM.render(<App players={players} />, document.getElementById('app'));
