@@ -30,17 +30,17 @@ const players = [{
   avatar: 'avatar',
 },
 {
-  name: 'player1',
+  name: 'player2',
   score: 0,
   avatar: 'avatar',
 },
 {
-  name: 'player1',
+  name: 'player3',
   score: 0,
   avatar: 'avatar',
 },
 {
-  name: 'player1',
+  name: 'player4',
   score: 0,
   avatar: 'avatar',
 },
