@@ -12,7 +12,7 @@ const App = (props) => (
     <h3>INSERT PLAYER CLIENT COMPONENT HERE</h3>
     <Join/>
     <Wait/>
-    <Question player={props.player} question={props.question} answers={props.answers} />
+    <Question presenterFlag={props.presenterFlag} player={props.player} question={props.question} answers={props.answers} />
     <Finish/>
   </div>
 );
@@ -24,7 +24,9 @@ const testAnswers = [
   'Here is fourth test answer',
 ];
 const testPlayer = {
-  username: 'presenter',
+  username: 'playername',
   score: 7,
 };
-ReactDOM.render(<App player={testPlayer} answers={testAnswers} question={testQuestion} />, document.getElementById('app'));
+const testPresenterFlag = false;
+
+ReactDOM.render(<App presenterFlag={testPresenterFlag} player={testPlayer} answers={testAnswers} question={testQuestion} />, document.getElementById('app'));

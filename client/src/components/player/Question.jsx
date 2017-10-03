@@ -8,7 +8,8 @@ class Question extends React.Component {
   }
 
   isPresenter() {
-    return this.props.player.username;
+    console.log(this.props.presenterFlag);
+    return this.props.presenterFlag ? 'presenter' : 'player';
   }
 
   render() {
