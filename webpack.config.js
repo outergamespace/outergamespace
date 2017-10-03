@@ -18,6 +18,10 @@ module.exports = {
           presets: ['react', 'es2015'],
         },
       },
+      {
+        test: /\.css$/,
+        loader: ['css-loader'],
+      },
     ] },
   output: {
     path: `${DIST_DIR}`,
