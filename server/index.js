@@ -1,51 +1,104 @@
 const express = require('express');
+const path = require('path');
 
 const app = express();
-const server = app.listen(8080);
-const io = require('socket.io').listen(server);
-let { gameInstance } = require('../game/game.js');
-const { Game } = require('../game/game.js');
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const game = require('../game/game.js');
 const { Player } = require('../game/player.js');
 
-app.use(express.static(`${__dirname}/../client/`));
+const CLIENT_DIR = path.join(__dirname, '../client');
+const PORT = 8080;
+const TIME_FOR_QS = 20 * 1000;
+const TIME_FOR_SCORES = 3 * 1000;
+
+server.listen(PORT);
+
+app.use(express.static(CLIENT_DIR));
+app.use((req, res, next) => {
+  console.log(`${req.method} request on ${req.url}`);
+  next();
+});
+
+/* ROUTE HANDLERS */
 
 // Main web page for the host (projector)
 app.get('/', (req, res) => {
-  res.status(200);
-  res.send();
+  res.sendFile(path.join(CLIENT_DIR, 'index_presenter.html'));
 });
 
 // Main page for clients to join current game
 app.get('/join', (req, res) => {
-  res.status(200);
-
-  // Check if there is already a game instance
-  if (gameInstance !== null) {
-    // Allow the use to join through a socket
-
-
-    // Simulate user passing in their desired username. 
-    // Create new player and save them to the game isntancec
-    const playerName = `newPlayer${gameInstance.players.length}`;
-    gameInstance.addPlayer(new Player(playerName));
-
-    res.send(JSON.stringify(gameInstance));
-  } else {
-    // Prompt the user that there is not a current game running, redirect user to start new game
-    res.send('There is not a current game running');
-
-    // Simulate user being prompted to start a game and create a new GameInstance
-    gameInstance = new Game();
-  }
+  res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
 });
 
+/* SOCKET EVENT HANDLERS */
+
+const joinGameHandler = (socket, user) => {
+  try {
+    game.addPlayer(new Player(user.username));
+
+    // notify player that he/she joined the game
+    socket.emit('validUsername', {});
+
+    // notify presenter of new player joining
+    io.emit('newPlayer', user);
+  } catch (err) {
+    // notify player that name is already taken
+    socket.emit('invalidUsername', {});
+  }
+};
+
+let nextStep;
+
+const nextQuestionHandler = () => {
+  const question = game.getNextQuestion();
+
+  if (question) {
+    // send question to all clients
+    io.emit('nextQuestion', { question });
+
+    // set next step
+    nextStep = setTimeout(showScoresHandler, TIME_FOR_QS);
+  } else {
+    // send final scores
+    const scores = game.getScores();
+    io.emit('showFinalScores', { scores });
+  }
+};
+
+const showScoresHandler = () => {
+  const scores = game.getScores();
+  io.emit('showScores', { scores });
+
+  // set next step
+  nextStep = setTimeout(nextQuestionHandler, TIME_FOR_SCORES);
+};
+
+const submitAnswerHandler = ({ username, answer }) => {
+  game.receiveAnswer(username, answer);
+
+  if (game.allAnswered()) {
+    // end the question early
+    clearTimeout(nextStep);
+    showScoresHandler();
+  }
+};
+
+/* SOCKET EVENTS */
+
 io.on('connection', (socket) => {
-  // Will send back to client a successfull connection made
+  // Will send back to client a successful connection made
   socket.emit('status', { connection: 'successful' });
 
-  // socket.on('join', (data) => {
-  //   // Data = {username: username}
-  // });
+  // player clicks 'join' button
+  socket.on('joinGame', joinGameHandler.bind(socket));
+
+  // presenter clicks 'start' button
+  socket.on('startGame', nextQuestionHandler);
+
+  // player submits answer
+  socket.on('submitAnswer', submitAnswerHandler);
 });
 
 // Export the server in order to run mocha test
