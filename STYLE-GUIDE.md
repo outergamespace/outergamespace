@@ -11,3 +11,6 @@ npm info "eslint-config-airbnb@latest" peerDependencies
 export PKG=eslint-config-airbnb;
 npm info "$PKG" peerDependencies --json | command sed 's/[\{\},]//g ; s/: /@/g' | xargs npm install --save-dev "$PKG"
 ```
+
+### Atom
+Install (linter-eslint)[https://atom.io/packages/linter-eslint] package
