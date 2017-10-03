@@ -88,6 +88,8 @@ const submitAnswerHandler = ({ username, answer }) => {
 /* SOCKET EVENTS */
 
 io.on('connection', (socket) => {
+  console.log('Socket connected:', socket);
+
   // Will send back to client a successful connection made
   socket.emit('status', { connection: 'successful' });
 
