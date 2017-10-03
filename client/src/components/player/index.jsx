@@ -12,7 +12,7 @@ const App = (props) => (
     <h3>INSERT PLAYER CLIENT COMPONENT HERE</h3>
     <Join/>
     <Wait/>
-    <Question question={props.question} answers={props.answers}/>
+    <Question player={props.player} question={props.question} answers={props.answers} />
     <Finish/>
   </div>
 );
