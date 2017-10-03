@@ -47,12 +47,13 @@ const joinGameHandler = (socket, user) => {
     // notify player that name is already taken
     socket.emit('invalidUsername', {});
   }
+  console.log(game);
 };
 
 let nextStep;
 
 const nextQuestionHandler = () => {
-  const question = game.getNextQuestion();
+  const question = game.nextQuestion();
 
   if (question) {
     // send question to all clients
@@ -88,8 +89,6 @@ const submitAnswerHandler = ({ username, answer }) => {
 /* SOCKET EVENTS */
 
 io.on('connection', (socket) => {
-  console.log('Socket connected:', socket);
-
   // Will send back to client a successful connection made
   socket.emit('status', { connection: 'successful' });
 

@@ -1,28 +1,72 @@
-//This is a game class, implemented right now as a Singleton
+const _ = require('underscore');
+const db = require('../db/index.js');
+const Promise = require('bluebird');
 
-//Global variable for game instance
-let gameInstance = null;
+const POINTS_PER_QS = 10;
+
+const scrambleAnswers = question => (
+  _.shuffle([
+    question.correct_ans,
+    question.incorrect_ans_1,
+    question.incorrect_ans_2,
+    question.incorrect_ans_3,
+  ])
+);
 
 class Game {
-    constructor() {
-        if (!gameInstance) {
-            gameInstance = this;
-        }
+  constructor() {
+    this.players = {};
+    db.getQuestions()
+      .then((results) => {
+        this.questions = results;
+      });
+    // this.questions = Promise.resolve(db.getQuestions());
+    this.currentQuestion = 0;
+    this.answeredCount = 0;
+  }
 
-        this.players = [];
+  restart() {
+    this.players = {};
+    this.questions = db.getQuestions();
+    this.currentQuestion = 0;
+    this.answeredCount = 0;
+  }
 
-        return gameInstance;
+  hasPlayer(player) {
+    return Object.prototype.hasOwnProperty.call(this.players, player.username);
+  }
+
+  addPlayer(player) {
+    if (this.hasPlayer(player)) {
+      throw new Error('Username already taken');
+    } else {
+      this.players[player.username] = player;
     }
+  }
 
-    addPlayer(player) {
-        this.players.push(player);
+  nextQuestion() {
+    this.answeredCount = 0;
+    const question = this.questions[this.currentQuestion];
+    const prompt = question.question;
+    const answers = scrambleAnswers(question);
+    return { prompt, answers };
+  }
+
+  checkAnswer(answer) {
+    const correctAns = this.questions[this.currentQuestion].correct_ans;
+    return correctAns === answer;
+  }
+
+  receiveAnswer(username, answer) {
+    this.answeredCount += 1;
+    if (this.checkAnswer(answer)) {
+      this.players[username].addToScore(POINTS_PER_QS);
     }
+  }
 
-    endGame(){
-        gameInstance = null;
-    }
-
+  allAnswered() {
+    return this.answeredCount === Object.keys(this.players).length;
+  }
 }
 
-module.exports.Game = Game;
-module.exports.gameInstance = gameInstance;
+module.exports = new Game();
