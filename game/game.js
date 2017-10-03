@@ -115,7 +115,5 @@ class Game {
   }
 }
 
-/** creates a new Game object */
+/** exports a new Game object */
 module.exports = new Game();
-/** a Game object */
-module.exports.Game = Game;
