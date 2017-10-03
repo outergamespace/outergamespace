@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PreGame from './components/presenter/PreGame.jsx';
+import PreGame from './PreGame.jsx';
 
 // TODO import component files
 
