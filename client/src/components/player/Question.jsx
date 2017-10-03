@@ -3,6 +3,7 @@ import React from 'react';
 class Question extends React.Component {
   constructor (props) {
     super(props);
+
     // this.state =
     this.isPresenter = this.isPresenter.bind(this);
   }
