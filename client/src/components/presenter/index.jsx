@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PreGame from './PreGame.jsx';
+import css from '../../../styles/style.css';
+
 
 // TODO import component files
 
