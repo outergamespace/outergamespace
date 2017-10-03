@@ -35,7 +35,6 @@ class App extends React.Component {
     }
     return (
       <div>
-        <button onClick={this.toggleScreen}>Toggle Screen Presenter/Viewer</button>
         <div>
           {display}
         </div>
