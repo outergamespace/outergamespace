@@ -51,7 +51,6 @@ const joinGameHandler = (socket, user) => {
     // notify player that name is already taken
     socket.emit('invalidUsername', {});
   }
-  console.log(game.players);
 };
 
 let nextStep;
@@ -97,9 +96,7 @@ io.on('connection', (socket) => {
   socket.emit('status', { connection: 'successful' });
 
   // player clicks 'join' button
-  socket.on('joinGame', (user) => {
-    joinGameHandler(socket, user);
-  });
+  socket.on('joinGame', joinGameHandler);
 
   // presenter clicks 'start' button
   socket.on('startGame', nextQuestionHandler);
