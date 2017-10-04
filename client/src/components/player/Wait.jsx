@@ -7,7 +7,7 @@ import React from 'react';
 // Make a component to render the game players's join screen
 const Wait = (props) => (
   <div>
-
+    Wait for all players to join.
   </div>
 );
 
