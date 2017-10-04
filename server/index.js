@@ -8,11 +8,15 @@ const game = require('../game/game.js');
 const { Player } = require('../game/player.js');
 
 const CLIENT_DIR = path.join(__dirname, '../client');
-const PORT = 8080;
+const SERVER_PORT = 8080;
+const SOCKET_PORT = 3000;
 const TIME_FOR_QS = 20 * 1000;
 const TIME_FOR_SCORES = 3 * 1000;
 
-server.listen(PORT);
+io.listen(SOCKET_PORT);
+server.listen(SERVER_PORT);
+console.log(`Socket listening on port ${SOCKET_PORT}`);
+console.log(`Server listening on port ${SERVER_PORT}`);
 
 app.use(express.static(CLIENT_DIR));
 app.use((req, res, next) => {
@@ -47,7 +51,7 @@ const joinGameHandler = (socket, user) => {
     // notify player that name is already taken
     socket.emit('invalidUsername', {});
   }
-  console.log(game);
+  console.log(game.players);
 };
 
 let nextStep;
@@ -93,7 +97,9 @@ io.on('connection', (socket) => {
   socket.emit('status', { connection: 'successful' });
 
   // player clicks 'join' button
-  socket.on('joinGame', joinGameHandler.bind(socket));
+  socket.on('joinGame', (user) => {
+    joinGameHandler(socket, user);
+  });
 
   // presenter clicks 'start' button
   socket.on('startGame', nextQuestionHandler);

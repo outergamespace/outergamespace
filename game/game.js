@@ -67,6 +67,10 @@ class Game {
   allAnswered() {
     return this.answeredCount === Object.keys(this.players).length;
   }
+
+  getScores() {
+    return _.sortBy(_.values(this.players), 'score');
+  }
 }
 
 module.exports = new Game();
