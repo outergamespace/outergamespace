@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Join from './Join.jsx';
 import Wait from './Wait.jsx';
-import Question from './Question.jsx';
+import Question from '../common/Question.jsx';
 import Finish from './Finish.jsx';
 
 const io = require('socket.io-client');
@@ -10,7 +10,7 @@ const io = require('socket.io-client');
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { screen: 'Join' };
+    this.state = { screen: 'Question' };
     this.changePlayerStatus = this.changePlayerStatus.bind(this);
     this.createSocketConnection = this.createSocketConnection.bind(this);
   }
