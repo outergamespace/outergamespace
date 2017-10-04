@@ -1,5 +1,6 @@
 import React from 'react';
-import io from 'socket.io-client';
+import Wait from './Wait.jsx';
+import io from '../../../../socket/socketClientInterface.js';
 
 class Join extends React.Component {
   constructor(props) {
@@ -21,23 +22,15 @@ class Join extends React.Component {
   }
 
   sendName() {
-    const connection = io.connect('http://10.6.70.110:3000');
-    connection.emit('joinGame', { username: this.state.username });
-    connection.on('validUsername', () => {
-      this.setState({
-        joined: true,
-      });
-    });
-    connection.on('invalidUsername', () => {
-      this.setState({
-        joined: false,
-      });
+    io.emit('joinGame', this.state.username, (joined) => {
+      // if successfully joined, update state
+      this.setState({ joined });
     });
   }
 
   render() {
     if (this.state.joined === true) {
-      return <div>You have joined the game.</div>;
+      return <Wait />;
     }
 
     return (
@@ -45,12 +38,12 @@ class Join extends React.Component {
         <div>
           <label htmlFor="">
             Choose a name:
-            <input type="text" onChange={this.updateInput} />
-            {this.state.joined === false ? 'Username already taken' : '' }
+            <input type="text" value={this.state.username} onChange={this.updateInput} />
+            {this.state.joined === false ? <div>Username already taken</div> : '' }
           </label>
         </div>
         <div>
-          <button onClick={this.sendName} >JOIN</button>
+          <button onClick={this.sendName} >Join</button>
         </div>
       </div>
     );

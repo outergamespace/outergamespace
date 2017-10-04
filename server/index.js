@@ -38,20 +38,19 @@ app.get('/join', (req, res) => {
 
 /* SOCKET EVENT HANDLERS */
 
-const joinGameHandler = (socket, user) => {
+const joinGameHandler = (username, cb) => {
   try {
-    game.addPlayer(new Player(user.username));
+    game.addPlayer(new Player(username));
 
     // notify player that he/she joined the game
-    socket.emit('validUsername', {});
+    cb(true);
 
     // notify presenter of new player joining
     io.emit('updatePlayers', game.getScores());
   } catch (err) {
     // notify player that name is already taken
-    socket.emit('invalidUsername', {});
+    cb(false);
   }
-  console.log(game.players);
 };
 
 let nextStep;
