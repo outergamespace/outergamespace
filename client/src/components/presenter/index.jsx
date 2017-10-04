@@ -26,24 +26,6 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.createSocketConnection();
-  }
-
-  // TODO: Use a socket client interface class here
-  createSocketConnection() {
-    // make the connection
-    // const connection = io.connect('http://localhost:3000');
-    const connection = io.connect('http://localhost:3000');
-    // listeners
-    connection.on('newPlayer', (user) => {
-      // do we need to validate this from the server?
-      // add a new player to the state
-      this.state.players.push(user);
-      this.setState({ players: this.state.players });
-    });
-  }
-
   render() {
     return (
       <div>
