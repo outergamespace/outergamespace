@@ -34,7 +34,7 @@ class App extends React.Component {
   createSocketConnection() {
     // make the connection
     // const connection = io.connect('http://localhost:3000');
-    const connection = io.connect('http://10.6.70.110:3000');
+    const connection = io.connect('http://localhost:3000');
     // listeners
     connection.on('newPlayer', (user) => {
       // do we need to validate this from the server?
@@ -45,15 +45,6 @@ class App extends React.Component {
   }
 
   render() {
-    // const screen = this.state.screen;
-    // let display;
-    // if (screen === 'presenter') {
-    //   display = <PreGame players={this.state.players} />;
-    // } else if (screen === 'player') {
-    //   display = 'Player Screen Placeholder';
-    // } else {
-    //   display = 'Oops, screen is undefined';
-    // }
     return (
       <div>
         <div>
