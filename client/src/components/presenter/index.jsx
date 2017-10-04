@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import PreGame from './PreGame.jsx';
 import css from '../../../styles/style.css';
 
-
-// TODO import component files
+const io = require('socket.io-client');
 
 class App extends React.Component {
   constructor(props) {
@@ -13,6 +12,7 @@ class App extends React.Component {
     // screen: will be 'venue' or 'player'
     // first to sign in is presenter, then change state to player?
       screen: 'presenter',
+      players: [],
     };
     this.toggleScreen = this.toggleScreen.bind(this);
   }
@@ -25,20 +25,39 @@ class App extends React.Component {
       this.setState({ screen: 'presenter' });
     }
   }
+
+  componentDidMount() {
+    this.createSocketConnection();
+  }
+
+  // TODO: Use a socket client interface class here
+  createSocketConnection() {
+    // make the connection
+    // const connection = io.connect('http://localhost:3000');
+    const connection = io.connect('http://10.6.70.110:3000');
+    // listeners
+    connection.on('newPlayer', (user) => {
+      // do we need to validate this from the server?
+      // add a new player to the state
+      this.state.players.push(user);
+      this.setState({ players: this.state.players });
+    });
+  }
+
   render() {
-    const screen = this.state.screen;
-    let display;
-    if (screen === 'presenter') {
-      display = <PreGame players={this.props.players} />;
-    } else if (screen === 'player') {
-      display = 'Player Screen Placeholder';
-    } else {
-      display = 'Oops, screen is undefined';
-    }
+    // const screen = this.state.screen;
+    // let display;
+    // if (screen === 'presenter') {
+    //   display = <PreGame players={this.state.players} />;
+    // } else if (screen === 'player') {
+    //   display = 'Player Screen Placeholder';
+    // } else {
+    //   display = 'Oops, screen is undefined';
+    // }
     return (
       <div>
         <div>
-          {display}
+          display = <PreGame players={this.state.players} />;
         </div>
       </div>
     );
