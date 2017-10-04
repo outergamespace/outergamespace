@@ -7,11 +7,11 @@ const io = require('socket.io')(server);
 const game = require('../game/game.js');
 const Player = require('../game/player.js');
 
+/* SERVER SETUP */
+
 const CLIENT_DIR = path.join(__dirname, '../client');
 const SERVER_PORT = 8080;
 const SOCKET_PORT = 3000;
-const TIME_FOR_QS = 20 * 1000;
-const TIME_FOR_SCORES = 3 * 1000;
 
 io.listen(SOCKET_PORT);
 server.listen(SERVER_PORT);
@@ -23,6 +23,11 @@ app.use((req, res, next) => {
   console.log(`${req.method} request on ${req.url}`);
   next();
 });
+
+/* GAME CONTROLS */
+
+const TIME_FOR_QS = 5 * 1000;
+const TIME_FOR_SCORES = 5 * 1000;
 
 /* ROUTE HANDLERS */
 
@@ -60,9 +65,9 @@ const nextQuestionHandler = () => {
 
   if (question) {
     // send question to all clients
-    io.emit('nextQuestion', { question });
+    io.emit('nextQuestion', question);
 
-    // set next step
+    // show scores after given time period
     nextStep = setTimeout(showScoresHandler, TIME_FOR_QS);
   } else {
     // send final scores
@@ -73,14 +78,16 @@ const nextQuestionHandler = () => {
 
 const showScoresHandler = () => {
   const scores = game.getScores();
-  io.emit('showScores', { scores });
+  io.emit('showRoundScores', { scores });
 
-  // set next step
+  // show next question after given time period
   nextStep = setTimeout(nextQuestionHandler, TIME_FOR_SCORES);
 };
 
-const submitAnswerHandler = ({ username, answer }) => {
+const submitAnswerHandler = (username, answer) => {
   game.receiveAnswer(username, answer);
+
+  console.log(game.getScores());
 
   if (game.allAnswered()) {
     // end the question early
@@ -89,7 +96,7 @@ const submitAnswerHandler = ({ username, answer }) => {
   }
 };
 
-/* SOCKET EVENTS */
+/* SOCKET EVENT LISTENERS */
 
 io.on('connection', (socket) => {
   socket.emit('updatePlayers', game.getScores());
@@ -104,5 +111,5 @@ io.on('connection', (socket) => {
   socket.on('submitAnswer', submitAnswerHandler);
 });
 
-// Export the server in order to run mocha test
+// Export for testing
 module.exports = server;

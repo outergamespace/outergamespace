@@ -1,55 +1,81 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import io from '../../../../socket/socketClientInterface.js';
+
+const propTypes = {
+  presenterFlag: PropTypes.bool.isRequired,
+  question: PropTypes.string.isRequired,
+  answers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  username: PropTypes.string.isRequired,
+  setScreen: PropTypes.func.isRequired,
+};
 
 class Question extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      answer: '',
+    };
 
+    /* METHOD BINDING */
+    this.handleChange = this.handleChange.bind(this);
     this.isPresenter = this.isPresenter.bind(this);
+    this.sendAnswer = this.sendAnswer.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({
+      answer: event.target.value,
+    });
   }
 
   isPresenter() {
-    console.log(this.props.presenterFlag);
     return this.props.presenterFlag ? 'presenter' : 'player';
   }
 
+  sendAnswer() {
+    this.props.setScreen('answered');
+    io.emit('submitAnswer', this.props.username, this.state.answer);
+  }
+
   render() {
+    const { question, answers } = this.props;
+    const { answer } = this.state;
     return (
       <div className="container">
         <div className="row">
-          <div >{this.props.question}</div>
+          <div >{question}</div>
           <div>Put Timer Here</div>
         </div>
         <div className="row">
-          <form className="row-item" action="">
-            <div className="answer">
-              <label htmlFor="answer1" className="row">
-                <input type="radio" name="answer" id="answer1" className={this.isPresenter()} />
-                {this.props.answers[0]}
+          <div className="answer">
+            {answers.map((option, index) => (
+              <label htmlFor={`answer${index}`} className="row" key={option} >
+                <input
+                  type="radio"
+                  name="answer"
+                  id={`answer${index}`}
+                  value={option}
+                  checked={answer === option}
+                  className={this.isPresenter()}
+                  onChange={this.handleChange}
+                />
+                {option}
               </label>
-              <label htmlFor="answer2" className="row">
-                <input type="radio" name="answer" id="answer2" className={this.isPresenter()} />
-                {this.props.answers[1]}
-              </label>
-              <label htmlFor="answer3" className="row">
-                <input type="radio" name="answer" id="answer3" className={this.isPresenter()} />
-                {this.props.answers[2]}
-              </label>
-              <label htmlFor="answer4" className="row">
-                <input type="radio" name="answer" id="answer4" className={this.isPresenter()} />
-                {this.props.answers[3]}
-              </label>
-            </div>
-            <button>Submit</button>
-          </form>
+            ))}
+          </div>
+          <div>
+            <button onClick={this.sendAnswer} >Submit</button>
+          </div>
           <div className="hide-on-player row-item">
-              answered player checklist goes here
+            answered player checklist goes here
           </div>
         </div>
-
       </div>
-
     );
   }
 }
+
+Question.propTypes = propTypes;
 
 export default Question;

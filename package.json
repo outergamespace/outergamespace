@@ -17,6 +17,7 @@
     "express": "^4.16.0",
     "mysql": "^2.14.1",
     "nodemon": "^1.12.1",
+    "prop-types": "^15.6.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "socket.io": "^2.0.3",

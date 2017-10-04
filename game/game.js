@@ -26,7 +26,7 @@ class Game {
       .then((results) => {
         this.questions = results;
       });
-    this.currentQuestion = 0;
+    this.currentQuestion = -1;
     this.answeredCount = 0;
   }
 
@@ -67,11 +67,15 @@ class Game {
    * @return {Object} containing a 'prompt' and a set of 'answers'
    */
   nextQuestion() {
+    this.currentQuestion += 1;
     this.answeredCount = 0;
     const question = this.questions[this.currentQuestion];
-    const prompt = question.question;
-    const answers = scrambleAnswers(question);
-    return { prompt, answers };
+    if (question) {
+      const prompt = question.question;
+      const answers = scrambleAnswers(question);
+      return { prompt, answers };
+    }
+    return undefined;
   }
 
   /**
