@@ -74,3 +74,4 @@ class Game {
 }
 
 module.exports = new Game();
+module.exports.Game = Game;
