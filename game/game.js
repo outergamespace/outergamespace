@@ -1,6 +1,5 @@
 const _ = require('underscore');
 const db = require('../db/index.js');
-const Promise = require('bluebird');
 
 const POINTS_PER_QS = 10;
 
@@ -20,7 +19,6 @@ class Game {
       .then((results) => {
         this.questions = results;
       });
-    // this.questions = Promise.resolve(db.getQuestions());
     this.currentQuestion = 0;
     this.answeredCount = 0;
   }
