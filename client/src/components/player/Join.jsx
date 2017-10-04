@@ -1,17 +1,23 @@
 import React from 'react';
-import Wait from './Wait.jsx';
+import PropTypes from 'prop-types';
 import io from '../../../../socket/socketClientInterface.js';
+
+const propTypes = {
+  setWaitScreen: PropTypes.func.isRequired,
+  setUsername: PropTypes.func.isRequired,
+};
 
 class Join extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      joined: null,
+      errMsg: false,
     };
 
     /* METHOD BINDING */
     this.updateInput = this.updateInput.bind(this);
+    this.showErrMsg = this.showErrMsg.bind(this);
     this.sendName = this.sendName.bind(this);
   }
 
@@ -21,25 +27,33 @@ class Join extends React.Component {
     });
   }
 
+  showErrMsg() {
+    this.setState({
+      errMsg: true,
+    });
+  }
+
   sendName() {
     io.emit('joinGame', this.state.username, (joined) => {
-      // if successfully joined, update state
-      this.setState({ joined });
+      if (joined) {
+        // joined game successfully
+        this.props.setUsername(this.state.username);
+        this.props.setWaitScreen();
+      } else {
+        // username already taken
+        this.showErrMsg();
+      }
     });
   }
 
   render() {
-    if (this.state.joined === true) {
-      return <Wait />;
-    }
-
     return (
       <div>
         <div>
           <label htmlFor="">
             Choose a name:
             <input type="text" value={this.state.username} onChange={this.updateInput} />
-            {this.state.joined === false ? <div>Username already taken</div> : '' }
+            {this.state.errMsg ? <div>Username already taken</div> : '' }
           </label>
         </div>
         <div>
@@ -49,5 +63,7 @@ class Join extends React.Component {
     );
   }
 }
+
+Join.propTypes = propTypes;
 
 export default Join;

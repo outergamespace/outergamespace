@@ -3,72 +3,79 @@ import ReactDOM from 'react-dom';
 import Join from './Join.jsx';
 import Wait from './Wait.jsx';
 import Question from '../common/Question.jsx';
-import Finish from './Finish.jsx';
-
-const io = require('socket.io-client');
+import Score from './Score.jsx';
+import io from '../../../../socket/socketClientInterface.js';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { screen: 'Question' };
-    this.changePlayerStatus = this.changePlayerStatus.bind(this);
-    this.createSocketConnection = this.createSocketConnection.bind(this);
-  }
-  // possible states = Join, Wait, Question, Finish;
-  changePlayerStatus(state) {
-    this.setState({ screen: state });
+  constructor() {
+    super();
+    this.state = {
+      username: '',
+      screen: 'join',
+      question: '',
+      answers: [],
+    };
+
+    /* METHOD BINDING */
+    this.setScreen = this.setScreen.bind(this);
+    this.setUsername = this.setUsername.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
+
+    /* SOCKET EVENT LISTENERS */
+    io.on('nextQuestion', this.nextQuestion);
+    io.on('showRoundScores', () => this.setScreen('roundScores'));
+    io.on('showFinalScores', () => this.setScreen('finalScores'));
   }
 
+  // possible states: 'join', 'wait', 'question', 'answered', 'roundScores', 'finalScores';
+  setScreen(screen) {
+    this.setState({ screen });
+  }
 
-  createSocketConnection() {
-    // make the connection
-    const connection = io.connect('http://10.6.70.110:3000');
-    // start the game
-    connection.emit('startGame');
-    connection.on('status', data => {
-      console.log('*** DATA: ', data.connection);
+  setUsername(username) {
+    this.setState({ username });
+  }
+
+  nextQuestion(question) {
+    this.setState({
+      screen: 'question',
+      question: question.prompt,
+      answers: question.answers,
     });
-    // simulate a game being joined
-    connection.emit('joinGame', { username: 'Lam' });
-    // this.setState({ socketConnection: this.createSocketConnection() });
   }
 
   render() {
-    if (this.state.screen === 'Join') {
-      return <Join />;
-    } else if (this.state.screen === 'Wait') {
+    const { username, screen, question, answers } = this.state;
+    if (screen === 'join') {
+      return (
+        <Join
+          setWaitScreen={() => this.setScreen('wait')}
+          setUsername={this.setUsername}
+        />
+      );
+    } else if (screen === 'wait') {
       return <Wait />;
-    } else if (this.state.screen === 'Question') {
+    } else if (screen === 'question') {
       return (
         <Question
-          presenterFlag={this.props.presenterFlag}
-          player={this.props.player}
-          question={this.props.question}
-          answers={this.props.answers} />
+          presenterFlag={false}
+          question={question}
+          answers={answers}
+          username={username}
+          setScreen={this.setScreen}
+        />
       );
-    } else if (this.state.screen === 'Finish') {
-      return <Finish/>;
+    } else if (screen === 'answered') {
+      return <div>You have submitted your answer</div>;
+    } else if (screen === 'finalScores') {
+      return <Score final newGame={() => this.setScreen('join')} />;
+    } else if (screen === 'roundScores') {
+      return <Score />;
     }
+
     // if input is not one of the expected strings
-    return (
-      'Error: unknown screen state, expected \
-      Join, Wait, Question, Finish, but received: ' + this.state.screen
-    );
+    return <div>Error: unknown screen state: {screen}</div>;
   }
 }
 
-const testQuestion = 'This is a test Question';
-const testAnswers = [
-  'Here is a test answer',
-  'Here is second test answer',
-  'Here is third test answer',
-  'Here is fourth test answer',
-];
-const testPlayer = {
-  username: 'playername',
-  score: 7,
-};
-// toggle radio button display on answer list
-const testPresenterFlag = false;
-
-ReactDOM.render(<App presenterFlag={testPresenterFlag} player={testPlayer} answers={testAnswers} question={testQuestion} />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
