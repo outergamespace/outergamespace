@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import io from '../../../../socket/socketClientInterface.js';
+import Timer from './Timer.jsx';
+// timer component renders 20 second countdown after loading
 
 const propTypes = {
   presenterFlag: PropTypes.bool.isRequired,
@@ -9,6 +11,7 @@ const propTypes = {
   username: PropTypes.string.isRequired,
   setScreen: PropTypes.func.isRequired,
 };
+
 
 class Question extends React.Component {
   constructor(props) {
@@ -45,7 +48,7 @@ class Question extends React.Component {
       <div className="container">
         <div className="row">
           <div >{question}</div>
-          <div>Put Timer Here</div>
+          <Timer />
         </div>
         <div className="row">
           <div className="answer">
