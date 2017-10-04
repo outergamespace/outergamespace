@@ -51,7 +51,7 @@ const joinGameHandler = (socket, user) => {
     // notify player that name is already taken
     socket.emit('invalidUsername', {});
   }
-  console.log(game);
+  console.log(game.players);
 };
 
 let nextStep;
