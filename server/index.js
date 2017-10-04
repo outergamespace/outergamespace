@@ -5,7 +5,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const game = require('../game/game.js');
-const { Player } = require('../game/player.js');
+const Player = require('../game/player.js');
 
 const CLIENT_DIR = path.join(__dirname, '../client');
 const SERVER_PORT = 8080;
@@ -46,7 +46,7 @@ const joinGameHandler = (socket, user) => {
     socket.emit('validUsername', {});
 
     // notify presenter of new player joining
-    io.emit('newPlayer', user);
+    io.emit('updatePlayers', game.getScores());
   } catch (err) {
     // notify player that name is already taken
     socket.emit('invalidUsername', {});
@@ -93,8 +93,7 @@ const submitAnswerHandler = ({ username, answer }) => {
 /* SOCKET EVENTS */
 
 io.on('connection', (socket) => {
-  // Will send back to client a successful connection made
-  socket.emit('status', { connection: 'successful' });
+  socket.emit('updatePlayers', game.getScores());
 
   // player clicks 'join' button
   socket.on('joinGame', joinGameHandler);

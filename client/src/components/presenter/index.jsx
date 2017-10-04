@@ -16,6 +16,7 @@ class App extends React.Component {
     };
     this.toggleScreen = this.toggleScreen.bind(this);
   }
+  
   // use to change display from presenter to viewer
   toggleScreen() {
     console.log('toggleScreen clicked', this.state.screen);
