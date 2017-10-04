@@ -25,7 +25,7 @@ class App extends React.Component {
       this.setState({ screen: 'presenter' });
     }
   }
-
+  
   render() {
     return (
       <div>
