@@ -1,6 +1,5 @@
 const _ = require('underscore');
-const db = require('../db/index.js');
-const Promise = require('bluebird');
+const db = require('./db/index.js');
 
 const POINTS_PER_QS = 10;
 
@@ -16,11 +15,7 @@ const scrambleAnswers = question => (
 class Game {
   constructor() {
     this.players = {};
-    db.getQuestions()
-      .then((results) => {
-        this.questions = results;
-      });
-    // this.questions = Promise.resolve(db.getQuestions());
+    this.questions = db.getQuestions();
     this.currentQuestion = 0;
     this.answeredCount = 0;
   }
@@ -66,10 +61,6 @@ class Game {
 
   allAnswered() {
     return this.answeredCount === Object.keys(this.players).length;
-  }
-
-  getScores() {
-    return _.sortBy(_.values(this.players), 'score');
   }
 }
 
