@@ -63,7 +63,7 @@ class App extends React.Component {
         />
       );
     } else if (screen === 'answered') {
-      return <div>You have submitted your answer</div>;
+      return <div className="center">You have submitted your answer</div>;
     } else if (screen === 'finalScores') {
       return <Score final newGame={() => this.setScreen('join')} />;
     } else if (screen === 'roundScores') {

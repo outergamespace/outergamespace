@@ -48,7 +48,7 @@ class Join extends React.Component {
     return (
       <div>
         <div>
-          <label htmlFor="join">
+          <label htmlFor="join" className="center">
             Choose a name
             <input
               className="join"
