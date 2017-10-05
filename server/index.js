@@ -18,6 +18,8 @@ server.listen(SERVER_PORT);
 console.log(`Socket listening on port ${SOCKET_PORT}`);
 console.log(`Server listening on port ${SERVER_PORT}`);
 
+/* MIDDLEWARE */
+
 app.use(express.static(CLIENT_DIR));
 app.use((req, res, next) => {
   console.log(`${req.method} request on ${req.url}`);
@@ -27,16 +29,15 @@ app.use((req, res, next) => {
 /* GAME CONTROLS */
 
 const TIME_FOR_QS = 5 * 1000;
+const TIME_FOR_SHOW_ANS = 3 * 1000;
 const TIME_FOR_SCORES = 5 * 1000;
 
 /* ROUTE HANDLERS */
 
-// Main web page for the host (projector)
 app.get('/', (req, res) => {
   res.sendFile(path.join(CLIENT_DIR, 'index_presenter.html'));
 });
 
-// Main page for clients to join current game
 app.get('/join', (req, res) => {
   res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
 });
@@ -67,13 +68,21 @@ const nextQuestionHandler = () => {
     // send question to all clients
     io.emit('nextQuestion', question);
 
-    // show scores after given time period
-    nextStep = setTimeout(showScoresHandler, TIME_FOR_QS);
+    // show answer after given time period
+    nextStep = setTimeout(showAnswerHandler, TIME_FOR_QS);
   } else {
     // send final scores
     const scores = game.getScores();
     io.emit('showFinalScores', scores);
   }
+};
+
+const showAnswerHandler = () => {
+  const correctAns = game.getCurrentQuestion().correct_ans;
+  io.emit('showAnswer', correctAns);
+
+  // show scores after given time period
+  nextStep = setTimeout(showScoresHandler, TIME_FOR_SHOW_ANS);
 };
 
 const showScoresHandler = () => {
@@ -91,7 +100,7 @@ const submitAnswerHandler = (username, answer) => {
   if (game.allAnswered()) {
     // end the question early
     clearTimeout(nextStep);
-    showScoresHandler();
+    showAnswerHandler();
   }
 };
 

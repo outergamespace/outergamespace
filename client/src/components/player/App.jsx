@@ -22,6 +22,7 @@ class App extends React.Component {
 
     /* SOCKET EVENT LISTENERS */
     io.on('nextQuestion', this.nextQuestion);
+    io.on('showAnswer', () => this.setScreen('roundScores'));
     io.on('showRoundScores', () => this.setScreen('roundScores'));
     io.on('showFinalScores', () => this.setScreen('finalScores'));
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AnswerList from './AnswerList.jsx';
-import Timer from '../common/Timer.jsx';
+import Timer from './Timer.jsx';
 import io from '../../../../socket/socketClientInterface.js';
 
 const propTypes = {

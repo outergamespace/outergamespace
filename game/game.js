@@ -26,7 +26,7 @@ class Game {
       .then((results) => {
         this.questions = results;
       });
-    this.currentQuestion = -1;
+    this.currentQuestionIndex = -1;
     this.answeredCount = 0;
   }
 
@@ -36,7 +36,7 @@ class Game {
   restart() {
     this.players = {};
     this.questions = db.getQuestions();
-    this.currentQuestion = 0;
+    this.currentQuestionIndex = 0;
     this.answeredCount = 0;
   }
 
@@ -63,13 +63,21 @@ class Game {
   }
 
   /**
+   * Retrieves the current question
+   * @return {Object} representing a question
+   */
+  getCurrentQuestion() {
+    return this.questions[this.currentQuestionIndex];
+  }
+
+  /**
    * Retrieves the next question to be used in the game
    * @return {Object} containing a 'prompt' and a set of 'answers'
    */
   nextQuestion() {
-    this.currentQuestion += 1;
+    this.currentQuestionIndex += 1;
     this.answeredCount = 0;
-    const question = this.questions[this.currentQuestion];
+    const question = this.getCurrentQuestion();
     if (question) {
       const prompt = question.question;
       const answers = scrambleAnswers(question);
@@ -85,8 +93,7 @@ class Game {
    * @return {boolean} if the given answer matches the correct answer
    */
   checkAnswer(answer) {
-    const correctAns = this.questions[this.currentQuestion].correct_ans;
-    return correctAns === answer;
+    return this.getCurrentQuestion().correct_ans === answer;
   }
 
   /**
