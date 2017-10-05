@@ -44,9 +44,9 @@ app.get('/join', (req, res) => {
 
 /* SOCKET EVENT HANDLERS */
 
-const joinGameHandler = (username, cb) => {
+const joinGameHandler = (socketId, username, cb) => {
   try {
-    game.addPlayer(new Player(username));
+    game.addPlayer(new Player(socketId, username));
 
     // notify player that he/she joined the game
     cb(true);
@@ -57,6 +57,11 @@ const joinGameHandler = (username, cb) => {
     // notify player that name is already taken
     cb(false);
   }
+};
+
+const removePlayerHandler = (socketId) => {
+  game.removePlayer(socketId);
+  io.emit('updatePlayers', game.getScores());
 };
 
 let nextStep;
@@ -115,6 +120,9 @@ io.on('connection', (socket) => {
 
   // player clicks 'join' button
   socket.on('joinGame', joinGameHandler);
+
+  // player disconnects from the game
+  socket.on('disconnect', () => removePlayerHandler(socket.id));
 
   // presenter clicks 'start' button
   socket.on('startGame', nextQuestionHandler);

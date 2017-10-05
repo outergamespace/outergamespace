@@ -8,7 +8,8 @@
 /** Class representing a Player */
 class Player {
   /** create a Player instance */
-  constructor(playerName) {
+  constructor(socketId, playerName) {
+    this.socketId = socketId;
     this.username = playerName;
     this.score = 0;
   }
