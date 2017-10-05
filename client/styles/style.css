@@ -1,7 +1,27 @@
+body {
+	font-size: 2em;
+	font-family: Arial;
+}
+
 div {
 	border: 1px solid gray;
 	margin: auto;
 	padding: .2em;
+}
+input {
+	display: inline-block;
+	width: 90%;
+	max-width: 400px;
+	border: 1px solid gray;
+	height: 2em;
+	font-size: 1em;
+	margin: .5em;
+}
+label {
+	display: inline-block;
+	width: 90%;
+	max-width: 400px;
+	margin: .5em;
 }
 .container {
 	max-width: 850px;
@@ -18,12 +38,15 @@ button {
 	cursor: pointer;
 	color: rgb(255, 255, 255);
 	font-family: Arial;
-	font-size: 15px;
+	font-size: 25px;
 	padding: 6px 15px;
 	text-decoration: none;
 	text-shadow: rgb(178, 62, 53) 0px 1px 0px;
-	min-width: 42px;
-    min-height: 42px;
+	min-width: 80px;
+    min-height: 60px;
+    width: 25%;
+    margin: auto;
+
 }
 .row {
 	display: flex;
@@ -37,6 +60,13 @@ button {
 	flex: 1 1 auto;
 	width: 30px;
 	transition: width 0.7s ease-out;
+}
+.timer {
+	font-size: .5em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	margin: 1em 1em 1em 1em;
+	float: right;
 }
 input.presenter {
 	display: none;
