@@ -46,7 +46,7 @@ class Game {
    * @return {boolean} if the player is already in the game
    */
   hasPlayer(player) {
-    return Object.prototype.hasOwnProperty.call(this.players, player.username);
+    return _.values(this.players).some(p => p.username === player.username);
   }
 
   /**
@@ -58,8 +58,16 @@ class Game {
     if (this.hasPlayer(player)) {
       throw new Error('Username already taken');
     } else {
-      this.players[player.username] = player;
+      this.players[player.socketId] = player;
     }
+  }
+
+  /**
+   * Removes a player from the game
+   * @param {string} socketId - the socketId of the player to be removed from the current game
+   */
+  removePlayer(socketId) {
+    delete this.players[socketId];
   }
 
   /**
@@ -102,10 +110,10 @@ class Game {
    * @param {string} username - the username of the player
    * @param {string} answer - the given answer of the user
    */
-  receiveAnswer(username, answer) {
+  receiveAnswer(socketId, answer) {
     this.answeredCount += 1;
     if (this.checkAnswer(answer)) {
-      this.players[username].addToScore(POINTS_PER_QS);
+      this.players[socketId].addToScore(POINTS_PER_QS);
     }
   }
 

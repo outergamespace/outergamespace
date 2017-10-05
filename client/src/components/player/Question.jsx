@@ -7,7 +7,6 @@ import io from '../../../../socket/socketClientInterface.js';
 const propTypes = {
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  username: PropTypes.string,
   setScreen: PropTypes.func,
 };
 
@@ -36,7 +35,7 @@ class Question extends React.Component {
 
   sendAnswer() {
     this.props.setScreen('answered');
-    io.emit('submitAnswer', this.props.username, this.state.currentAns);
+    io.emit('submitAnswer', io.id, this.state.currentAns);
   }
 
   render() {
@@ -46,7 +45,6 @@ class Question extends React.Component {
       <div className="container">
         <div className="row">
           <div>{question}</div>
-          <Timer />
         </div>
         <div className="row">
           <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
