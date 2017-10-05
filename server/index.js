@@ -78,6 +78,7 @@ const nextQuestionHandler = () => {
 
 const showScoresHandler = () => {
   const scores = game.getScores();
+
   io.emit('showRoundScores', scores);
 
   // show next question after given time period
