@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const expect = require('chai').expect;
-const { Player } = require('../game/player.js');
+const Player = require('../game/player.js');
 
 describe('Player', () => {
   describe('Should create Player with username and score of zero', () => {
