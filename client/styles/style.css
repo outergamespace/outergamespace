@@ -26,6 +26,9 @@ label {
 .container {
 	max-width: 850px;
 }
+.center {
+	text-align: center;
+}
 .ul {
 	list-style-type: none;
 }
@@ -34,7 +37,7 @@ button {
 	background-color: rgb(228, 104, 93);
 	border-radius: 4px;
 	border: 1px solid rgb(255, 255, 255);
-	display: inline-block;
+	display: block;
 	cursor: pointer;
 	color: rgb(255, 255, 255);
 	font-family: Arial;

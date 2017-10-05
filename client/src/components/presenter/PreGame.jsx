@@ -14,7 +14,7 @@ const propTypes = {
 // render venue screen with list of joined players and a start button
 const PreGame = ({ players }) => (
   <div>
-    <div>Waiting for Players to Join</div>
+    <div className="center">Waiting for Players to Join</div>
     <PlayerList players={players} />
     <button onClick={startGame} >Start</button>
   </div>
