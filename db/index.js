@@ -1,6 +1,11 @@
 const mysql = require('mysql');
 const Promise = require('bluebird');
 
+/**
+ * A module that provides an interface to the database
+ * @module db
+ */
+
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -11,8 +16,15 @@ const db = mysql.createConnection({
 db.connect();
 
 // Retrieve n random questions from the database.
-// TODO: current query does not support having more than 3 incorrect answers - 
+// TODO: current query does not support having more than 3 incorrect answers -
 // it will always return the 3 answers with the smallest id
+/**
+ * Retrieves questions from the database
+ * @function db.getQuestions
+ * @param {number} n - number of questions to retrieve
+ * @default 5
+ * @return a Promise to use for handling the data retrieval
+ */
 db.getQuestions = (n = 5) => {
   const queryString = `
     SELECT questions.id, question, correct_ans, category, difficulty,
@@ -39,4 +51,5 @@ db.getQuestions = (n = 5) => {
   });
 };
 
+/** exports a database connection object */
 module.exports = db;
