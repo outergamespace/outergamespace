@@ -2,7 +2,7 @@
  * A module that can create and provides an interface to a Player object.
  * This is meant be a instantiated upon every new connection from clients seeking
  * to join the game
- * @module game
+ * @module player
  */
 
 /** Class representing a Player */
