@@ -50,9 +50,16 @@ class Join extends React.Component {
     return (
       <div>
         <div>
-          <label htmlFor="">
-            Choose a name:
-            <input type="text" value={this.state.username} onChange={this.updateInput} />
+          <label htmlFor="join">
+            Choose a name
+            <input
+              className="join"
+              id="join"
+              type="text"
+              value={this.state.username}
+              onChange={this.updateInput}
+            />
+
             {this.state.errMsg ? <div>Username already taken</div> : '' }
           </label>
         </div>

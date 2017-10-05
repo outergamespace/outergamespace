@@ -34,12 +34,11 @@ class Timer extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>Timer</h3>
+      <div className="timer">
+        Time Left
         <div className="time">
           {this.state.time}
         </div>
-        seconds remaining
       </div>
     );
   }
