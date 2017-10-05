@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PreGame from './PreGame.jsx';
 import ScoreBoard from './ScoreBoard.jsx';
-import Question from '../common/Question.jsx';
+import Question from './Question.jsx';
 import io from '../../../../socket/socketClientInterface.js';
 
 class App extends React.Component {
