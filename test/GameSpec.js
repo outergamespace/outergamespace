@@ -14,9 +14,9 @@ describe('Game', () => {
     });
 
     it('Game instance should be able to add players', () => {
-      gameInstance.addPlayer(new Player('player1'));
-      gameInstance.addPlayer(new Player('player2'));
-      gameInstance.addPlayer(new Player('player3'));
+      gameInstance.addPlayer(new Player('1', 'player1'));
+      gameInstance.addPlayer(new Player('2', 'player2'));
+      gameInstance.addPlayer(new Player('3', 'player3'));
       expect(Object.keys(gameInstance.players).length).to.equal(3);
     });
   });

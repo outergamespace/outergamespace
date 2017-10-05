@@ -4,7 +4,7 @@ const Player = require('../game/player.js');
 
 describe('Player', () => {
   describe('Should create Player with username and score of zero', () => {
-    const newPlayer = new Player('testPlayer');
+    const newPlayer = new Player('1', 'testPlayer');
     it('new player should have the correct name', () => {
       expect(newPlayer.username).to.equal('testPlayer');
     });
