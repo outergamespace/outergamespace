@@ -72,13 +72,13 @@ const nextQuestionHandler = () => {
   } else {
     // send final scores
     const scores = game.getScores();
-    io.emit('showFinalScores', { scores });
+    io.emit('showFinalScores', scores);
   }
 };
 
 const showScoresHandler = () => {
   const scores = game.getScores();
-  io.emit('showRoundScores', { scores });
+  io.emit('showRoundScores', scores);
 
   // show next question after given time period
   nextStep = setTimeout(nextQuestionHandler, TIME_FOR_SCORES);
@@ -87,13 +87,15 @@ const showScoresHandler = () => {
 const submitAnswerHandler = (username, answer) => {
   game.receiveAnswer(username, answer);
 
-  console.log(game.getScores());
-
   if (game.allAnswered()) {
     // end the question early
     clearTimeout(nextStep);
     showScoresHandler();
   }
+};
+
+const restartHandler = () => {
+  game.restart();
 };
 
 /* SOCKET EVENT LISTENERS */
@@ -109,6 +111,9 @@ io.on('connection', (socket) => {
 
   // player submits answer
   socket.on('submitAnswer', submitAnswerHandler);
+
+  // presenter clicks 'restart' button
+  socket.on('restartGame', restartHandler);
 });
 
 // Export for testing

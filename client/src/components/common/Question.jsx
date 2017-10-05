@@ -8,8 +8,13 @@ const propTypes = {
   presenterFlag: PropTypes.bool.isRequired,
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
-  username: PropTypes.string.isRequired,
-  setScreen: PropTypes.func.isRequired,
+  username: PropTypes.string,
+  setScreen: PropTypes.func,
+};
+
+const defaultProps = {
+  username: '',
+  setScreen: () => {},
 };
 
 
@@ -80,5 +85,6 @@ class Question extends React.Component {
 }
 
 Question.propTypes = propTypes;
+Question.defaultProps = defaultProps;
 
 export default Question;
