@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayerList from '../common/PlayerList.jsx';
+import PlayerList from './PlayerList.jsx';
 import io from '../../../../socket/socketClientInterface.js';
 
 const startGame = () => {
