@@ -1,16 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const ScoreBoardEntry = props => (
-  <tr>
-    <div className="score-board-entry">
-      <td>
-        <div className="score-board-entry-name">{props.player.username}</div>
-      </td>
-      <td>
-        <div className="score-board-entry-score">{props.player.score}</div>
-      </td>
-    </div>
-  </tr>
+const propTypes = {
+  player: PropTypes.shape({
+    socketId: PropTypes.string,
+    username: PropTypes.string,
+    score: PropTypes.number,
+  })
+    .isRequired,
+};
+
+const ScoreBoardEntry = ({ player }) => (
+  <tbody>
+    <tr className="score-board-entry">
+      <td className="score-board-entry-name">{player.username}</td>
+      <td className="score-board-entry-score">{player.score}</td>
+    </tr>
+  </tbody>
 );
+
+ScoreBoardEntry.propTypes = propTypes;
 
 export default ScoreBoardEntry;

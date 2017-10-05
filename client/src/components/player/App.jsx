@@ -17,12 +17,22 @@ class App extends React.Component {
     /* METHOD BINDING */
     this.setScreen = this.setScreen.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+  }
 
+  componentDidMount() {
     /* SOCKET EVENT LISTENERS */
     io.on('nextQuestion', this.nextQuestion);
     io.on('showAnswer', () => this.setScreen('roundScores'));
     io.on('showRoundScores', () => this.setScreen('roundScores'));
     io.on('showFinalScores', () => this.setScreen('finalScores'));
+  }
+
+  componentWillUnmount() {
+    /* SOCKET EVENT LISTENERS */
+    io.removeAllListeners('nextQuestion');
+    io.removeAllListeners('showAnswer');
+    io.removeAllListeners('showRoundScores');
+    io.removeAllListeners('showFinalScores');
   }
 
   // possible states: 'join', 'wait', 'question', 'answered', 'roundScores', 'finalScores';

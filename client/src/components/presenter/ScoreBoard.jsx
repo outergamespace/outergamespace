@@ -19,7 +19,7 @@ const ScoreBoard = ({ players, final, restartGame }) => (
       {final ? 'Final' : ''} Results
     </h3>
     <table>
-      {players.map(player => (<ScoreBoardEntry player={player} />))}
+      {players.map(player => (<ScoreBoardEntry key={player.socketId} player={player} />))}
     </table>
     {final ? <button onClick={restartGame} >Start New Game</button> : ''}
   </div>

@@ -19,9 +19,16 @@ class Question extends React.Component {
 
     /* METHOD BINDING */
     this.setCorrectAns = this.setCorrectAns.bind(this);
+  }
 
+  componentDidMount() {
     /* SOCKET EVENT LISTENERS */
     io.on('showAnswer', this.setCorrectAns);
+  }
+
+  componentWillUnmount() {
+    /* SOCKET EVENT LISTENERS */
+    io.removeAllListeners('showAnswer');
   }
 
   setCorrectAns(correctAns) {
