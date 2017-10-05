@@ -5,8 +5,8 @@ const DIST_DIR = path.join(__dirname, '/client/dist');
 
 module.exports = {
   entry: {
-    'client/src/index_presenter': `${SRC_DIR}/components/presenter/index.jsx`,
-    'client/src/index_player': `${SRC_DIR}/components/player/index.jsx`,
+    index_presenter: `${SRC_DIR}/components/presenter/index.jsx`,
+    index_player: `${SRC_DIR}/components/player/index.jsx`,
   },
   module: {
     loaders: [
