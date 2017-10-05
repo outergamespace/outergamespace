@@ -21,12 +21,22 @@ class App extends React.Component {
     this.showRoundScores = this.showRoundScores.bind(this);
     this.showFinalScores = this.showFinalScores.bind(this);
     this.restartGame = this.restartGame.bind(this);
+  }
 
+  componentDidMount() {
     /* SOCKET EVENT LISTENERS */
     io.on('updatePlayers', this.updatePlayers);
     io.on('nextQuestion', this.nextQuestion);
     io.on('showRoundScores', this.showRoundScores);
     io.on('showFinalScores', this.showFinalScores);
+  }
+
+  componentWillUnmount() {
+    /* SOCKET EVENT LISTENERS */
+    io.removeAllListeners('updatePlayers');
+    io.removeAllListeners('nextQuestion');
+    io.removeAllListeners('showRoundScores');
+    io.removeAllListeners('showFinalScores');
   }
 
   // screen can be one of: 'wait', 'question', 'roundScores', 'finalScores'
