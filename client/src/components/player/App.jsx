@@ -9,7 +9,6 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: '',
       screen: 'join',
       question: '',
       answers: [],
@@ -17,7 +16,6 @@ class App extends React.Component {
 
     /* METHOD BINDING */
     this.setScreen = this.setScreen.bind(this);
-    this.setUsername = this.setUsername.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
 
     /* SOCKET EVENT LISTENERS */
@@ -32,10 +30,6 @@ class App extends React.Component {
     this.setState({ screen });
   }
 
-  setUsername(username) {
-    this.setState({ username });
-  }
-
   nextQuestion(question) {
     this.setState({
       screen: 'question',
@@ -45,14 +39,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { username, screen, question, answers } = this.state;
+    const { screen, question, answers } = this.state;
     if (screen === 'join') {
-      return (
-        <Join
-          setWaitScreen={() => this.setScreen('wait')}
-          setUsername={this.setUsername}
-        />
-      );
+      return <Join setWaitScreen={() => this.setScreen('wait')} />;
     } else if (screen === 'wait') {
       return <Wait />;
     } else if (screen === 'question') {
@@ -60,7 +49,6 @@ class App extends React.Component {
         <Question
           question={question}
           answers={answers}
-          username={username}
           setScreen={this.setScreen}
         />
       );

@@ -35,7 +35,6 @@ class Question extends React.Component {
       <div className="container">
         <div className="row">
           <div >{question}</div>
-          <Timer />
         </div>
         <div className="row">
           <AnswerList answers={answers} correctAns={correctAns} />

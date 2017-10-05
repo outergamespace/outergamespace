@@ -4,7 +4,6 @@ import io from '../../../../socket/socketClientInterface.js';
 
 const propTypes = {
   setWaitScreen: PropTypes.func.isRequired,
-  setUsername: PropTypes.func.isRequired,
 };
 
 class Join extends React.Component {
@@ -34,10 +33,9 @@ class Join extends React.Component {
   }
 
   sendName() {
-    io.emit('joinGame', this.state.username, (joined) => {
+    io.emit('joinGame', io.id, this.state.username, (joined) => {
       if (joined) {
         // joined game successfully
-        this.props.setUsername(this.state.username);
         this.props.setWaitScreen();
       } else {
         // username already taken
