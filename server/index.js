@@ -3,9 +3,12 @@ const path = require('path');
 
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
-const game = require('../game/game.js');
-const Player = require('../game/player.js');
+const io = require('../socket/socketServerInterface.js');
+
+// const Game = require('../game/game.js');
+// const Player = require('../game/player.js');
+
+// const game = new Game();
 
 /* SERVER SETUP */
 
@@ -13,7 +16,7 @@ const CLIENT_DIR = path.join(__dirname, '../client');
 const SERVER_PORT = 8080;
 const SOCKET_PORT = 3000;
 
-io.listen(SOCKET_PORT);
+// io.listen(SOCKET_PORT);
 server.listen(SERVER_PORT);
 console.log(`Socket listening on port ${SOCKET_PORT}`);
 console.log(`Server listening on port ${SERVER_PORT}`);
@@ -42,97 +45,99 @@ app.get('/join', (req, res) => {
   res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
 });
 
-/* SOCKET EVENT HANDLERS */
+// /* SOCKET EVENT HANDLERS */
 
-const joinGameHandler = (socketId, username, cb) => {
-  try {
-    game.addPlayer(new Player(socketId, username));
+// const joinGameHandler = (socketId, username, cb) => {
+//   try {
+//     game.addPlayer(new Player(socketId, username));
 
-    // notify player that he/she joined the game
-    cb(true);
+//     // notify player that he/she joined the game
+//     cb(true);
 
-    // notify presenter of new player joining
-    io.emit('updatePlayers', game.getScores());
-  } catch (err) {
-    // notify player that name is already taken
-    cb(false);
-  }
-};
+//     // notify presenter of new player joining
+//     io.emit('updatePlayers', game.getScores());
+//   } catch (err) {
+//     // notify player that name is already taken
+//     cb(false);
+//   }
+// };
 
-const removePlayerHandler = (socketId) => {
-  game.removePlayer(socketId);
-  io.emit('updatePlayers', game.getScores());
-};
+// const removePlayerHandler = (socketId) => {
+//   game.removePlayer(socketId);
+//   io.emit('updatePlayers', game.getScores());
+// };
 
-let nextStep;
+// let nextStep;
 
-const nextQuestionHandler = () => {
-  const question = game.nextQuestion();
+// const nextQuestionHandler = () => {
+//   console.log(this);
 
-  if (question) {
-    // send question to all clients
-    io.emit('nextQuestion', question);
+//   // const question = game.nextQuestion();
 
-    // show answer after given time period
-    nextStep = setTimeout(showAnswerHandler, TIME_FOR_QS);
-  } else {
-    // send final scores
-    const scores = game.getScores();
-    io.emit('showFinalScores', scores);
-  }
-};
+//   // if (question) {
+//   //   // send question to all clients
+//   //   io.emit('nextQuestion', question);
 
-const showAnswerHandler = () => {
-  const correctAns = game.getCurrentQuestion().correct_ans;
-  io.emit('showAnswer', correctAns);
+//   //   // show answer after given time period
+//   //   nextStep = setTimeout(showAnswerHandler, TIME_FOR_QS);
+//   // } else {
+//   //   // send final scores
+//   //   const scores = game.getScores();
+//   //   io.emit('showFinalScores', scores);
+//   // }
+// };
 
-  // show scores after given time period
-  nextStep = setTimeout(showScoresHandler, TIME_FOR_SHOW_ANS);
-};
+// const showAnswerHandler = () => {
+//   const correctAns = game.getCurrentQuestion().correct_ans;
+//   io.emit('showAnswer', correctAns);
 
-const showScoresHandler = () => {
-  const scores = game.getScores();
+//   // show scores after given time period
+//   nextStep = setTimeout(showScoresHandler, TIME_FOR_SHOW_ANS);
+// };
 
-  io.emit('showRoundScores', scores);
+// const showScoresHandler = () => {
+//   const scores = game.getScores();
 
-  // show next question after given time period
-  nextStep = setTimeout(nextQuestionHandler, TIME_FOR_SCORES);
-};
+//   io.emit('showRoundScores', scores);
 
-const submitAnswerHandler = (username, answer) => {
-  game.receiveAnswer(username, answer);
+//   // show next question after given time period
+//   nextStep = setTimeout(nextQuestionHandler, TIME_FOR_SCORES);
+// };
 
-  if (game.allAnswered()) {
-    // end the question early
-    clearTimeout(nextStep);
-    showAnswerHandler();
-  }
-};
+// const submitAnswerHandler = (username, answer) => {
+//   game.receiveAnswer(username, answer);
 
-const restartHandler = () => {
-  game.restart();
-};
+//   if (game.allAnswered()) {
+//     // end the question early
+//     clearTimeout(nextStep);
+//     showAnswerHandler();
+//   }
+// };
 
-/* SOCKET EVENT LISTENERS */
+// const restartHandler = () => {
+//   game.restart();
+// };
 
-io.on('connection', (socket) => {
-  socket.emit('updatePlayers', game.getScores());
+// /* SOCKET EVENT LISTENERS */
 
-  // player clicks 'join' button
-  socket.on('joinGame', joinGameHandler);
+// io.on('connection', (socket) => {
+//   socket.emit('updatePlayers', game.getScores());
 
-  // player disconnects from the game
-  socket.on('disconnect', () => removePlayerHandler(socket.id));
+//   // player clicks 'join' button
+//   socket.on('joinGame', joinGameHandler);
 
-  // presenter clicks 'start' button
-  socket.on('startGame', nextQuestionHandler);
+//   // player disconnects from the game
+//   socket.on('disconnect', () => removePlayerHandler(socket.id));
 
-  // player submits answer
-  socket.on('submitAnswer', submitAnswerHandler);
+//   // presenter clicks 'start' button
+//   socket.on('startGame', nextQuestionHandler);
 
-  // presenter clicks 'restart' button
-  socket.on('restartGame', restartHandler);
-});
+//   // player submits answer
+//   socket.on('submitAnswer', submitAnswerHandler);
+
+//   // presenter clicks 'restart' button
+//   socket.on('restartGame', restartHandler);
+// });
 
 // Export for testing
 module.exports = server;

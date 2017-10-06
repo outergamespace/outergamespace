@@ -35,9 +35,28 @@ class Game {
    */
   restart() {
     this.players = {};
-    this.questions = db.getQuestions();
-    this.currentQuestionIndex = 0;
+    db.getQuestions()
+      .then((results) => {
+        this.questions = results;
+      });
+    this.currentQuestionIndex = -1;
     this.answeredCount = 0;
+  }
+
+  /**
+   * Checks to see if game has started
+   * @return {boolean} if game has started
+   */
+  hasStarted() {
+    return this.currentQuestionIndex !== -1;
+  }
+
+  /**
+   * Checks to see if currently at the last question
+   * @return {boolean} if currently at the last question
+   */
+  atLastQuestion() {
+    return this.currentQuestionIndex === this.questions.length;
   }
 
   /**
@@ -134,5 +153,5 @@ class Game {
   }
 }
 
-/** exports a new Game object */
-module.exports = new Game();
+/** exports Game class */
+module.exports = Game;
