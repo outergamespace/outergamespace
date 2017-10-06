@@ -44,7 +44,7 @@ const nextQuestionEmitter = (socket) => {
   const question = game.nextQuestion();
 
   emitToRoom(socket, 'nextQuestion', question);
-  setNextStep(showAnswerEmitter, TIME_FOR_QS);
+  setNextStep(showAnswerEmitter.bind(null, socket), TIME_FOR_QS);
 };
 
 const showAnswerEmitter = (socket) => {
@@ -52,7 +52,7 @@ const showAnswerEmitter = (socket) => {
   const correctAns = game.getCurrentQuestion().correct_ans;
 
   emitToRoom(socket, 'showAnswer', correctAns);
-  setNextStep(showScoresEmitter, TIME_FOR_SHOW_ANS);
+  setNextStep(showScoresEmitter.bind(null, socket), TIME_FOR_SHOW_ANS);
 };
 
 const showScoresEmitter = (socket) => {
@@ -62,7 +62,7 @@ const showScoresEmitter = (socket) => {
     emitToRoom(socket, 'showFinalScores', game.getScores());
   } else {
     emitToRoom(socket, 'showRoundScores', game.getScores());
-    setNextStep(nextQuestionEmitter, TIME_FOR_SCORES);
+    setNextStep(nextQuestionEmitter.bind(null, socket), TIME_FOR_SCORES);
   }
 };
 
@@ -87,7 +87,7 @@ const submitAnswerHandler = (socket, answer) => {
 
   if (game.allAnswered()) {
     // go to next step immediately
-    setNextStep(showAnswerEmitter, 0);
+    setNextStep(showAnswerEmitter.bind(null, socket), 0);
   }
 };
 
@@ -106,6 +106,7 @@ const createRoomHandler = (socket, callback) => {
   const roomId = trivia.createRoom(socket.id);
   socket.join(roomId);
   callback(roomId);
+  listenToHostEvents(socket);
 };
 
 const joinRoomHandler = (socket, roomId, username, callback) => {
@@ -119,6 +120,7 @@ const joinRoomHandler = (socket, roomId, username, callback) => {
       socket.join(roomId);
       updatePlayersEmitter(socket);
       callback();
+      listenToPlayerEvents(socket);
     }
   } else {
     callback('Room does not exist');
@@ -127,18 +129,29 @@ const joinRoomHandler = (socket, roomId, username, callback) => {
 
 /* SOCKET EVENT LISTENERS */
 
+const listenToHostEvents = (socket) => {
+  socket.on('startGame', startGameHandler.bind(null, socket));
+  socket.on('restartGame', restartGameHandler.bind(null, socket));
+  socket.on('disconnect', hostDisconnectHandler.bind(null, socket));
+};
+
+const listenToPlayerEvents = (socket) => {
+  socket.on('submitAnswer', submitAnswerHandler.bind(null, socket));
+  socket.on('disconnect', playerDisconnectHandler.bind(null, socket));
+};
+
 io.on('connection', (socket) => {
-  if (trivia.isHost(socket.id)) {
-    socket.on('startGame', startGameHandler.bind(null, socket));
-    socket.on('restartGame', restartGameHandler.bind(null, socket));
-    socket.on('disconnect', hostDisconnectHandler.bind(null, socket));
-  } else if (trivia.isPlayer(socket.id)) {
-    socket.on('submitAnswer', submitAnswerHandler.bind(null, socket));
-    socket.on('disconnect', playerDisconnectHandler.bind(null, socket));
-  } else {
+  // if (trivia.isHost(socket.id)) {
+  //   socket.on('startGame', startGameHandler.bind(null, socket));
+  //   socket.on('restartGame', restartGameHandler.bind(null, socket));
+  //   socket.on('disconnect', hostDisconnectHandler.bind(null, socket));
+  // } else if (trivia.isPlayer(socket.id)) {
+  //   socket.on('submitAnswer', submitAnswerHandler.bind(null, socket));
+  //   socket.on('disconnect', playerDisconnectHandler.bind(null, socket));
+  // } else {
     socket.on('createRoom', createRoomHandler.bind(null, socket));
     socket.on('joinRoom', joinRoomHandler.bind(null, socket));
-  }
+  // }
 });
 
 module.exports = io;

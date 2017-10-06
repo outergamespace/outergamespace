@@ -56,7 +56,7 @@ class Game {
    * @return {boolean} if currently at the last question
    */
   atLastQuestion() {
-    return this.currentQuestionIndex === this.questions.length;
+    return this.currentQuestionIndex === this.questions.length - 1;
   }
 
   /**
