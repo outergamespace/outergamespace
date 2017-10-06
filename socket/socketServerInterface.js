@@ -144,17 +144,8 @@ const listenToPlayerEvents = (socket) => {
 };
 
 io.on('connection', (socket) => {
-  // if (trivia.isHost(socket.id)) {
-  //   socket.on('startGame', startGameHandler.bind(null, socket));
-  //   socket.on('restartGame', restartGameHandler.bind(null, socket));
-  //   socket.on('disconnect', hostDisconnectHandler.bind(null, socket));
-  // } else if (trivia.isPlayer(socket.id)) {
-  //   socket.on('submitAnswer', submitAnswerHandler.bind(null, socket));
-  //   socket.on('disconnect', playerDisconnectHandler.bind(null, socket));
-  // } else {
-    socket.on('createRoom', createRoomHandler.bind(null, socket));
-    socket.on('joinRoom', joinRoomHandler.bind(null, socket));
-  // }
+  socket.on('createRoom', createRoomHandler.bind(null, socket));
+  socket.on('joinRoom', joinRoomHandler.bind(null, socket));
 });
 
 module.exports = io;
