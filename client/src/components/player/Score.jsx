@@ -14,8 +14,7 @@ const defaultProps = {
 const Score = ({ final, newGame }) => (
   <div className="center">
     <p>Check your score on the main screen!</p>
-    {final ? <div><p>Play Again</p>
-      <button onClick={newGame} >Join</button></div> : ''}
+    {final ? <button onClick={newGame} >Play Again</button> : ''}
   </div>
 );
 
