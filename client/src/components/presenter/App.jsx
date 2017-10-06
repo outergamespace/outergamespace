@@ -1,4 +1,5 @@
 import React from 'react';
+import CreateRoom from './CreateRoom.jsx';
 import PreGame from './PreGame.jsx';
 import ScoreBoard from './ScoreBoard.jsx';
 import Question from './Question.jsx';
@@ -8,7 +9,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      screen: 'wait',
+      screen: 'create',
+      roomId: '',
       players: [],
       question: '',
       answers: [],
@@ -16,6 +18,7 @@ class App extends React.Component {
 
     /* METHOD BINDING */
     this.setScreen = this.setScreen.bind(this);
+    this.createRoom = this.createRoom.bind(this);
     this.updatePlayers = this.updatePlayers.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.showRoundScores = this.showRoundScores.bind(this);
@@ -39,9 +42,16 @@ class App extends React.Component {
     io.removeAllListeners('showFinalScores');
   }
 
-  // screen can be one of: 'wait', 'question', 'roundScores', 'finalScores'
+  // screen can be one of: 'create', 'wait', 'question', 'roundScores', 'finalScores'
   setScreen(screen) {
     this.setState({ screen });
+  }
+
+  createRoom() {
+    io.emit('createRoom', (roomId) => {
+      this.setState({ roomId });
+      this.setScreen('wait');
+    });
   }
 
   updatePlayers(players) {
@@ -68,7 +78,8 @@ class App extends React.Component {
 
   restartGame() {
     this.setState({
-      screen: 'wait',
+      screen: 'create',
+      roomId: '',
       players: [],
       question: '',
       answers: [],
@@ -77,16 +88,14 @@ class App extends React.Component {
   }
 
   render() {
-    const { screen, players, question, answers } = this.state;
-    if (screen === 'wait') {
-      return <PreGame players={players} />;
+    const { screen, roomId, players, question, answers } = this.state;
+
+    if (screen === 'create') {
+      return <CreateRoom createRoom={this.createRoom} />;
+    } else if (screen === 'wait') {
+      return <PreGame players={players} roomId={roomId} />;
     } else if (screen === 'question') {
-      return (
-        <Question
-          question={question}
-          answers={answers}
-        />
-      );
+      return <Question question={question} answers={answers} />;
     } else if (screen === 'roundScores') {
       return <ScoreBoard players={players} />;
     } else if (screen === 'finalScores') {

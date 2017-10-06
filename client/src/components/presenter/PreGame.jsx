@@ -8,12 +8,14 @@ const startGame = () => {
 };
 
 const propTypes = {
+  roomId: PropTypes.string.isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 // render venue screen with list of joined players and a start button
-const PreGame = ({ players }) => (
+const PreGame = ({ roomId, players }) => (
   <div>
+    <div>Room Code: {roomId}</div>
     <div className="center">Waiting for Players to Join</div>
     <PlayerList players={players} />
     <button onClick={startGame} >Start</button>
