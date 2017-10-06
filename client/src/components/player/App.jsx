@@ -55,13 +55,7 @@ class App extends React.Component {
     } else if (screen === 'wait') {
       return <Wait />;
     } else if (screen === 'question') {
-      return (
-        <Question
-          question={question}
-          answers={answers}
-          setScreen={this.setScreen}
-        />
-      );
+      return <Question question={question} answers={answers} setScreen={this.setScreen} />;
     } else if (screen === 'answered') {
       return <div className="center">You have submitted your answer</div>;
     } else if (screen === 'finalScores') {

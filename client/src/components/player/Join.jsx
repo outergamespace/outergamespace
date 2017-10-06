@@ -11,58 +11,65 @@ class Join extends React.Component {
     super(props);
     this.state = {
       username: '',
-      errMsg: false,
+      roomId: '',
+      errMsg: null,
     };
 
     /* METHOD BINDING */
-    this.updateInput = this.updateInput.bind(this);
-    this.showErrMsg = this.showErrMsg.bind(this);
-    this.sendName = this.sendName.bind(this);
+    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeRoomId = this.onChangeRoomId.bind(this);
+    this.joinGame = this.joinGame.bind(this);
   }
 
-  updateInput(event) {
+  onChangeUsername(event) {
     this.setState({
       username: event.target.value,
     });
   }
 
-  showErrMsg() {
+  onChangeRoomId(event) {
     this.setState({
-      errMsg: true,
+      roomId: event.target.value.toUpperCase(),
     });
   }
 
-  sendName() {
-    io.emit('joinGame', io.id, this.state.username, (joined) => {
-      if (joined) {
+  joinGame() {
+    const { roomId, username } = this.state;
+    io.emit('joinRoom', roomId, username, (errMsg) => {
+      if (errMsg) {
+        this.setState({ errMsg });
+      } else {
         // joined game successfully
         this.props.setWaitScreen();
-      } else {
-        // username already taken
-        this.showErrMsg();
       }
     });
   }
 
   render() {
+    const { roomId, username, errMsg } = this.state;
     return (
       <div>
         <div>
-          <label htmlFor="join" className="center">
-            Choose a name
-            <input
-              className="join"
-              id="join"
-              type="text"
-              value={this.state.username}
-              onChange={this.updateInput}
-            />
+          Room Code
+          <input
+            className="join"
+            type="text"
+            value={roomId}
+            onChange={this.onChangeRoomId}
+          />
 
-            {this.state.errMsg ? <div>Username already taken</div> : '' }
-          </label>
+          Choose a name
+          <input
+            className="join"
+            id="join"
+            type="text"
+            value={username}
+            onChange={this.onChangeUsername}
+          />
         </div>
         <div>
-          <button onClick={this.sendName} >Join</button>
+          {errMsg ? <div>{errMsg}</div> : '' }
+          <button onClick={this.joinGame} >Join</button>
         </div>
       </div>
     );
