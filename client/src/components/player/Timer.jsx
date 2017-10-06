@@ -6,6 +6,7 @@ class Timer extends React.Component {
 
     this.state = {
       time: 20,
+      class: 'timer center',
     };
 
     this.decrementer = this.decrementer.bind(this);
@@ -20,8 +21,12 @@ class Timer extends React.Component {
   decrementer() {
     if (this.state.time > 0) {
       this.setState({ time: this.state.time - 1 });
-      console.log('decrementer');
-      // TODO change background to yellow at 5 sec and red at 1
+      if (this.state.time < 10) {
+        this.setState({ class: 'timer center warn' });
+      }
+      if (this.state.time < 6) {
+        this.setState({ class: 'timer center danger' });
+      }
     }
   }
   // Call with time in seconds, use 0 to stop
@@ -34,10 +39,12 @@ class Timer extends React.Component {
 
   render() {
     return (
-      <div className="timer center">
-        Time Left
-        <div className="time">
-          {this.state.time}
+      <div>
+        <div className={this.state.class}>
+          Time Left
+          <div className="time">
+            {this.state.time}
+          </div>
         </div>
       </div>
     );

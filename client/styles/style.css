@@ -72,10 +72,10 @@ button {
 }
 .timer {
 	font-size: .5em;
-	margin-top: 1em;
-	margin-bottom: 1em;
-	margin: 1em 1em 1em 1em;
+	margin: .1em .1em 1em 1em;
 	float: right;
+	padding: 2px;
+	border-radius: 4px;
 }
 .answer-list-entry {
   background: ivory;
@@ -84,4 +84,11 @@ button {
 }
 .selectedAns {
 	font-weight: bold;
+}
+.warn {
+	background-color: yellow;
+}
+.danger {
+	background-color: red;
+	color: white;
 }
