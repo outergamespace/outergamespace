@@ -45,6 +45,7 @@ class Question extends React.Component {
       <div className="container">
         <div className="row">
           <div>{question}</div>
+          <Timer />
         </div>
         <div>
           <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
