@@ -1,27 +1,28 @@
 body {
 	font-size: 2em;
 	font-family: Arial;
+	margin: 5px 0px 0px 0px;
 }
 
 div {
-	border: 1px solid gray;
 	margin: auto;
-	padding: .2em;
 }
 input {
-	display: inline-block;
+	display: block;
 	width: 90%;
 	max-width: 400px;
 	border: 1px solid gray;
 	height: 2em;
 	font-size: 1em;
-	margin: .5em;
+	margin: auto;
+	margin-top: .5em;
+	margin-bottom: .5em;
 }
 label {
-	display: inline-block;
+	display: block;
 	width: 90%;
 	max-width: 400px;
-	margin: .5em;
+	margin: auto;
 }
 .container {
 	max-width: 850px;
@@ -47,8 +48,9 @@ button {
 	text-shadow: rgb(178, 62, 53) 0px 1px 0px;
 	min-width: 80px;
     min-height: 60px;
-    width: 25%;
+    width: 150px;
     margin: auto;
+    margin-top: .5em;
 
 }
 .row {
@@ -62,7 +64,11 @@ button {
 .row > div .row-item {
 	flex: 1 1 auto;
 	width: 30px;
+	margin: 0;
 	transition: width 0.7s ease-out;
+}
+.row > div {
+	margin: .3em;
 }
 .timer {
 	font-size: .5em;
@@ -71,10 +77,11 @@ button {
 	margin: 1em 1em 1em 1em;
 	float: right;
 }
-input.presenter {
-	display: none;
+.answer-list-entry {
+  background: ivory;
+  margin: .2em;
+  box-shadow: 5px 2px 2px black;
 }
-
 .selectedAns {
 	font-weight: bold;
 }

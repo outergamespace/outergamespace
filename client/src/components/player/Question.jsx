@@ -46,7 +46,7 @@ class Question extends React.Component {
         <div className="row">
           <div>{question}</div>
         </div>
-        <div className="row">
+        <div>
           <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
           {currentAns === '' ? '' : <button onClick={this.sendAnswer} >Submit</button>}
         </div>
