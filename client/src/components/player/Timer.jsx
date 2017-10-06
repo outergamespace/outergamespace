@@ -5,31 +5,31 @@ class Timer extends React.Component {
     super(props);
 
     this.state = {
-      on: false,
       time: 20,
     };
-    this.start = this.start.bind(this);
+
     this.decrementer = this.decrementer.bind(this);
     this.countdown = this.countdown.bind(this);
   }
 
-  start() {
-    this.setState({ on: true });
+  // timer will begin countdown when page displays
+  componentDidMount() {
+    this.countdown(this.state.time);
   }
+
   decrementer() {
     if (this.state.time > 0) {
       this.setState({ time: this.state.time - 1 });
+      console.log('decrementer');
       // TODO change background to yellow at 5 sec and red at 1
     }
   }
-  // timer will begin countdown when page displays
-  componentDidMount() {
-    this.countdown(true);
-    setInterval(() => this.countdown(false), 20000);
-  }
-  // Call with 'true' to start countdown or false to stop
-  countdown() {
-    setInterval(this.decrementer, 1000);
+  // Call with time in seconds, use 0 to stop
+  countdown(seconds) {
+    // set interval, calling decrementor
+    const timer = setInterval(this.decrementer, 1000);
+    // setTimeout to clear set setInterval
+    setTimeout(() => clearInterval(timer), seconds * 1000);
   }
 
   render() {
