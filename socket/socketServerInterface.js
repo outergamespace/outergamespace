@@ -94,10 +94,11 @@ const submitAnswerHandler = (socket, answer) => {
 const playerDisconnectHandler = (socket) => {
   const game = trivia.getGameBySocketId(socket.id);
 
-  trivia.removeSocket(socket.id);
   game.removePlayer(socket.id);
 
   updatePlayersEmitter(socket);
+  
+  trivia.removePlayer(socket.id);
 };
 
 /* SOCKET EVENT HANDLERS - PREGAME */
