@@ -73,9 +73,11 @@ const startGameHandler = (socket) => {
 };
 
 const restartGameHandler = (socket) => {
+  // TODO
 };
 
 const hostDisconnectHandler = (socket) => {
+  // TODO
 };
 
 /* SOCKET EVENT HANDLERS - PLAYER */
@@ -97,7 +99,7 @@ const playerDisconnectHandler = (socket) => {
   game.removePlayer(socket.id);
 
   updatePlayersEmitter(socket);
-  
+
   trivia.removePlayer(socket.id);
 };
 
