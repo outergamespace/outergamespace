@@ -1,7 +1,9 @@
 /* eslint-env mocha */
 const expect = require('chai').expect;
-const gameInstance = require('../game/game.js');
+const Game = require('../game/game.js');
 const Player = require('../game/player.js');
+
+const gameInstance = new Game();
 
 describe('Game', () => {
   describe('Should create a singleton game instance', () => {
