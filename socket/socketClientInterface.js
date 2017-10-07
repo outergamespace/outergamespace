@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:3000';
-const connection = io.connect(SOCKET_URL);
+// we will use the default connection params of the host connection
+// if we want to have the ability to specify the port, we can add it to the interface as well
+const connection = io();
 
 export default connection;

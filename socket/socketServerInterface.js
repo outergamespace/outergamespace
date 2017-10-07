@@ -20,8 +20,11 @@ class SocketServerInterface {
     this.scheduledEmission = null;
   }
 
-  listen(port) {
-    this.io.listen(port);
+  // port can be undefined here, if we want to route all comm through the HTTP server port
+  listen(port = undefined) {
+    if (port) {
+      this.io.listen(port);
+    }
     this.listenForPregameEvents();
   }
 
