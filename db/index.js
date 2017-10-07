@@ -6,15 +6,6 @@ const Promise = require('bluebird');
  * @module db
  */
 
-// const db = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: '',
-//   database: 'trivia',
-// });
-//
-// db.connect();
-
 const DB_HOST = process.env.OGS_HOST || 'localhost';
 const DB_USER = process.env.OGS_USER || 'root';
 const DB_PASS = process.env.OGS_PASS || '';
@@ -22,6 +13,7 @@ const DB_DATABASE = process.env.OGS_DATABASE || 'trivia';
 
 const databaseQueryString = `mysql://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_DATABASE}?reconnect=true`;
 
+// connection pooling is used here to recycle and prevent dropped connections
 const pool = mysql.createPool(databaseQueryString);
 
 const db = {};
@@ -52,13 +44,6 @@ db.getQuestions = (n = 5) => {
     LIMIT ${n}
     `;
   return new Promise((resolve, reject) => {
-    // db.query(queryString, (err, results) => {
-    //   if (err) {
-    //     reject(err);
-    //   } else {
-    //     resolve(results);
-    //   }
-    // });
     pool.getConnection((err, connection) => {
       if (err) {
         reject(err);
