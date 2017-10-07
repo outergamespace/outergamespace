@@ -6,24 +6,18 @@ class Timer extends React.Component {
 
     this.state = {
       time: 20,
+      // timer will begin countdown when page displays
       clock: setInterval(this.decrementer.bind(this), 1000),
       class: 'timer center',
     };
-
-    this.decrementer = this.decrementer.bind(this);
-    // this.countdown = this.countdown.bind(this);
   }
 
-  // timer will begin countdown when page displays
-  componentDidMount() {
-    this.state.clock;
-  }
+  // stop timer when component no longer used
   componentWillUnmount() {
     clearInterval(this.state.clock);
   }
 
   decrementer() {
-    console.log(this);
     if (this.state.time > 0) {
       this.setState({ time: this.state.time - 1 });
       if (this.state.time < 10) {
