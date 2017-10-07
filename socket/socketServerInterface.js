@@ -151,7 +151,7 @@ class SocketServerInterface {
 
   emitNextQuestion(socket) {
     const game = this.getGame(socket);
-    this.emitToRoom(socket, 'nextQuestion', game.nextQuestion());
+    this.emitToRoom(socket, 'nextQuestion', game.nextQuestion(), game.getPlayers());
 
     this.scheduleEmission(this.emitShowAnswer.bind(this, socket), TIME_FOR_QS);
   }

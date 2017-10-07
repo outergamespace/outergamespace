@@ -59,9 +59,10 @@ class App extends React.Component {
     this.setState({ players });
   }
 
-  nextQuestion(question) {
+  nextQuestion(question, players) {
     this.setState({
       screen: 'question',
+      players,
       question: question.prompt,
       answers: question.answers,
     });
