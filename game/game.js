@@ -1,7 +1,9 @@
 const _ = require('underscore');
 const db = require('../db/index.js');
+const Player = require('./Player.js');
 
 const POINTS_PER_QS = 10;
+const MAX_PLAYERS = 4;
 
 const scrambleAnswers = question => (
   _.shuffle([
@@ -44,6 +46,14 @@ class Game {
   }
 
   /**
+   * Checks to see if game is full
+   * @return {boolean} if game is full
+   */
+  isFull() {
+    return Object.keys(this.players).length >= MAX_PLAYERS;
+  }
+
+  /**
    * Checks to see if game has started
    * @return {boolean} if game has started
    */
@@ -60,25 +70,22 @@ class Game {
   }
 
   /**
-   * Checks to see if player is already in the game
-   * @param {Object} player - the player object to check for
-   * @return {boolean} if the player is already in the game
+   * Checks to see if username is already taken
+   * @param {string} username - the username to check for
+   * @return {boolean} if the username is already taken
    */
-  hasPlayer(player) {
-    return _.values(this.players).some(p => p.username === player.username);
+  hasPlayer(username) {
+    const allUsernames = _.values(this.players).map(player => player.username);
+    return allUsernames.includes(username);
   }
 
   /**
    * Adds a player to the game
-   * @param {Object} player - the player object to add to the current game
-   * @throws {Error} Will throw an error if the given username has already been taken
+   * @param {socketId} string - the socket id of the player to be added to the current game
+   * @param {username} string - the username of the player to be added to the current game
    */
-  addPlayer(player) {
-    if (this.hasPlayer(player)) {
-      throw new Error('Username already taken');
-    } else {
-      this.players[player.socketId] = player;
-    }
+  addPlayer(socketId, username) {
+    this.players[socketId] = new Player(username);
   }
 
   /**

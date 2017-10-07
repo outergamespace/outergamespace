@@ -12,27 +12,35 @@ const getRandRoomId = (n = 4) => {
 
 class Trivia {
   constructor() {
-    // maps host's socket id to room id
-    this.hostToRoom = {};
-    // maps player's socket id to room id
-    this.playerToRoom = {};
-    // maps room to game instance
-    this.roomToGame = {};
+    // maps roomId to game instance
+    this.games = {};
   }
 
-  createRoom(socketId) {
+  createRoom() {
     let roomId = getRandRoomId();
-    while (this.roomToGame[roomId]) {
-      // if taken, get another roomId
+    while (this.games[roomId]) {
+      // if taken, generate another roomId
       roomId = getRandRoomId();
     }
-    this.hostToRoom[socketId] = roomId;
-    this.roomToGame[roomId] = new Game();
+    this.games[roomId] = new Game();
     return roomId;
   }
 
-  joinGame(socketId, roomId) {
-    this.playerToRoom[socketId] = roomId;
+  joinGame(socketId, roomId, username) {
+    const game = this.games[roomId];
+    if (game) {
+      if (game.hasPlayer(username)) {
+        throw new Error('Username already taken');
+      } else if (game.isFull()) {
+        throw new Error('The room is full');
+      } else if (game.hasStarted()) {
+        throw new Error('The game has already started');
+      }
+    } else {
+      throw new Error('Room does not exist');
+    }
+
+    game.addPlayer(socketId, username);
   }
 
   removePlayer(socketId) {
@@ -55,8 +63,8 @@ class Trivia {
     return room;
   }
 
-  getGameByRoomId(roomId) {
-    return this.roomToGame[roomId];
+  getGame(roomId) {
+    return this.games[roomId];
   }
 
   getGameBySocketId(socketId) {
@@ -64,4 +72,4 @@ class Trivia {
   }
 }
 
-module.exports = new Trivia();
+module.exports = Trivia;

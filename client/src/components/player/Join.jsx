@@ -51,21 +51,10 @@ class Join extends React.Component {
       <div>
         <div className="center">
           Room Code
-          <input
-            className="join"
-            type="text"
-            value={roomId}
-            onChange={this.onChangeRoomId}
-          />
+          <input className="join" type="text" value={roomId} onChange={this.onChangeRoomId} />
 
           Choose a name
-          <input
-            className="join"
-            id="join"
-            type="text"
-            value={username}
-            onChange={this.onChangeUsername}
-          />
+          <input className="join" type="text" value={username} onChange={this.onChangeUsername} />
         </div>
         <div>
           {errMsg ? <div>{errMsg}</div> : '' }
