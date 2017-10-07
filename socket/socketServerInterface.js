@@ -54,7 +54,7 @@ class SocketServerInterface {
   listenToHostEvents(socket) {
     socket.on('startGame', this.startGameHandler.bind(this, socket));
     socket.on('endGame', this.endGameHandler.bind(this, socket));
-    // socket.on('disconnect', this.hostDisconnectHandler.bind(this, socket));
+    socket.on('disconnecting', this.hostDisconnectHandler.bind(this, socket));
   }
 
   listenToPlayerEvents(socket) {
@@ -104,6 +104,11 @@ class SocketServerInterface {
     this.trivia.endGame(roomId);
   }
 
+  hostDisconnectHandler(socket) {
+    this.hostDisconnectEmitter(socket);
+    this.endGameHandler(socket);
+  }
+
   /* EVENT HANDLERS - PLAYER */
 
   submitAnswerHandler(socket, answer) {
@@ -122,8 +127,11 @@ class SocketServerInterface {
 
     socket.leave(roomId);
 
-    game.removePlayer(socket.id);
-    this.updatePlayersEmitter(roomId);
+    if (game) {
+      // if game has not yet ended
+      game.removePlayer(socket.id);
+      this.updatePlayersEmitter(roomId);
+    }
   }
 
   /* EVENT EMITTERS */
@@ -158,37 +166,10 @@ class SocketServerInterface {
       this.scheduleEmission(this.nextQuestionEmitter.bind(this, socket), TIME_FOR_SCORES);
     }
   }
+
+  hostDisconnectEmitter(socket) {
+    this.emitToRoom(socket, 'hostDisconnect');
+  }
 }
 
 module.exports = SocketServerInterface;
-
-// const restartGameHandler = (socket) => {
-//   // TODO
-// };
-
-// const hostDisconnectHandler = (socket) => {
-//   // TODO
-// };
-
-// /* SOCKET EVENT HANDLERS - PLAYER */
-
-// const submitAnswerHandler = (socket, answer) => {
-//   const game = trivia.getGameBySocketId(socket.id);
-
-//   game.receiveAnswer(socket.id, answer);
-
-//   if (game.allAnswered()) {
-//     // go to next step immediately
-//     setNextStep(showAnswerEmitter.bind(null, socket), 0);
-//   }
-// };
-
-// const playerDisconnectHandler = (socket) => {
-//   const game = trivia.getGameBySocketId(socket.id);
-
-//   game.removePlayer(socket.id);
-
-//   updatePlayersEmitter(socket);
-
-//   trivia.removePlayer(socket.id);
-// };
