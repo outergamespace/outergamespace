@@ -1,7 +1,9 @@
 const _ = require('underscore');
 const db = require('../db/index.js');
+const Player = require('./Player.js');
 
 const POINTS_PER_QS = 10;
+const MAX_PLAYERS = 4;
 
 const scrambleAnswers = question => (
   _.shuffle([
@@ -44,6 +46,14 @@ class Game {
   }
 
   /**
+   * Checks to see if game is full
+   * @return {boolean} if game is full
+   */
+  isFull() {
+    return Object.keys(this.players).length >= MAX_PLAYERS;
+  }
+
+  /**
    * Checks to see if game has started
    * @return {boolean} if game has started
    */
@@ -60,25 +70,22 @@ class Game {
   }
 
   /**
-   * Checks to see if player is already in the game
-   * @param {Object} player - the player object to check for
-   * @return {boolean} if the player is already in the game
+   * Checks to see if username is already taken
+   * @param {string} username - the username to check for
+   * @return {boolean} if the username is already taken
    */
-  hasPlayer(player) {
-    return _.values(this.players).some(p => p.username === player.username);
+  hasPlayer(username) {
+    const allUsernames = _.values(this.players).map(player => player.username);
+    return allUsernames.includes(username);
   }
 
   /**
    * Adds a player to the game
-   * @param {Object} player - the player object to add to the current game
-   * @throws {Error} Will throw an error if the given username has already been taken
+   * @param {string} socketId - the socket id of the player to be added to the current game
+   * @param {string} username - the username of the player to be added to the current game
    */
-  addPlayer(player) {
-    if (this.hasPlayer(player)) {
-      throw new Error('Username already taken');
-    } else {
-      this.players[player.socketId] = player;
-    }
+  addPlayer(socketId, username) {
+    this.players[socketId] = new Player(username);
   }
 
   /**
@@ -114,13 +121,11 @@ class Game {
   }
 
   /**
-   * Checks an answer from the player to verify if it matches the correct answer
-   * for the current question prompt
-   * @param {string} answer - the answer string selected by the player
-   * @return {boolean} if the given answer matches the correct answer
+   * Retrieves the correct answer of the current question
+   * @return {string} answer - the correct answer
    */
-  checkAnswer(answer) {
-    return this.getCurrentQuestion().correct_ans === answer;
+  getAnswer() {
+    return this.getCurrentQuestion().correct_ans;
   }
 
   /**
@@ -131,7 +136,7 @@ class Game {
    */
   receiveAnswer(socketId, answer) {
     this.answeredCount += 1;
-    if (this.checkAnswer(answer)) {
+    if (this.getAnswer() === answer) {
       this.players[socketId].addToScore(POINTS_PER_QS);
     }
   }

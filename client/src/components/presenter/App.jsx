@@ -14,6 +14,7 @@ class App extends React.Component {
       players: [],
       question: '',
       answers: [],
+      finalScores: [],
     };
 
     /* METHOD BINDING */
@@ -48,7 +49,7 @@ class App extends React.Component {
   }
 
   createRoom() {
-    io.emit('createRoom', (roomId) => {
+    io.emit('createRoom', (err, roomId) => {
       this.setState({ roomId });
       this.setScreen('wait');
     });
@@ -73,6 +74,9 @@ class App extends React.Component {
 
   showFinalScores(players) {
     this.updatePlayers(players);
+    this.setState(prevState => ({
+      finalScores: prevState.players.slice(),
+    }));
     this.setScreen('finalScores');
   }
 
@@ -88,7 +92,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { screen, roomId, players, question, answers } = this.state;
+    const { screen, roomId, players, question, answers, finalScores } = this.state;
 
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
@@ -97,9 +101,9 @@ class App extends React.Component {
     } else if (screen === 'question') {
       return <Question question={question} answers={answers} />;
     } else if (screen === 'roundScores') {
-      return <ScoreBoard players={players} />;
+      return <ScoreBoard scores={players} />;
     } else if (screen === 'finalScores') {
-      return <ScoreBoard players={players} final restartGame={this.restartGame} />;
+      return <ScoreBoard scores={finalScores} final restartGame={this.restartGame} />;
     }
 
     // if input is not one of the expected strings
