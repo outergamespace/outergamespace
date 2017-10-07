@@ -3,13 +3,15 @@ const expect = require('chai').expect;
 const Game = require('../game/game.js');
 
 describe('Game', () => {
-  // TODO: refactor class to avoid asynchronous database call in constructor
   const DB_CALL_DELAY = 20;
 
   let game;
 
-  beforeEach(() => {
+  beforeEach((done) => {
     game = new Game();
+
+    // TODO: refactor class to avoid asynchronous database call in constructor
+    setTimeout(() => done(), DB_CALL_DELAY);
   });
 
   describe('Should create a game instance', () => {
@@ -25,20 +27,16 @@ describe('Game', () => {
       expect(game.answeredPlayers).to.deep.equal([]);
     });
 
-    it('Should have an array of 5 questions', (done) => {
-      setTimeout(() => {
-        expect(game.questions.length).to.equal(5);
+    it('Should have an array of 5 questions', () => {
+      expect(game.questions.length).to.equal(5);
 
-        game.questions.forEach((question) => {
-          expect(question.question).to.not.equal('');
-          expect(question.correct_ans).to.not.equal('');
-          expect(question.incorrect_ans_1).to.not.equal('');
-          expect(question.incorrect_ans_2).to.not.equal('');
-          expect(question.incorrect_ans_3).to.not.equal('');
-        });
-
-        done();
-      }, DB_CALL_DELAY);
+      game.questions.forEach((question) => {
+        expect(question.question).to.not.equal('');
+        expect(question.correct_ans).to.not.equal('');
+        expect(question.incorrect_ans_1).to.not.equal('');
+        expect(question.incorrect_ans_2).to.not.equal('');
+        expect(question.incorrect_ans_3).to.not.equal('');
+      });
     });
   });
 
@@ -61,31 +59,23 @@ describe('Game', () => {
       expect(game.isFull()).to.equal(true);
     });
 
-    it('Should check whether the game has started', (done) => {
+    it('Should check whether the game has started', () => {
       expect(game.hasStarted()).to.equal(false);
 
-      setTimeout(() => {
-        game.nextQuestion();
-        expect(game.hasStarted()).to.equal(true);
-        game.nextQuestion();
-        expect(game.hasStarted()).to.equal(true);
-        game.nextQuestion();
-        expect(game.hasStarted()).to.equal(true);
-
-        done();
-      }, DB_CALL_DELAY);
+      game.nextQuestion();
+      expect(game.hasStarted()).to.equal(true);
+      game.nextQuestion();
+      expect(game.hasStarted()).to.equal(true);
+      game.nextQuestion();
+      expect(game.hasStarted()).to.equal(true);
     });
 
-    it('Should check whether the game is at the last question after 5 questions', (done) => {
-      setTimeout(() => {
-        for (let i = 0; i < 5; i += 1) {
-          expect(game.atLastQuestion()).to.equal(false);
-          game.nextQuestion();
-        }
-        expect(game.atLastQuestion()).to.equal(true);
-
-        done();
-      }, DB_CALL_DELAY);
+    it('Should check whether the game is at the last question after 5 questions', () => {
+      for (let i = 0; i < 5; i += 1) {
+        expect(game.atLastQuestion()).to.equal(false);
+        game.nextQuestion();
+      }
+      expect(game.atLastQuestion()).to.equal(true);
     });
   });
 
@@ -102,6 +92,31 @@ describe('Game', () => {
       expect(game.hasPlayer('charlie')).to.equal(false);
       game.addPlayer('3', 'charlie');
       expect(game.hasPlayer('charlie')).to.equal(true);
+    });
+  });
+
+  describe('Should throw error if unable to add players to the game', () => {
+    beforeEach(() => {
+      game.addPlayer('alan', 'alan');
+      game.addPlayer('belle', 'belle');
+      game.addPlayer('charlie', 'charlie');
+    });
+
+    it('Should throw an error if the game is full with 4 players', () => {
+      game.addPlayer('denise', 'denise');
+      const addNewPlayer = () => game.addPlayer('eddie', 'eddie');
+      expect(addNewPlayer).to.throw(/full/);
+    });
+
+    it('Should throw an error if username is already taken', () => {
+      const addNewPlayer = () => game.addPlayer('newSocketId', 'alan');
+      expect(addNewPlayer).to.throw(/username.*taken/i);
+    });
+
+    it('Should throw an error if the game has already started', () => {
+      game.nextQuestion();
+      const addNewPlayer = () => game.addPlayer('eddie', 'eddie');
+      expect(addNewPlayer).to.throw(/started/);
     });
   });
 
@@ -177,11 +192,6 @@ describe('Game', () => {
   });
 
   describe('Should retrive questions', () => {
-    beforeEach((done) => {
-      // wait till questions are loaded
-      setTimeout(done, DB_CALL_DELAY);
-    });
-
     it('Should retrieve a question with a prompt and an array of answers', () => {
       for (let i = 0; i < 5; i += 1) {
         const question = game.nextQuestion();

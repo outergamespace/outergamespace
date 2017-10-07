@@ -83,8 +83,19 @@ class Game {
    * Adds a player to the game
    * @param {string} socketId - the socket id of the player to be added to the current game
    * @param {string} username - the username of the player to be added to the current game
+   * @throws if username is already taken in the game
+   * @throws if the room is already full
+   * @throws if the game has already started
    */
   addPlayer(socketId, username) {
+    if (this.hasPlayer(username)) {
+      throw new Error('Username already taken');
+    } else if (this.isFull()) {
+      throw new Error('The room is full');
+    } else if (this.hasStarted()) {
+      throw new Error('The game has already started');
+    }
+
     this.players[socketId] = new Player(username);
   }
 

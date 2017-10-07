@@ -31,18 +31,10 @@ class Trivia {
     if (username === '') {
       throw new Error('Please provide a username');
     } else if (game) {
-      if (game.hasPlayer(username)) {
-        throw new Error('Username already taken');
-      } else if (game.isFull()) {
-        throw new Error('The room is full');
-      } else if (game.hasStarted()) {
-        throw new Error('The game has already started');
-      }
+      game.addPlayer(socketId, username);
     } else {
       throw new Error('Room does not exist');
     }
-
-    game.addPlayer(socketId, username);
   }
 
   getGame(roomId) {
