@@ -6,14 +6,25 @@ const Promise = require('bluebird');
  * @module db
  */
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'trivia',
-});
+// const db = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: '',
+//   database: 'trivia',
+// });
+//
+// db.connect();
 
-db.connect();
+const DB_HOST = process.env.OGS_HOST || 'localhost';
+const DB_USER = process.env.OGS_USER || 'root';
+const DB_PASS = process.env.OGS_PASS || '';
+const DB_DATABASE = process.env.OGS_DATABASE || 'trivia';
+
+const databaseQueryString = `mysql://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_DATABASE}?reconnect=true`;
+
+const pool = mysql.createPool(databaseQueryString);
+
+const db = {};
 
 // Retrieve n random questions from the database.
 // TODO: current query does not support having more than 3 incorrect answers -
@@ -41,11 +52,27 @@ db.getQuestions = (n = 5) => {
     LIMIT ${n}
     `;
   return new Promise((resolve, reject) => {
-    db.query(queryString, (err, results) => {
+    // db.query(queryString, (err, results) => {
+    //   if (err) {
+    //     reject(err);
+    //   } else {
+    //     resolve(results);
+    //   }
+    // });
+    pool.getConnection((err, connection) => {
       if (err) {
         reject(err);
+        connection.release();
       } else {
-        resolve(results);
+        connection.query(queryString, (error, results) => {
+          if (err) {
+            reject(err);
+            connection.release();
+          } else {
+            resolve(results);
+            connection.release();
+          }
+        });
       }
     });
   });

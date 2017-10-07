@@ -11,12 +11,13 @@ const io = new SocketServerInterface(server);
 
 const CLIENT_DIR = path.join(__dirname, '../client');
 const SERVER_PORT = 8080;
-const SOCKET_PORT = 3000;
+// const SOCKET_PORT = 3000;
 
 server.listen(SERVER_PORT);
-io.listen(SOCKET_PORT);
+// io.listen(SOCKET_PORT);
+io.listen();
 console.log(`Server listening on port ${SERVER_PORT}`);
-console.log(`Socket listening on port ${SOCKET_PORT}`);
+// console.log(`Socket listening on port ${SOCKET_PORT}`);
 
 /* MIDDLEWARE */
 

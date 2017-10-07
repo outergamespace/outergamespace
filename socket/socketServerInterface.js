@@ -20,8 +20,10 @@ class SocketServerInterface {
     this.scheduledEmission = null;
   }
 
-  listen(port) {
-    this.io.listen(port);
+  listen(port = undefined) {
+    if (port) {
+      this.io.listen(port);
+    }
     this.listenForPregameEvents();
   }
 
