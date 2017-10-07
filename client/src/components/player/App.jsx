@@ -17,6 +17,7 @@ class App extends React.Component {
     /* METHOD BINDING */
     this.setScreen = this.setScreen.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.leaveGame = this.leaveGame.bind(this);
   }
 
   componentDidMount() {
@@ -48,6 +49,11 @@ class App extends React.Component {
     });
   }
 
+  leaveGame() {
+    io.emit('leaveGame');
+    this.setScreen('join');
+  }
+
   render() {
     const { screen, question, answers } = this.state;
     if (screen === 'join') {
@@ -59,7 +65,7 @@ class App extends React.Component {
     } else if (screen === 'answered') {
       return <div className="center">You have submitted your answer</div>;
     } else if (screen === 'finalScores') {
-      return <Score final newGame={() => this.setScreen('join')} />;
+      return <Score final leaveGame={this.leaveGame} />;
     } else if (screen === 'roundScores') {
       return <Score />;
     }
