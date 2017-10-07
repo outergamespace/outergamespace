@@ -29,17 +29,6 @@ class Timer extends React.Component {
     }
   }
 
-  // Call with time in seconds, use 0 to stop
-  countdown(seconds) {
-    // set interval, calling decrementor
-    const timer = setInterval(this.state.decrementer, 1000);
-    if (seconds === 0) {
-      clearInterval(timer);
-    }
-    // setTimeout to clear set setInterval
-    setTimeout(() => clearInterval(timer), seconds * 1000);
-  }
-
   render() {
     return (
       <div>
