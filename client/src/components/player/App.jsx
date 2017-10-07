@@ -1,9 +1,9 @@
 import React from 'react';
-import Join from './Join.jsx';
-import Wait from './Wait.jsx';
-import Question from './Question.jsx';
-import Score from './Score.jsx';
-import io from '../../../../socket/socketClientInterface.js';
+import Join from './Join';
+import Wait from './Wait';
+import Question from './Question';
+import Score from './Score';
+import io from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
   constructor() {

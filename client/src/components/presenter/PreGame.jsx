@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayerList from './PlayerList.jsx';
-import io from '../../../../socket/socketClientInterface.js';
+import PlayerList from './PlayerList';
+import io from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   roomId: PropTypes.string.isRequired,

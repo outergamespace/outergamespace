@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayerList from './PlayerList.jsx';
-import AnswerList from './AnswerList.jsx';
-import Timer from './Timer.jsx';
-import io from '../../../../socket/socketClientInterface.js';
+import PlayerList from './PlayerList';
+import AnswerList from './AnswerList';
+import Timer from './Timer';
+import io from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   question: PropTypes.string.isRequired,

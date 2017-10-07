@@ -23,6 +23,9 @@ module.exports = {
         loader: ['css-loader'],
       },
     ] },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
   output: {
     path: `${DIST_DIR}`,
     filename: '[name].js',

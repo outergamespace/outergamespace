@@ -12,7 +12,8 @@
     "server-dev": "nodemon server/index.js",
     "test": "mocha --recursive test",
     "start": "node server/index.js",
-    "generate-jsdoc": "jsdoc -R README.md -c jsdoc_conf.json -d documentation"
+    "generate-jsdoc": "jsdoc -R README.md -c jsdoc_conf.json -d documentation",
+    "lint": "node_modules/.bin/eslint ./**/*.js ./**/*.jsx"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
