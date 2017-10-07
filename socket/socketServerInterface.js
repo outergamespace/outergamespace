@@ -93,8 +93,14 @@ class SocketServerInterface {
 
   /* EVENT HANDLERS - HOST */
 
-  handleStartGame(socket) {
-    this.emitNextQuestion(socket);
+  handleStartGame(socket, callback) {
+    const game = this.getGame(socket);
+
+    if (game.hasNoPlayers()) {
+      callback('There are no players in the room');
+    } else {
+      this.emitNextQuestion(socket);
+    }
   }
 
   handleEndGame(socket) {

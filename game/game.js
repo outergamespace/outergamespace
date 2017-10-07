@@ -46,6 +46,14 @@ class Game {
   }
 
   /**
+   * Checks to see if game has no players
+   * @return {boolean} if game has no players
+   */
+  hasNoPlayers() {
+    return Object.keys(this.players).length === 0;
+  }
+
+  /**
    * Checks to see if game is full
    * @return {boolean} if game is full
    */
