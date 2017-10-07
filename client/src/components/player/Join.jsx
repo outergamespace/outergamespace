@@ -49,7 +49,7 @@ class Join extends React.Component {
     const { roomId, username, errMsg } = this.state;
     return (
       <div>
-        <div>
+        <div className="center">
           Room Code
           <input
             className="join"
