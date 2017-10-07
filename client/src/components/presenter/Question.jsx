@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import PlayerList from './PlayerList.jsx';
 import AnswerList from './AnswerList.jsx';
 import Timer from './Timer.jsx';
 import io from '../../../../socket/socketClientInterface.js';
-// timer component renders 20 second countdown after loading
 
 const propTypes = {
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  players: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 class Question extends React.Component {
@@ -36,15 +37,19 @@ class Question extends React.Component {
   }
 
   render() {
-    const { question, answers } = this.props;
+    const { question, answers, players } = this.props;
     const { correctAns } = this.state;
     return (
       <div className="container">
         <div className="row">
           <div >{question}</div>
+          <Timer />
         </div>
         <div className="row">
           <AnswerList answers={answers} correctAns={correctAns} />
+        </div>
+        <div className="row">
+          <PlayerList players={players} />
         </div>
       </div>
     );

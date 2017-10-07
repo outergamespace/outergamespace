@@ -8,10 +8,10 @@
 /** Class representing a Player */
 class Player {
   /** create a Player instance */
-  constructor(socketId, playerName) {
-    this.socketId = socketId;
-    this.username = playerName;
+  constructor(username) {
+    this.username = username;
     this.score = 0;
+    this.answered = false;
   }
 
   /**
@@ -20,6 +20,14 @@ class Player {
    */
   addToScore(points) {
     this.score += points;
+  }
+
+  /**
+   * Set answered state of player
+   * @param {boolean} answered - whether the player has answered the question
+   */
+  setAnswered(answered) {
+    this.answered = answered;
   }
 }
 

@@ -3,24 +3,42 @@ import PropTypes from 'prop-types';
 import PlayerList from './PlayerList.jsx';
 import io from '../../../../socket/socketClientInterface.js';
 
-const startGame = () => {
-  io.emit('startGame');
-};
-
 const propTypes = {
   roomId: PropTypes.string.isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-// render venue screen with list of joined players and a start button
-const PreGame = ({ roomId, players }) => (
-  <div>
-    <div className="center">Room Code: {roomId}</div>
-    <div className="center">Waiting for Players to Join</div>
-    <PlayerList players={players} />
-    <button onClick={startGame} >Start</button>
-  </div>
-);
+class PreGame extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      errMsg: null,
+    };
+
+    /* METHOD BINDING */
+    this.startGame = this.startGame.bind(this);
+  }
+
+  startGame() {
+    io.emit('startGame', (errMsg) => {
+      this.setState({ errMsg });
+    });
+  }
+
+  render() {
+    const { roomId, players } = this.props;
+    const { errMsg } = this.state;
+    return (
+      <div>
+        <div className="center" >Room Code: {roomId}</div>
+        <div className="center" >Waiting for Players to Join</div>
+        <PlayerList players={players} />
+        {errMsg ? <div className="center" >{errMsg}</div> : ''}
+        <button onClick={this.startGame} >Start</button>
+      </div>
+    );
+  }
+}
 
 PreGame.propTypes = propTypes;
 

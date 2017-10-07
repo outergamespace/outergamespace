@@ -17,6 +17,8 @@ class App extends React.Component {
     /* METHOD BINDING */
     this.setScreen = this.setScreen.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.leaveGame = this.leaveGame.bind(this);
+    this.hostDisconnectHandler = this.hostDisconnectHandler.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +27,7 @@ class App extends React.Component {
     io.on('showAnswer', () => this.setScreen('roundScores'));
     io.on('showRoundScores', () => this.setScreen('roundScores'));
     io.on('showFinalScores', () => this.setScreen('finalScores'));
+    io.on('hostDisconnect', this.hostDisconnectHandler);
   }
 
   componentWillUnmount() {
@@ -35,7 +38,6 @@ class App extends React.Component {
     io.removeAllListeners('showFinalScores');
   }
 
-  // possible states: 'join', 'wait', 'question', 'answered', 'roundScores', 'finalScores';
   setScreen(screen) {
     this.setState({ screen });
   }
@@ -46,6 +48,15 @@ class App extends React.Component {
       question: question.prompt,
       answers: question.answers,
     });
+  }
+
+  leaveGame() {
+    io.emit('leaveGame');
+    this.setScreen('join');
+  }
+
+  hostDisconnectHandler() {
+    this.setScreen('hostDisconnect');
   }
 
   render() {
@@ -59,9 +70,11 @@ class App extends React.Component {
     } else if (screen === 'answered') {
       return <div className="center">You have submitted your answer</div>;
     } else if (screen === 'finalScores') {
-      return <Score final newGame={() => this.setScreen('join')} />;
+      return <Score final leaveGame={this.leaveGame} />;
     } else if (screen === 'roundScores') {
       return <Score />;
+    } else if (screen === 'hostDisconnect') {
+      return <div>The game ended unexpectedly because we lost connection with the host</div>;
     }
 
     // if input is not one of the expected strings

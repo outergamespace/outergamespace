@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'underscore';
 import ScoreBoardEntry from './ScoreBoardEntry.jsx';
 
 const propTypes = {
@@ -19,7 +20,9 @@ const ScoreBoard = ({ players, final, restartGame }) => (
       {final ? 'Final' : ''} Results
     </h3>
     <table>
-      {players.map(player => (<ScoreBoardEntry key={player.socketId} player={player} />))}
+      {_.sortBy(players, 'score')
+        .reverse()
+        .map(player => (<ScoreBoardEntry key={player.username} player={player} />))}
     </table>
     {final ? <button onClick={restartGame} >Start New Game</button> : ''}
   </div>

@@ -1,13 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const PlayerListEntry = (props) => {
+const propTypes = {
+  player: PropTypes.shape({
+    username: PropTypes.string,
+    score: PropTypes.number,
+    answered: PropTypes.bool,
+  })
+    .isRequired,
+};
+
+const PlayerListEntry = ({ player: { username, answered } }) => {
+  const answeredClass = answered ? 'player-answered' : '';
+  const playerListEntryClass = `player-list-entry ${answeredClass}`;
   return (
     <div className="player-list-entry row">
-      {/* <div className="player-list-entry-avatar">{props.player.avatar}</div> */}
-      <div className="player-list-entry-name">{props.player.username}</div>
-      <div className="player-list-entry-score">{props.player.score}</div>
+      <div className={playerListEntryClass}>{username}</div>
     </div>
   );
 };
+
+PlayerListEntry.propTypes = propTypes;
 
 export default PlayerListEntry;

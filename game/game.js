@@ -1,7 +1,9 @@
 const _ = require('underscore');
 const db = require('../db/index.js');
+const Player = require('./player.js');
 
 const POINTS_PER_QS = 10;
+const MAX_PLAYERS = 4;
 
 const scrambleAnswers = question => (
   _.shuffle([
@@ -27,20 +29,23 @@ class Game {
         this.questions = results;
       });
     this.currentQuestionIndex = -1;
-    this.answeredCount = 0;
+    this.answeredPlayers = [];
   }
 
   /**
-   * Restart the game
+   * Checks to see if game has no players
+   * @return {boolean} if game has no players
    */
-  restart() {
-    this.players = {};
-    db.getQuestions()
-      .then((results) => {
-        this.questions = results;
-      });
-    this.currentQuestionIndex = -1;
-    this.answeredCount = 0;
+  hasNoPlayers() {
+    return Object.keys(this.players).length === 0;
+  }
+
+  /**
+   * Checks to see if game is full
+   * @return {boolean} if game is full
+   */
+  isFull() {
+    return Object.keys(this.players).length >= MAX_PLAYERS;
   }
 
   /**
@@ -60,25 +65,22 @@ class Game {
   }
 
   /**
-   * Checks to see if player is already in the game
-   * @param {Object} player - the player object to check for
-   * @return {boolean} if the player is already in the game
+   * Checks to see if username is already taken
+   * @param {string} username - the username to check for
+   * @return {boolean} if the username is already taken
    */
-  hasPlayer(player) {
-    return _.values(this.players).some(p => p.username === player.username);
+  hasPlayer(username) {
+    const allUsernames = _.values(this.players).map(player => player.username);
+    return allUsernames.includes(username);
   }
 
   /**
    * Adds a player to the game
-   * @param {Object} player - the player object to add to the current game
-   * @throws {Error} Will throw an error if the given username has already been taken
+   * @param {string} socketId - the socket id of the player to be added to the current game
+   * @param {string} username - the username of the player to be added to the current game
    */
-  addPlayer(player) {
-    if (this.hasPlayer(player)) {
-      throw new Error('Username already taken');
-    } else {
-      this.players[player.socketId] = player;
-    }
+  addPlayer(socketId, username) {
+    this.players[socketId] = new Player(username);
   }
 
   /**
@@ -102,8 +104,10 @@ class Game {
    * @return {Object} containing a 'prompt' and a set of 'answers'
    */
   nextQuestion() {
+    // set answered state of all players to false
+    _.values(this.players).forEach(player => player.setAnswered(false));
+
     this.currentQuestionIndex += 1;
-    this.answeredCount = 0;
     const question = this.getCurrentQuestion();
     if (question) {
       const prompt = question.question;
@@ -114,13 +118,11 @@ class Game {
   }
 
   /**
-   * Checks an answer from the player to verify if it matches the correct answer
-   * for the current question prompt
-   * @param {string} answer - the answer string selected by the player
-   * @return {boolean} if the given answer matches the correct answer
+   * Retrieves the correct answer of the current question
+   * @return {string} answer - the correct answer
    */
-  checkAnswer(answer) {
-    return this.getCurrentQuestion().correct_ans === answer;
+  getAnswer() {
+    return this.getCurrentQuestion().correct_ans;
   }
 
   /**
@@ -130,26 +132,35 @@ class Game {
    * @param {string} answer - the given answer of the user
    */
   receiveAnswer(socketId, answer) {
-    this.answeredCount += 1;
-    if (this.checkAnswer(answer)) {
-      this.players[socketId].addToScore(POINTS_PER_QS);
+    const player = this.players[socketId];
+    player.setAnswered(true);
+    if (this.getAnswer() === answer) {
+      player.addToScore(POINTS_PER_QS);
     }
   }
+
+  /**
+   * Gets the list of players who have submitted an answer for the current question
+   * @return {Array} all player Objects who have submitted an answer for the current question
+   */
+  // getAnsweredPlayers() {
+  //   return this.players.filter(player => player.answered);
+  // }
 
   /**
    * Checks to see if all players have submitted their answers
    * @return {boolean} if all players have submitted their answers
    */
   allAnswered() {
-    return this.answeredCount === Object.keys(this.players).length;
+    return _.values(this.players).every(player => player.answered);
   }
 
   /**
-   * Gets the the player Objects and sorts them in descending order
-   * @return {Array} all player Objects sorted in descending order
+   * Gets the the player Objects and sorts them by their usernames
+   * @return {Array} all player Objects sorted in alphabetical order of their usernames
    */
-  getScores() {
-    return _.sortBy(_.values(this.players), 'score');
+  getPlayers() {
+    return _.sortBy(_.values(this.players), 'username');
   }
 }
 

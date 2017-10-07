@@ -14,6 +14,7 @@ class App extends React.Component {
       players: [],
       question: '',
       answers: [],
+      finalScores: [],
     };
 
     /* METHOD BINDING */
@@ -48,7 +49,7 @@ class App extends React.Component {
   }
 
   createRoom() {
-    io.emit('createRoom', (roomId) => {
+    io.emit('createRoom', (err, roomId) => {
       this.setState({ roomId });
       this.setScreen('wait');
     });
@@ -58,9 +59,10 @@ class App extends React.Component {
     this.setState({ players });
   }
 
-  nextQuestion(question) {
+  nextQuestion(question, players) {
     this.setState({
       screen: 'question',
+      players,
       question: question.prompt,
       answers: question.answers,
     });
@@ -73,6 +75,9 @@ class App extends React.Component {
 
   showFinalScores(players) {
     this.updatePlayers(players);
+    this.setState(prevState => ({
+      finalScores: prevState.players.slice(),
+    }));
     this.setScreen('finalScores');
   }
 
@@ -83,23 +88,24 @@ class App extends React.Component {
       players: [],
       question: '',
       answers: [],
+      finalScores: [],
     });
     io.emit('restartGame');
   }
 
   render() {
-    const { screen, roomId, players, question, answers } = this.state;
+    const { screen, roomId, players, question, answers, finalScores } = this.state;
 
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
     } else if (screen === 'wait') {
       return <PreGame players={players} roomId={roomId} />;
     } else if (screen === 'question') {
-      return <Question question={question} answers={answers} />;
+      return <Question question={question} answers={answers} players={players} />;
     } else if (screen === 'roundScores') {
       return <ScoreBoard players={players} />;
     } else if (screen === 'finalScores') {
-      return <ScoreBoard players={players} final restartGame={this.restartGame} />;
+      return <ScoreBoard players={finalScores} final restartGame={this.restartGame} />;
     }
 
     // if input is not one of the expected strings
