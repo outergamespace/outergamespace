@@ -28,7 +28,9 @@ class Trivia {
 
   joinGame(socketId, roomId, username) {
     const game = this.games[roomId];
-    if (game) {
+    if (username === '') {
+      throw new Error('Please provide a username');
+    } else if (game) {
       if (game.hasPlayer(username)) {
         throw new Error('Username already taken');
       } else if (game.isFull()) {
