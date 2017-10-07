@@ -12,6 +12,7 @@ class App extends React.Component {
       screen: 'create',
       roomId: '',
       players: [],
+      answeredPlayers: [],
       question: '',
       answers: [],
       finalScores: [],
@@ -85,21 +86,23 @@ class App extends React.Component {
       screen: 'create',
       roomId: '',
       players: [],
+      answeredPlayers: [],
       question: '',
       answers: [],
+      finalScores: [],
     });
     io.emit('restartGame');
   }
 
   render() {
-    const { screen, roomId, players, question, answers, finalScores } = this.state;
+    const { screen, roomId, players, answeredPlayers, question, answers, finalScores } = this.state;
 
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
     } else if (screen === 'wait') {
       return <PreGame players={players} roomId={roomId} />;
     } else if (screen === 'question') {
-      return <Question question={question} answers={answers} />;
+      return <Question question={question} answers={answers} players={players} answeredPlayers={answeredPlayers} />;
     } else if (screen === 'roundScores') {
       return <ScoreBoard scores={players} />;
     } else if (screen === 'finalScores') {

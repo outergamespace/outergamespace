@@ -122,6 +122,8 @@ class SocketServerInterface {
 
     game.receiveAnswer(socket.id, answer);
 
+    this.emitUpdatePlayers(socket);
+
     if (game.allAnswered()) {
       this.scheduleEmission(this.emitShowAnswer.bind(this, socket), 0);
     }
@@ -142,9 +144,9 @@ class SocketServerInterface {
 
   /* EVENT EMITTERS */
 
-  emitUpdatePlayers(roomId) {
-    const game = this.getGame(roomId);
-    this.emitToRoom(roomId, 'updatePlayers', game.getScores(roomId));
+  emitUpdatePlayers(socketOrRoomId) {
+    const game = this.getGame(socketOrRoomId);
+    this.emitToRoom(socketOrRoomId, 'updatePlayers', game.getPlayers());
   }
 
   emitNextQuestion(socket) {
@@ -152,6 +154,11 @@ class SocketServerInterface {
     this.emitToRoom(socket, 'nextQuestion', game.nextQuestion());
 
     this.scheduleEmission(this.emitShowAnswer.bind(this, socket), TIME_FOR_QS);
+  }
+
+  emitReceiveAnswer(socket) {
+    const game = this.getGame(socket);
+    this.emitToRoom(socket, 'receiveAnswer', game.getAnswerPlayers());
   }
 
   emitShowAnswer(socket) {
@@ -165,9 +172,9 @@ class SocketServerInterface {
     const game = this.getGame(socket);
 
     if (game.atLastQuestion()) {
-      this.emitToRoom(socket, 'showFinalScores', game.getScores());
+      this.emitToRoom(socket, 'showFinalScores', game.getPlayers());
     } else {
-      this.emitToRoom(socket, 'showRoundScores', game.getScores());
+      this.emitToRoom(socket, 'showRoundScores', game.getPlayers());
 
       this.scheduleEmission(this.emitNextQuestion.bind(this, socket), TIME_FOR_SCORES);
     }

@@ -29,20 +29,7 @@ class Game {
         this.questions = results;
       });
     this.currentQuestionIndex = -1;
-    this.answeredCount = 0;
-  }
-
-  /**
-   * Restart the game
-   */
-  restart() {
-    this.players = {};
-    db.getQuestions()
-      .then((results) => {
-        this.questions = results;
-      });
-    this.currentQuestionIndex = -1;
-    this.answeredCount = 0;
+    this.answeredPlayers = [];
   }
 
   /**
@@ -117,8 +104,10 @@ class Game {
    * @return {Object} containing a 'prompt' and a set of 'answers'
    */
   nextQuestion() {
+    // set answered state of all players to false
+    _.values(this.players).forEach(player => player.setAnswered(false));
+
     this.currentQuestionIndex += 1;
-    this.answeredCount = 0;
     const question = this.getCurrentQuestion();
     if (question) {
       const prompt = question.question;
@@ -143,26 +132,35 @@ class Game {
    * @param {string} answer - the given answer of the user
    */
   receiveAnswer(socketId, answer) {
-    this.answeredCount += 1;
+    const player = this.players[socketId];
+    player.setAnswered(true);
     if (this.getAnswer() === answer) {
-      this.players[socketId].addToScore(POINTS_PER_QS);
+      player.addToScore(POINTS_PER_QS);
     }
   }
+
+  /**
+   * Gets the list of players who have submitted an answer for the current question
+   * @return {Array} all player Objects who have submitted an answer for the current question
+   */
+  // getAnsweredPlayers() {
+  //   return this.players.filter(player => player.answered);
+  // }
 
   /**
    * Checks to see if all players have submitted their answers
    * @return {boolean} if all players have submitted their answers
    */
   allAnswered() {
-    return this.answeredCount === Object.keys(this.players).length;
+    return _.values(this.players).every(player => player.answered);
   }
 
   /**
-   * Gets the the player Objects and sorts them in descending order
-   * @return {Array} all player Objects sorted in descending order
+   * Gets the the player Objects and sorts them by their usernames
+   * @return {Array} all player Objects sorted in alphabetical order of their usernames
    */
-  getScores() {
-    return _.sortBy(_.values(this.players), 'score').reverse();
+  getPlayers() {
+    return _.sortBy(_.values(this.players), 'username');
   }
 }
 
