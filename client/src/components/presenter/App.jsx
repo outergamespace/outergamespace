@@ -12,7 +12,6 @@ class App extends React.Component {
       screen: 'create',
       roomId: '',
       players: [],
-      answeredPlayers: [],
       question: '',
       answers: [],
       finalScores: [],
@@ -86,7 +85,6 @@ class App extends React.Component {
       screen: 'create',
       roomId: '',
       players: [],
-      answeredPlayers: [],
       question: '',
       answers: [],
       finalScores: [],
@@ -95,18 +93,18 @@ class App extends React.Component {
   }
 
   render() {
-    const { screen, roomId, players, answeredPlayers, question, answers, finalScores } = this.state;
+    const { screen, roomId, players, question, answers, finalScores } = this.state;
 
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
     } else if (screen === 'wait') {
       return <PreGame players={players} roomId={roomId} />;
     } else if (screen === 'question') {
-      return <Question question={question} answers={answers} players={players} answeredPlayers={answeredPlayers} />;
+      return <Question question={question} answers={answers} players={players} />;
     } else if (screen === 'roundScores') {
-      return <ScoreBoard scores={players} />;
+      return <ScoreBoard players={players} />;
     } else if (screen === 'finalScores') {
-      return <ScoreBoard scores={finalScores} final restartGame={this.restartGame} />;
+      return <ScoreBoard players={finalScores} final restartGame={this.restartGame} />;
     }
 
     // if input is not one of the expected strings

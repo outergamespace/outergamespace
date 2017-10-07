@@ -57,7 +57,7 @@ class Join extends React.Component {
           <input className="join" type="text" value={username} onChange={this.onChangeUsername} />
         </div>
         <div>
-          {errMsg ? <div>{errMsg}</div> : '' }
+          {errMsg ? <div className="center" >{errMsg}</div> : '' }
           <button onClick={this.joinGame} >Join</button>
         </div>
       </div>

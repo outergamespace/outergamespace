@@ -1,13 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const PlayerListEntry = (props) => {
-  return (
-    <div className="player-list-entry row">
-      {/* <div className="player-list-entry-avatar">{props.player.avatar}</div> */}
-      <div className="player-list-entry-name">{props.player.username}</div>
-      <div className="player-list-entry-score">{props.player.score}</div>
-    </div>
-  );
+const propTypes = {
+  player: PropTypes.shape({
+    socketId: PropTypes.string,
+    username: PropTypes.string,
+    score: PropTypes.number,
+  })
+    .isRequired,
 };
+
+const PlayerListEntry = ({ player }) => (
+  <div className="player-list-entry row">
+    <div className="player-list-entry-name">{player.username}</div>
+  </div>
+);
+
+PlayerListEntry.propTypes = propTypes;
 
 export default PlayerListEntry;
