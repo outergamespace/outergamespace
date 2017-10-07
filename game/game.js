@@ -129,16 +129,6 @@ class Game {
   }
 
   /**
-   * Checks an answer from the player to verify if it matches the correct answer
-   * for the current question prompt
-   * @param {string} answer - the answer string selected by the player
-   * @return {boolean} if the given answer matches the correct answer
-   */
-  checkAnswer(answer) {
-    return this.getAnswer() === answer;
-  }
-
-  /**
    * Receives an answer from a given user, increments the submit counter, and
    * calculates the user's score
    * @param {string} username - the username of the player
@@ -146,7 +136,7 @@ class Game {
    */
   receiveAnswer(socketId, answer) {
     this.answeredCount += 1;
-    if (this.checkAnswer(answer)) {
+    if (this.getAnswer() === answer) {
       this.players[socketId].addToScore(POINTS_PER_QS);
     }
   }
