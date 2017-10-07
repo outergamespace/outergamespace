@@ -1,6 +1,6 @@
 const _ = require('underscore');
 const db = require('../db/index.js');
-const Player = require('./Player.js');
+const Player = require('./player.js');
 
 const POINTS_PER_QS = 10;
 const MAX_PLAYERS = 4;
