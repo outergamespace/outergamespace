@@ -162,7 +162,7 @@ class Game {
    * @return {Array} all player Objects sorted in descending order
    */
   getScores() {
-    return _.sortBy(_.values(this.players), 'score');
+    return _.sortBy(_.values(this.players), 'score').reverse();
   }
 }
 
