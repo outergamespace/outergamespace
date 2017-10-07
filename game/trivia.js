@@ -43,12 +43,12 @@ class Trivia {
     game.addPlayer(socketId, username);
   }
 
-  // removePlayer(socketId) {
-  //   delete this.playerToRoom[socketId];
-  // }
-
   getGame(roomId) {
     return this.games[roomId];
+  }
+
+  endGame(roomId) {
+    delete this.games[roomId];
   }
 }
 

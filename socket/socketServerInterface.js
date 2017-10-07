@@ -8,7 +8,10 @@ const TIME_FOR_SHOW_ANS = 3 * 1000;
 const TIME_FOR_SCORES = 5 * 1000;
 
 /* UTIL FUNCTIONS */
+
 const getRoom = socket => Object.keys(socket.rooms).filter(roomId => roomId !== socket.id)[0];
+
+/* CLASS DEFINITION */
 
 class SocketServerInterface {
   constructor(server) {
@@ -50,13 +53,14 @@ class SocketServerInterface {
 
   listenToHostEvents(socket) {
     socket.on('startGame', this.startGameHandler.bind(this, socket));
-    // socket.on('restartGame', this.restartGameHandler.bind(this, socket));
+    socket.on('endGame', this.endGameHandler.bind(this, socket));
     // socket.on('disconnect', this.hostDisconnectHandler.bind(this, socket));
   }
 
   listenToPlayerEvents(socket) {
     socket.on('submitAnswer', this.submitAnswerHandler.bind(this, socket));
-    // socket.on('disconnect', this.playerDisconnectHandler.bind(this, socket));
+    socket.on('leaveGame', this.leaveGameHandler.bind(this, socket));
+    socket.on('disconnecting', this.leaveGameHandler.bind(this, socket));
   }
 
   /* EVENT HANDLERS - PREGAME */
@@ -93,6 +97,13 @@ class SocketServerInterface {
     this.nextQuestionEmitter(socket);
   }
 
+  endGameHandler(socket) {
+    const roomId = getRoom(socket);
+    socket.leave(roomId);
+
+    this.trivia.endGame(roomId);
+  }
+
   /* EVENT HANDLERS - PLAYER */
 
   submitAnswerHandler(socket, answer) {
@@ -103,6 +114,16 @@ class SocketServerInterface {
     if (game.allAnswered()) {
       this.scheduleEmission(this.showAnswerEmitter.bind(this, socket), 0);
     }
+  }
+
+  leaveGameHandler(socket) {
+    const roomId = getRoom(socket);
+    const game = this.getGame(socket);
+
+    socket.leave(roomId);
+
+    game.removePlayer(socket.id);
+    this.updatePlayersEmitter(roomId);
   }
 
   /* EVENT EMITTERS */
@@ -134,7 +155,7 @@ class SocketServerInterface {
     } else {
       this.emitToRoom(socket, 'showRoundScores', game.getScores());
 
-      this.scheduleEmission(this.nextQuestionEmitter.bind(this, socket), TIME_FOR_SHOW_ANS);
+      this.scheduleEmission(this.nextQuestionEmitter.bind(this, socket), TIME_FOR_SCORES);
     }
   }
 }
