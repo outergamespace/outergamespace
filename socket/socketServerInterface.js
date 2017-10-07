@@ -22,7 +22,7 @@ class SocketServerInterface {
 
   listen(port) {
     this.io.listen(port);
-    this.listenToPregameEvents();
+    this.listenForPregameEvents();
   }
 
   /* HELPER FUNCTIONS */
@@ -44,20 +44,20 @@ class SocketServerInterface {
 
   /* EVENT LISTENERS */
 
-  listenToPregameEvents() {
+  listenForPregameEvents() {
     this.io.on('connection', (socket) => {
       socket.on('createRoom', this.handleCreateRoom.bind(this, socket));
       socket.on('joinRoom', this.handleJoinRoom.bind(this, socket));
     });
   }
 
-  listenToHostEvents(socket) {
+  listenForHostEvents(socket) {
     socket.on('startGame', this.handleStartGame.bind(this, socket));
     socket.on('endGame', this.handleEndGame.bind(this, socket));
     socket.on('disconnecting', this.handleHostDisconnect.bind(this, socket));
   }
 
-  listenToPlayerEvents(socket) {
+  listenForPlayerEvents(socket) {
     socket.on('submitAnswer', this.handleSubmitAnswer.bind(this, socket));
     socket.on('leaveGame', this.handleLeaveGame.bind(this, socket));
     socket.on('disconnecting', this.handleLeaveGame.bind(this, socket));
@@ -71,7 +71,7 @@ class SocketServerInterface {
     callback(null, roomId);
 
     socket.join(roomId);
-    this.listenToHostEvents(socket);
+    this.listenForHostEvents(socket);
   }
 
   handleJoinRoom(socket, roomId, username, callback) {
@@ -82,7 +82,7 @@ class SocketServerInterface {
       callback();
 
       socket.join(roomId);
-      this.listenToPlayerEvents(socket);
+      this.listenForPlayerEvents(socket);
 
       this.emitUpdatePlayers(roomId);
     } catch (error) {
