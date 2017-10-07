@@ -3,12 +3,6 @@ const expect = require('chai').expect;
 const db = require('../db/index.js');
 
 describe('Database', () => {
-  describe('[REPLACE ME] test template', () => {
-    it('[REPLACE ME] should return true for matching "test template" text', () => {
-      expect('test template').to.equal('test template');
-    });
-  });
-
   describe('Retrieve questions from database', () => {
     it('Should retrieve n questions when n is less than the number of items in the database', (done) => {
       db.getQuestions(3)
