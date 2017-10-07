@@ -43,11 +43,6 @@ class Trivia {
     game.addPlayer(socketId, username);
   }
 
-  getScores(roomId) {
-    const game = this.games[roomId];
-    return game.getScores();
-  }
-
   // removePlayer(socketId) {
   //   delete this.playerToRoom[socketId];
   // }

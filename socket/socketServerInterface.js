@@ -1,6 +1,12 @@
 const socketIO = require('socket.io');
 const Trivia = require('../game/trivia.js');
 
+/* GAME CONTROLS */
+
+const TIME_FOR_QS = 5 * 1000;
+const TIME_FOR_SHOW_ANS = 3 * 1000;
+const TIME_FOR_SCORES = 5 * 1000;
+
 /* UTIL FUNCTIONS */
 const getRoom = socket => Object.keys(socket.rooms).filter(roomId => roomId !== socket.id)[0];
 
@@ -26,7 +32,7 @@ class SocketServerInterface {
   }
 
   listenToHostEvents(socket) {
-    // socket.on('startGame', this.startGameHandler.bind(this, socket));
+    socket.on('startGame', this.startGameHandler.bind(this, socket));
     // socket.on('restartGame', this.restartGameHandler.bind(this, socket));
     // socket.on('disconnect', this.hostDisconnectHandler.bind(this, socket));
   }
@@ -66,22 +72,61 @@ class SocketServerInterface {
 
   /* EVENT HANDLERS - HOST */
 
+  startGameHandler(socket) {
+    this.nextQuestionEmitter(socket);
+  }
+
   /* EVENT HANDLERS - PLAYER */
 
-  /* EVENT EMITTERS - HELPER */
+  /* EVENT EMITTERS - HELPERS */
+
+  getGame(socketOrRoomId) {
+    const roomId = typeof socketOrRoomId === 'object' ? getRoom(socketOrRoomId) : socketOrRoomId;
+    return this.trivia.getGame(roomId);
+  }
+
+  scheduleEmission(emitter, time) {
+    clearTimeout(this.scheduledEmission);
+    this.scheduledEmission = setTimeout(emitter, time);
+  }
 
   emitToRoom(socketOrRoomId, event, ...args) {
-    const room = typeof socketOrRoomId === 'object' ? getRoom(socketOrRoomId) : socketOrRoomId;
-    this.io.to(room).emit(event, ...args);
+    const roomId = typeof socketOrRoomId === 'object' ? getRoom(socketOrRoomId) : socketOrRoomId;
+    this.io.to(roomId).emit(event, ...args);
   }
 
-  /* EVENT EMITTERS - HOST */
+  /* EVENT EMITTERS */
 
   updatePlayersEmitter(roomId) {
-    this.emitToRoom(roomId, 'updatePlayers', this.trivia.getScores(roomId));
+    const game = this.getGame(roomId);
+    this.emitToRoom(roomId, 'updatePlayers', game.getScores(roomId));
   }
 
-  /* EVENT EMITTERS - PLAYER */
+  nextQuestionEmitter(socket) {
+    const game = this.getGame(socket);
+    this.emitToRoom(socket, 'nextQuestion', game.nextQuestion());
+
+    this.scheduleEmission(this.showAnswerEmitter.bind(this, socket), TIME_FOR_QS);
+  }
+
+  showAnswerEmitter(socket) {
+    const game = this.getGame(socket);
+    this.emitToRoom(socket, 'showAnswer', game.getAnswer());
+
+    this.scheduleEmission(this.showScoresEmitter.bind(this, socket), TIME_FOR_SHOW_ANS);
+  }
+
+  showScoresEmitter(socket) {
+    const game = this.getGame(socket);
+
+    if (game.atLastQuestion()) {
+      this.emitToRoom(socket, 'showFinalScores', game.getScores());
+    } else {
+      this.emitToRoom(socket, 'showRoundScores', game.getScores());
+
+      this.scheduleEmission(this.nextQuestionEmitter.bind(this, socket), TIME_FOR_SHOW_ANS);
+    }
+  }
 }
 
 module.exports = SocketServerInterface;

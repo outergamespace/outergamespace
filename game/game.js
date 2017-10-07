@@ -81,8 +81,8 @@ class Game {
 
   /**
    * Adds a player to the game
-   * @param {socketId} string - the socket id of the player to be added to the current game
-   * @param {username} string - the username of the player to be added to the current game
+   * @param {string} socketId - the socket id of the player to be added to the current game
+   * @param {string} username - the username of the player to be added to the current game
    */
   addPlayer(socketId, username) {
     this.players[socketId] = new Player(username);
@@ -121,13 +121,21 @@ class Game {
   }
 
   /**
+   * Retrieves the correct answer of the current question
+   * @return {string} answer - the correct answer
+   */
+  getAnswer() {
+    return this.getCurrentQuestion().correct_ans;
+  }
+
+  /**
    * Checks an answer from the player to verify if it matches the correct answer
    * for the current question prompt
    * @param {string} answer - the answer string selected by the player
    * @return {boolean} if the given answer matches the correct answer
    */
   checkAnswer(answer) {
-    return this.getCurrentQuestion().correct_ans === answer;
+    return this.getAnswer() === answer;
   }
 
   /**
