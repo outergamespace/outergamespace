@@ -43,32 +43,17 @@ class Trivia {
     game.addPlayer(socketId, username);
   }
 
-  removePlayer(socketId) {
-    delete this.playerToRoom[socketId];
+  getScores(roomId) {
+    const game = this.games[roomId];
+    return game.getScores();
   }
 
-  isHost(socketId) {
-    return this.hostToRoom[socketId] !== undefined;
-  }
-
-  isPlayer(socketId) {
-    return this.playerToRoom[socketId] !== undefined;
-  }
-
-  getRoomBySocketId(socketId) {
-    let room = this.hostToRoom[socketId];
-    if (room === undefined) {
-      room = this.playerToRoom[socketId];
-    }
-    return room;
-  }
+  // removePlayer(socketId) {
+  //   delete this.playerToRoom[socketId];
+  // }
 
   getGame(roomId) {
     return this.games[roomId];
-  }
-
-  getGameBySocketId(socketId) {
-    return this.getGameByRoomId(this.getRoomBySocketId(socketId));
   }
 }
 

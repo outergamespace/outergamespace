@@ -16,7 +16,7 @@ class SocketServerInterface {
     this.listenToPregameEvents();
   }
 
-  /* SOCKET EVENT LISTENERS */
+  /* EVENT LISTENERS */
 
   listenToPregameEvents() {
     this.io.on('connection', (socket) => {
@@ -36,7 +36,7 @@ class SocketServerInterface {
     // socket.on('disconnect', this.playerDisconnectHandler.bind(this, socket));
   }
 
-  /* SOCKET EVENT HANDLERS - PREGAME */
+  /* EVENT HANDLERS - PREGAME */
 
   createRoomHandler(socket, callback) {
     const roomId = this.trivia.createRoom(socket.id);
@@ -56,18 +56,32 @@ class SocketServerInterface {
 
       socket.join(roomId);
       this.listenToPlayerEvents(socket);
+
+      this.updatePlayersEmitter(roomId);
     } catch (error) {
       // unsuccessful
       callback(error.message, null);
     }
   }
 
-  /* SOCKET EVENT EMITTERS */
+  /* EVENT HANDLERS - HOST */
 
-  emitToRoom(socket, event, ...args) {
-    const room = getRoom(socket);
+  /* EVENT HANDLERS - PLAYER */
+
+  /* EVENT EMITTERS - HELPER */
+
+  emitToRoom(socketOrRoomId, event, ...args) {
+    const room = typeof socketOrRoomId === 'object' ? getRoom(socketOrRoomId) : socketOrRoomId;
     this.io.to(room).emit(event, ...args);
   }
+
+  /* EVENT EMITTERS - HOST */
+
+  updatePlayersEmitter(roomId) {
+    this.emitToRoom(roomId, 'updatePlayers', this.trivia.getScores(roomId));
+  }
+
+  /* EVENT EMITTERS - PLAYER */
 }
 
 module.exports = SocketServerInterface;
