@@ -10,7 +10,7 @@ const SocketServerInterface = require('../socket/socketServerInterface.js');
 const io = new SocketServerInterface(server);
 
 const CLIENT_DIR = path.join(__dirname, '../client');
-const SERVER_PORT = 8080;
+const SERVER_PORT = process.env.PORT || 8080;
 // const SOCKET_PORT = 3000;
 
 server.listen(SERVER_PORT);
