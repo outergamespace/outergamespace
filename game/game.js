@@ -5,6 +5,11 @@ const Player = require('./player.js');
 const POINTS_PER_QS = 10;
 const MAX_PLAYERS = 4;
 
+/**
+ * Shuffle the answers of a given question
+ * @param {Object} representing the question
+ * @return {Array} 4 answers in random order
+ */
 const scrambleAnswers = question => (
   _.shuffle([
     question.correct_ans,
@@ -92,6 +97,14 @@ class Game {
   }
 
   /**
+   * Gets the the player Objects and sorts them by their usernames
+   * @return {Array} all player Objects sorted in alphabetical order of their usernames
+   */
+  getPlayers() {
+    return _.sortBy(_.values(this.players), 'username');
+  }
+
+  /**
    * Retrieves the current question
    * @return {Object} representing a question
    */
@@ -140,27 +153,11 @@ class Game {
   }
 
   /**
-   * Gets the list of players who have submitted an answer for the current question
-   * @return {Array} all player Objects who have submitted an answer for the current question
-   */
-  // getAnsweredPlayers() {
-  //   return this.players.filter(player => player.answered);
-  // }
-
-  /**
    * Checks to see if all players have submitted their answers
    * @return {boolean} if all players have submitted their answers
    */
   allAnswered() {
     return _.values(this.players).every(player => player.answered);
-  }
-
-  /**
-   * Gets the the player Objects and sorts them by their usernames
-   * @return {Array} all player Objects sorted in alphabetical order of their usernames
-   */
-  getPlayers() {
-    return _.sortBy(_.values(this.players), 'username');
   }
 }
 
