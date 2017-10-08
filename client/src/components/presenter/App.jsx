@@ -90,7 +90,7 @@ class App extends React.Component {
       answers: [],
       finalScores: [],
     });
-    io.emit('restartGame');
+    io.emit('endGame');
   }
 
   render() {
