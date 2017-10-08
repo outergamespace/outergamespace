@@ -63,7 +63,7 @@ class SocketServerInterface {
   listenForPlayerEvents(socket) {
     socket.on('submitAnswer', this.handleSubmitAnswer.bind(this, socket));
     socket.on('leaveGame', this.handleLeaveGame.bind(this, socket));
-    socket.on('disconnecting', this.handleLeaveGame.bind(this, socket));
+    socket.on('disconnecting', this.handlePlayerDisconnect.bind(this, socket));
   }
 
   /* EVENT HANDLERS - PREGAME */
@@ -106,11 +106,12 @@ class SocketServerInterface {
     }
   }
 
-  handleEndGame(socket) {
+  handleEndGame(socket, callback) {
     const roomId = getRoom(socket);
     socket.leave(roomId);
 
     this.trivia.endGame(roomId);
+    callback();
   }
 
   handleHostDisconnect(socket) {
@@ -120,29 +121,37 @@ class SocketServerInterface {
 
   /* EVENT HANDLERS - PLAYER */
 
-  handleSubmitAnswer(socket, answer) {
+  handleSubmitAnswer(socket, answer, callback) {
     const game = this.getGame(socket);
 
     game.receiveAnswer(socket.id, answer);
 
     this.emitUpdatePlayers(socket);
 
+    callback();
+
     if (game.allAnswered()) {
       this.scheduleEmission(this.emitShowAnswer.bind(this, socket), 0);
     }
   }
 
-  handleLeaveGame(socket) {
+  handlePlayerDisconnect(socket) {
     const roomId = getRoom(socket);
     const game = this.getGame(socket);
-
-    socket.leave(roomId);
 
     if (game) {
       // if game has not yet ended
       game.removePlayer(socket.id);
       this.emitUpdatePlayers(roomId);
     }
+  }
+
+  handleLeaveGame(socket, callback) {
+    this.handlePlayerDisconnect(socket);
+
+    const roomId = getRoom(socket);
+    socket.leave(roomId);
+    callback();
   }
 
   /* EVENT EMITTERS */

@@ -82,15 +82,16 @@ class App extends React.Component {
   }
 
   restartGame() {
-    this.setState({
-      screen: 'create',
-      roomId: '',
-      players: [],
-      question: '',
-      answers: [],
-      finalScores: [],
+    io.emit('endGame', () => {
+      this.setState({
+        screen: 'create',
+        roomId: '',
+        players: [],
+        question: '',
+        answers: [],
+        finalScores: [],
+      });
     });
-    io.emit('endGame');
   }
 
   render() {

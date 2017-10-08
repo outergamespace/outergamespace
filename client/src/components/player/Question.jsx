@@ -34,8 +34,9 @@ class Question extends React.Component {
   }
 
   sendAnswer() {
-    this.props.setScreen('answered');
-    io.emit('submitAnswer', this.state.currentAns);
+    io.emit('submitAnswer', this.state.currentAns, () => {
+      this.props.setScreen('answered');
+    });
   }
 
   render() {

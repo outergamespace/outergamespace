@@ -51,8 +51,9 @@ class App extends React.Component {
   }
 
   leaveGame() {
-    io.emit('leaveGame');
-    this.setScreen('join');
+    io.emit('leaveGame' () => {
+      this.setScreen('join');
+    });
   }
 
   hostDisconnectHandler() {
