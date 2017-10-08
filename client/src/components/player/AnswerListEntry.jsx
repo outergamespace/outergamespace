@@ -8,21 +8,17 @@ const propTypes = {
   updateAnswer: PropTypes.func.isRequired,
 };
 
-const AnswerListEntry = ({ answer, index, selected, updateAnswer }) => {
-  const selectedClass = selected ? 'selected-ans' : '';
-  const answerListEntryClass = `answer-list-entry ${selectedClass}`;
-  return (
-    <div
-      className={answerListEntryClass}
-      role="menuitemradio"
-      aria-checked={selected}
-      tabIndex={index}
-      onClick={updateAnswer}
-    >
-      {answer}
-    </div>
-  );
-};
+const AnswerListEntry = ({ answer, index, selected, updateAnswer }) => (
+  <div
+    className={`answer ${selected && 'selected'}`}
+    role="menuitemradio"
+    aria-checked={selected}
+    tabIndex={index}
+    onClick={updateAnswer}
+  >
+    {answer}
+  </div>
+);
 
 AnswerListEntry.propTypes = propTypes;
 

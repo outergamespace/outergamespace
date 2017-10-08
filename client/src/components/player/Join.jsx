@@ -53,7 +53,6 @@ class Join extends React.Component {
 
         <div className="screen-middle">
           <input
-            className="join"
             type="text"
             placeholder="4-Digit Room Code"
             value={roomId}
@@ -61,9 +60,8 @@ class Join extends React.Component {
           />
 
           <input
-            className="join"
             type="text"
-            placeholder="Username"
+            placeholder="Your Username"
             value={username}
             onChange={this.onChangeUsername}
           />

@@ -43,14 +43,14 @@ class Question extends React.Component {
     const { question, answers } = this.props;
     const { currentAns } = this.state;
     return (
-      <div className="container">
-        <div className="row">
-          <div>{question}</div>
+      <div className="screen">
+        <div className="screen-top question">{question}</div>
+
+        <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
+
+        <div className="screen-bottom">
           <Timer />
-        </div>
-        <div>
-          <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
-          {currentAns === '' ? '' : <button onClick={this.sendAnswer} >Submit</button>}
+          <button onClick={this.sendAnswer} >Submit</button>
         </div>
       </div>
     );

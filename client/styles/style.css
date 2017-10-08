@@ -75,6 +75,8 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	background: #f9f1db;
 }
  
 #app {
@@ -92,7 +94,7 @@ div {
 	align-items: center;
 	text-align: center;
 
-	border: 1px solid #000; /*!!!*/
+	/*border: 1px solid #000; /*!!!*/*/
 }
 
 /* =============
@@ -104,14 +106,14 @@ div {
 	height: 100%;
 }
 
-.screen > .screen-middle {
+.screen-middle {
 	height: 60%;
 	justify-content: space-evenly;
 }
 
-.screen > .screen-top,
-.screen > .screen-bottom {
-	height: 20%;
+.screen-top,
+.screen-bottom {
+	min-height: 20%;
 	justify-content: center;
 }
 
@@ -141,6 +143,24 @@ button {
 	text-shadow: rgb(178, 62, 53) 0px 1px 0px;
 
 	cursor: pointer;
+}
+
+/* ===========
+ * ANSWER LIST
+ * ===========
+ */
+
+.answer {
+  background: ivory;
+
+  box-shadow: 5px 2px 2px black;
+  border-radius: 5px;
+
+  padding: 3%;
+}
+
+.selected {
+	font-weight: bold;
 }
 
 /*body {

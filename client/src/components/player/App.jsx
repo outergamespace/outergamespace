@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'join',
+      screen: 'question',
       question: '',
       answers: [],
     };
@@ -61,7 +61,20 @@ class App extends React.Component {
   }
 
   render() {
-    const { screen, question, answers } = this.state;
+    // const { screen, question, answers } = this.state;
+    let screen = 'question';
+    let question = 'In what year did James Madison serve as the President of the United States?';
+    let answers = [
+      '1234-1234',
+      '1234-1235',
+      '1234-1236',
+      '1234-1237',
+    ];
+    let players = [
+      { username: 'alan' },
+      { username: 'belle' },
+    ];
+
     if (screen === 'join') {
       return <Join setWaitScreen={() => this.setScreen('wait')} />;
     } else if (screen === 'wait') {
