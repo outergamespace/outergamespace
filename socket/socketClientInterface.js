@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 
 const ioOptions = {
   transports: ['websocket'],
-  forceNew: true,
+  // forceNew: true,
   reconnection: true,
 };
 

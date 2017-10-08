@@ -9,7 +9,7 @@ const SocketServerInterface = require('../socket/socketServerInterface.js');
 
 const ioOptions = {
   transports: ['websocket'],
-  forceNew: true,
+  // forceNew: true,
   reconnection: true,
 };
 const io = new SocketServerInterface(server, ioOptions);
