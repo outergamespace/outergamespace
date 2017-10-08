@@ -112,7 +112,7 @@ class SocketServerInterface {
     socket.leave(roomId);
 
     this.trivia.endGame(roomId);
-    callback();
+    callback(null);
   }
 
   handleHostDisconnect(socket) {
