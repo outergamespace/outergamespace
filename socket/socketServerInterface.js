@@ -14,8 +14,8 @@ const getRoom = socket => Object.keys(socket.rooms).filter(roomId => roomId !== 
 /* CLASS DEFINITION */
 
 class SocketServerInterface {
-  constructor(server) {
-    this.io = socketIO(server);
+  constructor(server, options) {
+    this.io = socketIO(server, options);
     this.trivia = new Trivia();
     this.scheduledEmission = null;
   }
