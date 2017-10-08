@@ -82,7 +82,7 @@ class SocketServerInterface {
       this.trivia.joinGame(socket.id, roomId, username);
 
       // successful
-      callback();
+      callback(null);
 
       socket.join(roomId);
       this.listenForPlayerEvents(socket);
