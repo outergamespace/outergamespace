@@ -14,11 +14,16 @@ const getRoom = socket => Object.keys(socket.rooms).filter(roomId => roomId !== 
 /* CLASS DEFINITION */
 
 class SocketServerInterface {
-  constructor(server) {
-    this.io = socketIO(server);
+  constructor(server, options) {
+    this.io = socketIO(server, options);
     this.trivia = new Trivia();
     this.scheduledEmission = null;
   }
+  // constructor(server) {
+  //   this.io = socketIO(server);
+  //   this.trivia = new Trivia();
+  //   this.scheduledEmission = null;
+  // }
 
   // port can be undefined here, if we want to route all comm through the HTTP server port
   listen(port = undefined) {

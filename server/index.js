@@ -7,7 +7,12 @@ const SocketServerInterface = require('../socket/socketServerInterface.js');
 
 /* SERVER SETUP */
 
-const io = new SocketServerInterface(server);
+const ioOptions = {
+  transports: ['websocket'],
+  forceNew: true,
+  reconnection: false,
+};
+const io = new SocketServerInterface(server, ioOptions);
 
 const CLIENT_DIR = path.join(__dirname, '../client');
 const SERVER_PORT = process.env.PORT || 8080;
