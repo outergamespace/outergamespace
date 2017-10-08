@@ -81,13 +81,13 @@ class SocketServerInterface {
     try {
       this.trivia.joinGame(socket.id, roomId, username);
 
-      // successful
-      callback(null);
-
       socket.join(roomId);
       this.listenForPlayerEvents(socket);
 
       this.emitUpdatePlayers(roomId);
+
+      // successful
+      callback(null);
     } catch (error) {
       // unsuccessful
       callback(error.message);
@@ -116,7 +116,6 @@ class SocketServerInterface {
   }
 
   handleHostDisconnect(socket) {
-    console.log('in disconnecting', socket.id);
     this.emitHostDisconnect(socket);
     this.handleEndGame(socket, () => {});
   }
