@@ -1,5 +1,5 @@
 # Deployment
-This article outlines the details about deploying to OuterGameSpace to a hosting service.
+This article outlines the details about deploying OuterGameSpace to a hosting service.
 
 Currently, OuterGameSpace is deploying on [DigitalOcean](https://www.digitalocean.com/). [Heroku](http://www.heroku.com) also is an option, but is facing issues of dropped connections at the moment.
 
