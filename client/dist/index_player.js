@@ -29164,6 +29164,7 @@ var App = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      console.log('[PLAYER] Component mounted');
       /* SOCKET EVENT LISTENERS */
       _socketClientInterface2.default.on('nextQuestion', this.nextQuestion);
       _socketClientInterface2.default.on('showAnswer', function () {
@@ -29180,6 +29181,7 @@ var App = function (_React$Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
+      console.log('[PLAYER] Component unmounted');
       /* SOCKET EVENT LISTENERS */
       _socketClientInterface2.default.removeAllListeners('nextQuestion');
       _socketClientInterface2.default.removeAllListeners('showAnswer');
@@ -29209,6 +29211,7 @@ var App = function (_React$Component) {
   }, {
     key: 'hostDisconnectHandler',
     value: function hostDisconnectHandler() {
+      console.log('[PLAYER] Host disconnected');
       this.setScreen('hostDisconnect');
     }
   }, {

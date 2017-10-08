@@ -22,6 +22,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    console.log('[PLAYER] Component mounted');
     /* SOCKET EVENT LISTENERS */
     io.on('nextQuestion', this.nextQuestion);
     io.on('showAnswer', () => this.setScreen('roundScores'));
@@ -31,6 +32,7 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log('[PLAYER] Component unmounted');
     /* SOCKET EVENT LISTENERS */
     io.removeAllListeners('nextQuestion');
     io.removeAllListeners('showAnswer');
@@ -56,6 +58,7 @@ class App extends React.Component {
   }
 
   hostDisconnectHandler() {
+    console.log('[PLAYER] Host disconnected');
     this.setScreen('hostDisconnect');
   }
 
