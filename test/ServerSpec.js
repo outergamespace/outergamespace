@@ -39,7 +39,6 @@ describe('Server', () => {
     it('Should serve presenter js file', (done) => {
       request(server)
         .get('/dist/index_presenter.js')
-        .expect('Content-Type', /application\/javascript/)
         .expect(200)
         .end(done);
     });
@@ -47,7 +46,6 @@ describe('Server', () => {
     it('Should serve player js file', (done) => {
       request(server)
         .get('/dist/index_player.js')
-        .expect('Content-Type', /application\/javascript/)
         .expect(200)
         .end(done);
     });
