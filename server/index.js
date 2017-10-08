@@ -8,9 +8,9 @@ const SocketServerInterface = require('../socket/socketServerInterface.js');
 /* SERVER SETUP */
 
 const ioOptions = {
-  transports: ['websocket'],
+  // transports: ['websocket'],
   forceNew: true,
-  reconnection: false,
+  reconnection: true,
 };
 const io = new SocketServerInterface(server, ioOptions);
 
