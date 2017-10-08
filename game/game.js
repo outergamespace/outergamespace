@@ -5,6 +5,11 @@ const Player = require('./player.js');
 const POINTS_PER_QS = 10;
 const MAX_PLAYERS = 4;
 
+/**
+ * Shuffle the answers of a given question
+ * @param {Object} representing the question
+ * @return {Array} 4 answers in random order
+ */
 const scrambleAnswers = question => (
   _.shuffle([
     question.correct_ans,
@@ -78,8 +83,19 @@ class Game {
    * Adds a player to the game
    * @param {string} socketId - the socket id of the player to be added to the current game
    * @param {string} username - the username of the player to be added to the current game
+   * @throws if username is already taken in the game
+   * @throws if the room is already full
+   * @throws if the game has already started
    */
   addPlayer(socketId, username) {
+    if (this.hasPlayer(username)) {
+      throw new Error('Username already taken');
+    } else if (this.isFull()) {
+      throw new Error('The room is full');
+    } else if (this.hasStarted()) {
+      throw new Error('The game has already started');
+    }
+
     this.players[socketId] = new Player(username);
   }
 
@@ -89,6 +105,14 @@ class Game {
    */
   removePlayer(socketId) {
     delete this.players[socketId];
+  }
+
+  /**
+   * Gets the the player Objects and sorts them by their usernames
+   * @return {Array} all player Objects sorted in alphabetical order of their usernames
+   */
+  getPlayers() {
+    return _.sortBy(_.values(this.players), 'username');
   }
 
   /**
@@ -140,27 +164,11 @@ class Game {
   }
 
   /**
-   * Gets the list of players who have submitted an answer for the current question
-   * @return {Array} all player Objects who have submitted an answer for the current question
-   */
-  // getAnsweredPlayers() {
-  //   return this.players.filter(player => player.answered);
-  // }
-
-  /**
    * Checks to see if all players have submitted their answers
    * @return {boolean} if all players have submitted their answers
    */
   allAnswered() {
     return _.values(this.players).every(player => player.answered);
-  }
-
-  /**
-   * Gets the the player Objects and sorts them by their usernames
-   * @return {Array} all player Objects sorted in alphabetical order of their usernames
-   */
-  getPlayers() {
-    return _.sortBy(_.values(this.players), 'username');
   }
 }
 
