@@ -116,6 +116,7 @@ class SocketServerInterface {
   }
 
   handleHostDisconnect(socket) {
+    console.log('in disconnecting', socket.id);
     this.emitHostDisconnect(socket);
     this.handleEndGame(socket, () => {});
   }

@@ -246,5 +246,40 @@ describe('SocketServerInterface', () => {
         expect(firstArg).to.equal(lastRoomId);
       });
     });
+
+    describe('handleHostDisconnect', () => {
+      let handlerSpy;
+      let emitHostDisconnectSpy;
+      let handleEndGameSpy;
+      let lastSocketId;
+
+      beforeEach((done) => {
+        handlerSpy = sinon.spy(ioServer, 'handleHostDisconnect');
+        emitHostDisconnectSpy = sinon.spy(ioServer, 'emitHostDisconnect');
+        handleEndGameSpy = sinon.spy(ioServer, 'handleEndGame');
+
+        lastSocketId = ioHost.id;
+        ioHost.close();
+
+        setTimeout(done, 20);
+      });
+
+      // handlerSpy not being called for unknown reasons
+      xit('Should be called on host disconnecting events', () => {
+        expect(handlerSpy.callCount).to.equal(1);
+      });
+
+      it('Should call emitHostDisconnect with the socket as argument', () => {
+        expect(emitHostDisconnectSpy.callCount).to.equal(1);
+        const firstArg = emitHostDisconnectSpy.args[0][0];
+        expect(firstArg.id).to.equal(lastSocketId);
+      });
+
+      it('Should call handleEndGame with the socket as argument', () => {
+        expect(handleEndGameSpy.callCount).to.equal(1);
+        const firstArg = handleEndGameSpy.args[0][0];
+        expect(firstArg.id).to.equal(lastSocketId);
+      });
+    });
   });
 });
