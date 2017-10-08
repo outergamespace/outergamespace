@@ -25,7 +25,11 @@ describe('Trivia', () => {
 
     it('Should create rooms with unique room codes at every call', () => {
       let roomId;
-      for (let i = 0; i < 2000; i += 1) {
+
+      // for faster testing speed:
+      for (let i = 0; i < 100; i += 1) {
+      // for more thorough testing:
+      // for (let i = 0; i < 2000; i += 1) {
         roomId = trivia.createRoom();
         expect(trivia.games[roomId]).to.be.an.instanceof(Game);
         expect(Object.keys(trivia.games)).to.have.lengthOf(i + 1);
