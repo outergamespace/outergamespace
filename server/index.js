@@ -36,4 +36,4 @@ app.get('/join', (req, res) => {
 });
 
 // Export for testing
-module.exports = server;
+module.exports = app;
