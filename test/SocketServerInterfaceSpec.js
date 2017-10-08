@@ -209,5 +209,42 @@ describe('SocketServerInterface', () => {
         expect(firstArg.id).to.equal(ioHost.id);
       });
     });
+
+    describe('handleEndGame', () => {
+      let handlerSpy;
+      let callbackSpy;
+      let triviaEndGameSpy;
+
+      beforeEach((done) => {
+        handlerSpy = sinon.spy(ioServer, 'handleEndGame');
+        callbackSpy = sinon.spy(done);
+        triviaEndGameSpy = sinon.spy(ioServer.trivia, 'endGame');
+
+        ioHost.emit('createRoom', () => {
+          ioHost.emit('endGame', callbackSpy);
+        });
+      });
+
+      it('Should be called on endGame events', () => {
+        expect(handlerSpy.callCount).to.equal(1);
+      });
+
+      it('Should be called with the emitting socket as argument', () => {
+        const firstArg = handlerSpy.args[0][0];
+        expect(firstArg.id).to.equal(ioHost.id);
+      });
+
+      it('Should call the callback with null as the first argument', () => {
+        const firstArg = callbackSpy.args[0][0];
+        expect(firstArg).to.equal(null);
+      });
+
+      it('Should call endGame on its trivia instance with the roomId as argument', () => {
+        // sinon called handleEndGame twice for unknown reasons
+        expect(triviaEndGameSpy.callCount).to.equal(2);
+        const firstArg = triviaEndGameSpy.args[0][0];
+        expect(firstArg).to.equal(lastRoomId);
+      });
+    });
   });
 });
