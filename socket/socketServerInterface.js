@@ -102,6 +102,7 @@ class SocketServerInterface {
     if (game.hasNoPlayers()) {
       callback('There are no players in the room');
     } else {
+      callback(null);
       this.emitNextQuestion(socket);
     }
   }
@@ -116,7 +117,7 @@ class SocketServerInterface {
 
   handleHostDisconnect(socket) {
     this.emitHostDisconnect(socket);
-    this.handleEndGame(socket);
+    this.handleEndGame(socket, () => {});
   }
 
   /* EVENT HANDLERS - PLAYER */
