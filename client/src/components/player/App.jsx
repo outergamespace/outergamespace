@@ -1,7 +1,7 @@
 import React from 'react';
 import Join from './Join';
-import Wait from './Wait';
 import Question from './Question';
+import TextScreen from './TextScreen';
 import Score from './Score';
 import io from '../../../../socket/socketClientInterface';
 
@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'question',
+      screen: 'join',
       question: '',
       answers: [],
     };
@@ -62,7 +62,12 @@ class App extends React.Component {
 
   render() {
     // const { screen, question, answers } = this.state;
-    let screen = 'question';
+    const waitText = 'Please wait for the game to begin';
+    const answeredText = 'You have submitted your answer';
+    const scoreText = 'Check out the main screen!';
+    const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
+
+    let screen = 'roundScores';
     let question = 'In what year did James Madison serve as the President of the United States?';
     let answers = [
       '1234-1234',
@@ -78,21 +83,19 @@ class App extends React.Component {
     if (screen === 'join') {
       return <Join setWaitScreen={() => this.setScreen('wait')} />;
     } else if (screen === 'wait') {
-      return <Wait />;
+      return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
       return <Question question={question} answers={answers} setScreen={this.setScreen} />;
     } else if (screen === 'answered') {
-      return <div className="center">You have submitted your answer</div>;
+      return <TextScreen text={answeredText} />;
     } else if (screen === 'finalScores') {
       return <Score final leaveGame={this.leaveGame} />;
     } else if (screen === 'roundScores') {
-      return <Score />;
+      return <TextScreen text={scoreText} />;
     } else if (screen === 'hostDisconnect') {
-      return <div>The game ended unexpectedly because we lost connection with the host</div>;
+      return <TextScreen text={hostDisconnectText} />;
     }
-
-    // if input is not one of the expected strings
-    return <div>Error: unknown screen state: {screen}</div>;
+    return <div />;
   }
 }
 

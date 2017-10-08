@@ -163,6 +163,15 @@ button {
 	font-weight: bold;
 }
 
+/* ===========
+ * TEXT SCREEN
+ * ===========
+ */
+
+.text-screen {
+	line-height: 1.5em;
+}
+
 /*body {
 	font-size: 2em;
 	font-family: Arial;
