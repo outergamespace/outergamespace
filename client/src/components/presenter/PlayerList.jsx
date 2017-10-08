@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayerListEntry from './PlayerListEntry.jsx';
+import PlayerListEntry from './PlayerListEntry';
 
 const propTypes = {
   players: PropTypes.arrayOf(PropTypes.object).isRequired,

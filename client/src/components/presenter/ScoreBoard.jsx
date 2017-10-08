@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
-import ScoreBoardEntry from './ScoreBoardEntry.jsx';
+import ScoreBoardEntry from './ScoreBoardEntry';
 
 const propTypes = {
   players: PropTypes.arrayOf(PropTypes.object).isRequired,

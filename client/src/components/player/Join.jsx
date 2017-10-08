@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import io from '../../../../socket/socketClientInterface.js';
+import io from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   setWaitScreen: PropTypes.func.isRequired,
