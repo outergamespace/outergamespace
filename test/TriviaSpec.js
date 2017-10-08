@@ -13,7 +13,7 @@ describe('Trivia', () => {
   describe('Should create a trivia instance', () => {
     it('Should have an empty game object', () => {
       expect(trivia.games).to.deep.equal({});
-    })
+    });
   });
 
   describe('Should create new rooms', () => {
@@ -24,12 +24,13 @@ describe('Trivia', () => {
     });
 
     it('Should create rooms with unique room codes at every call', () => {
+      let roomId;
       for (let i = 0; i < 2000; i += 1) {
-        let roomId = trivia.createRoom();
+        roomId = trivia.createRoom();
         expect(trivia.games[roomId]).to.be.an.instanceof(Game);
         expect(Object.keys(trivia.games)).to.have.lengthOf(i + 1);
       }
-    })
+    });
   });
 
   describe('Should allow users to join a room', () => {
@@ -52,7 +53,7 @@ describe('Trivia', () => {
       const joinWithEmptyUsername = () => trivia.joinGame('1', roomId, '');
       expect(joinWithEmptyUsername).to.throw(/provide.*username/);
     });
-    
+
     it('Should throw error if room does not exists', () => {
       const roomId = trivia.createRoom();
       trivia.endGame(roomId);
