@@ -29,6 +29,27 @@ class App extends React.Component {
     io.on('showRoundScores', () => this.setScreen('roundScores'));
     io.on('showFinalScores', () => this.setScreen('finalScores'));
     io.on('hostDisconnect', this.hostDisconnectHandler);
+
+    io.on('disconnect', () => {
+      console.log('[PLAYER] DISCONNECTED');
+      //io.open();
+    });
+    io.on('reconnect', () => {
+      console.log('[PLAYER] RECONNECT');
+      //io.open();
+    });
+    io.on('reconnect_attempt', (attemptNumber) => {
+      console.log('[PLAYER] RECONNECT_ATTEMPT:', attemptNumber);
+      //io.open();
+    });
+    io.on('reconnect_error', () => {
+      console.log('[PLAYER] RECONNECT ERROR');
+      //io.open();
+    });
+    io.on('reconnect_failed', () => {
+      console.log('[PLAYER] RECONNECT FAILED');
+      //io.open();
+    });
   }
 
   componentWillUnmount() {

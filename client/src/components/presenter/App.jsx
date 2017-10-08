@@ -33,6 +33,27 @@ class App extends React.Component {
     io.on('nextQuestion', this.nextQuestion);
     io.on('showRoundScores', this.showRoundScores);
     io.on('showFinalScores', this.showFinalScores);
+
+    io.on('disconnect', () => {
+      console.log('[PRESENTER] DISCONNECTED');
+      //io.open();
+    });
+    io.on('reconnect', () => {
+      console.log('[PRESENTER] RECONNECT');
+      //io.open();
+    });
+    io.on('reconnect_attempt', (attemptNumber) => {
+      console.log('[PRESENTER] RECONNECT_ATTEMPT:', attemptNumber);
+      //io.open();
+    });
+    io.on('reconnect_error', () => {
+      console.log('[PRESENTER] RECONNECT ERROR');
+      //io.open();
+    });
+    io.on('reconnect_failed', () => {
+      console.log('[PRESENTER] RECONNECT FAILED');
+      //io.open();
+    });
   }
 
   componentWillUnmount() {
