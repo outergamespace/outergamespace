@@ -50,7 +50,7 @@ class Question extends React.Component {
         </div>
 
         <div className="screen-sidebar">
-          <Timer seconds={12} />
+          <Timer seconds={20} counting={correctAns === ''} />
 
           <div className="screen-middle screen-bordered">
             <AnsweredPlayerList players={players} />

@@ -6,6 +6,7 @@ const WARNING_TIME = 10;
 
 const propTypes = {
   seconds: PropTypes.number.isRequired,
+  counting: PropTypes.bool.isRequired,
 };
 
 class Timer extends React.Component {
@@ -39,8 +40,8 @@ class Timer extends React.Component {
 
   decrementTimer() {
     this.setState((prevState) => {
-      // stop timer when only 1 second remains
-      if (prevState.remainingTime === 1) {
+      // stop timer when only 1 second remains, or when correct answer is shown
+      if (prevState.remainingTime === 1 || !this.props.counting) {
         this.stopTimer();
       }
       return ({
