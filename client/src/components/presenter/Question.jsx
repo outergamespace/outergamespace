@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import AnswerList from './AnswerList';
 import AnsweredPlayerList from './AnsweredPlayerList';
 import Timer from './Timer';
-import io from '../../../../socket/socketClientInterface';
+// import io from '../../../../socket/socketClientInterface';
+const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
 
 const propTypes = {
   question: PropTypes.string.isRequired,
@@ -18,6 +19,9 @@ class Question extends React.Component {
     this.state = {
       correctAns: '',
     };
+
+    /* SOCKET CLIENT INTERFACE */
+    this.socketClientInterface = new SocketClientInterface();
 
     /* METHOD BINDING */
     this.setCorrectAns = this.setCorrectAns.bind(this);

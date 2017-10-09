@@ -61,6 +61,14 @@ class SocketClientInterface {
     this.connection.removeAllListeners('showFinalScores');
   }
 
+  removeListenersForPlayerEvents() {
+    this.connection.removeAllListeners('nextQuestion');
+    this.connection.removeAllListeners('showAnswer');
+    this.connection.removeAllListeners('showRoundScores');
+    this.connection.removeAllListeners('showFinalScores');
+    this.connection.removeAllListeners('hostDisconnect');
+  }
+
   /* EVENT HANDLERS - HOST */
   handleHostUpdatePlayers(players) {
     // TODO: Add some error handling if there was no callback defined

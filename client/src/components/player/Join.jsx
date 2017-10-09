@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import io from '../../../../socket/socketClientInterface';
+// import io from '../../../../socket/socketClientInterface';
+const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
 
 const propTypes = {
   joinGame: PropTypes.func.isRequired,
@@ -14,6 +15,9 @@ class Join extends React.Component {
       roomId: '',
       errMsg: null,
     };
+
+    /* SOCKET CLIENT INTERFACE */
+    this.socketClientInterface = new SocketClientInterface();
 
     /* METHOD BINDING */
     this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -35,7 +39,19 @@ class Join extends React.Component {
 
   joinGame() {
     const { roomId, username } = this.state;
+<<<<<<< HEAD
     io.emit('joinRoom', roomId, username, (errMsg, timePerQuestion) => {
+=======
+    // io.emit('joinRoom', roomId, username, (errMsg) => {
+    //   if (errMsg) {
+    //     this.setState({ errMsg });
+    //   } else {
+    //     // joined game successfully
+    //     this.props.setWaitScreen();
+    //   }
+    // });
+    this.socketClientInterface.connection.emit('joinRoom', roomId, username, (errMsg, timePerQuestion) => {
+>>>>>>> Add additional changes to switch to SocketClientInterface
       if (errMsg) {
         this.setState({ errMsg });
       } else {

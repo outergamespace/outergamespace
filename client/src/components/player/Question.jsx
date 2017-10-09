@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AnswerList from './AnswerList';
 import Timer from './Timer';
-import io from '../../../../socket/socketClientInterface';
+// import io from '../../../../socket/socketClientInterface';
+const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
 
 const propTypes = {
   time: PropTypes.number.isRequired,
@@ -23,6 +24,9 @@ class Question extends React.Component {
       currentAns: '',
     };
 
+    /* SOCKET CLIENT INTERFACE */
+    this.socketClientInterface = new SocketClientInterface();
+
     /* METHOD BINDING */
     this.updateAnswer = this.updateAnswer.bind(this);
     this.sendAnswer = this.sendAnswer.bind(this);
@@ -35,7 +39,10 @@ class Question extends React.Component {
   }
 
   sendAnswer() {
-    io.emit('submitAnswer', this.state.currentAns, () => {
+    // io.emit('submitAnswer', this.state.currentAns, () => {
+    //   this.props.setScreen('answered');
+    // });
+    this.socketClientInterface.connection.emit('submitAnswer', this.state.currentAns, () => {
       this.props.setScreen('answered');
     });
   }

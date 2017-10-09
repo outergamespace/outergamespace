@@ -2,7 +2,8 @@ import React from 'react';
 import Join from './Join';
 import Question from './Question';
 import TextScreen from './TextScreen';
-import io from '../../../../socket/socketClientInterface';
+// import io from '../../../../socket/socketClientInterface';
+const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
 
 class App extends React.Component {
   constructor() {
@@ -14,6 +15,9 @@ class App extends React.Component {
       answers: [],
     };
 
+    /* SOCKET CLIENT INTERFACE */
+    this.socketClientInterface = new SocketClientInterface();
+
     /* METHOD BINDING */
     this.setScreen = this.setScreen.bind(this);
     this.joinGame = this.joinGame.bind(this);
@@ -24,19 +28,27 @@ class App extends React.Component {
 
   componentDidMount() {
     /* SOCKET EVENT LISTENERS */
-    io.on('nextQuestion', this.nextQuestion);
-    io.on('showAnswer', () => this.setScreen('roundScores'));
-    io.on('showRoundScores', () => this.setScreen('roundScores'));
-    io.on('showFinalScores', () => this.setScreen('finalScores'));
-    io.on('hostDisconnect', this.hostDisconnectHandler);
+    // io.on('nextQuestion', this.nextQuestion);
+    // io.on('showAnswer', () => this.setScreen('roundScores'));
+    // io.on('showRoundScores', () => this.setScreen('roundScores'));
+    // io.on('showFinalScores', () => this.setScreen('finalScores'));
+    // io.on('hostDisconnect', this.hostDisconnectHandler);
+    this.socketClientInterface.listenForPlayerEvents();
+    // register the callback handlers
+    this.socketClientInterface.registerCallbackPlayerNextQuestion(this.updatePlayers);
+    this.socketClientInterface.registerCallbackPlayerShowAnswer(this.showAnswer);
+    this.socketClientInterface.registerCallbackPlayerShowRoundScores(this.showRoundScores);
+    this.socketClientInterface.registerCallbackPlayerShowFinalScores(this.showFinalScores);
+    this.socketClientInterface.registerCallbackPlayerHostDisconnect(this.hostDisconnectHandler);
   }
 
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
-    io.removeAllListeners('nextQuestion');
-    io.removeAllListeners('showAnswer');
-    io.removeAllListeners('showRoundScores');
-    io.removeAllListeners('showFinalScores');
+    // io.removeAllListeners('nextQuestion');
+    // io.removeAllListeners('showAnswer');
+    // io.removeAllListeners('showRoundScores');
+    // io.removeAllListeners('showFinalScores');
+    this.socketClientInterface.removeListenersForPlayerEvents();
   }
 
   setScreen(screen) {
@@ -48,6 +60,18 @@ class App extends React.Component {
     this.setScreen('wait');
   }
 
+  showAnswer() {
+    this.setScreen('roundScores');
+  }
+
+  showRoundScores() {
+    this.setScreen('roundScores');
+  }
+
+  showFinalScores() {
+    this.setScreen('finalScores');
+  }
+
   nextQuestion(question) {
     this.setState({
       screen: 'question',
@@ -57,7 +81,10 @@ class App extends React.Component {
   }
 
   leaveGame() {
-    io.emit('leaveGame', () => {
+    // io.emit('leaveGame', () => {
+    //   this.setScreen('join');
+    // });
+    this.socketClientInterface.connection.emit('leaveGame', () => {
       this.setScreen('join');
     });
   }
