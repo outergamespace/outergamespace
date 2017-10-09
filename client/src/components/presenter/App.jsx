@@ -3,7 +3,8 @@ import CreateRoom from './CreateRoom';
 import WaitingRoom from './WaitingRoom';
 import Scoreboard from './Scoreboard';
 import Question from './Question';
-import io from '../../../../socket/socketClientInterface';
+// import io from '../../../../socket/socketClientInterface';
+const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +19,9 @@ class App extends React.Component {
       finalScores: [],
     };
 
+    /* SOCKET CLIENT INTERFACE */
+    this.socketClientInterface = new SocketClientInterface();
+
     /* METHOD BINDING */
     this.setScreen = this.setScreen.bind(this);
     this.createRoom = this.createRoom.bind(this);
@@ -30,10 +34,11 @@ class App extends React.Component {
 
   componentDidMount() {
     /* SOCKET EVENT LISTENERS */
-    io.on('updatePlayers', this.updatePlayers);
-    io.on('nextQuestion', this.nextQuestion);
-    io.on('showRoundScores', this.showRoundScores);
-    io.on('showFinalScores', this.showFinalScores);
+    // io.on('updatePlayers', this.updatePlayers);
+    // io.on('nextQuestion', this.nextQuestion);
+    // io.on('showRoundScores', this.showRoundScores);
+    // io.on('showFinalScores', this.showFinalScores);
+    this.socketClientInterface.listenForHostEvents();
   }
 
   componentWillUnmount() {
