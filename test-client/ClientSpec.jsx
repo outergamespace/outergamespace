@@ -24,7 +24,7 @@ describe('Player', () => {
       wrapper.setProps({
         question: 'Is sleeping optional?',
         answers: ['lots', 'of', 'props', 'here'],
-        setScreen: () =>{},
+        setScreen: () => {},
       });
       expect(wrapper.contains('Is sleeping optional?')).to.equal(true);
     });
