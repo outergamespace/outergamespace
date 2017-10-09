@@ -14,19 +14,34 @@ const defaultProps = {
   restartGame: () => {},
 };
 
-const Scoreboard = ({ players, final, restartGame }) => (
-  <div className="score-board">
-    <h3 className="score-board-title">
-      {final ? 'Final' : ''} Results
-    </h3>
-    <table>
-      {_.sortBy(players, 'score')
-        .reverse()
-        .map(player => (<ScoreboardEntry key={player.username} player={player} />))}
-    </table>
-    {final ? <button onClick={restartGame} >Start New Game</button> : ''}
-  </div>
-);
+const Scoreboard = ({ players, final, restartGame }) => {
+  const sortedPlayers = _.sortBy(players, 'score').reverse();
+  return (
+    <div className="screen">
+      <div className="screen-top" >{final && 'Final'} Scoreboard</div>
+
+      <div className="screen-middle" >
+        <div className="scoreboard">
+          <div className="scoreboard-col">
+            {sortedPlayers.map(player => (
+              <div key={player.username} className="scoreboard-row" >{player.username}</div>
+            ))}
+          </div>
+
+          <div className="scoreboard-col">
+            {sortedPlayers.map(player => (
+              <div key={player.username} className="scoreboard-row" >{player.score}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="screen-bottom">
+        {final && <button onClick={restartGame} >New Game</button>}
+      </div>
+    </div>
+  );
+};
 
 Scoreboard.propTypes = propTypes;
 Scoreboard.defaultProps = defaultProps;

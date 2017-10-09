@@ -31,7 +31,7 @@ class WaitingRoom extends React.Component {
       <div className="screen">
         <div className="screen-top" >Room Code: {roomId}</div>
 
-        <div className="screen-middle player-list" >
+        <div className="screen-middle" >
           {
             players.length === 0
               ? 'Waiting for players to join...'

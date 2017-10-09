@@ -96,7 +96,7 @@ class App extends React.Component {
 
   render() {
     // const { screen, roomId, players, question, answers, finalScores } = this.state;
-    let screen = 'roundScores';
+    let screen = 'finalScores';
     let players = [
       {username: 'alan', score: 0, answered: false},
       {username: 'belle', score: 10, answered: false},
@@ -106,9 +106,10 @@ class App extends React.Component {
       {username: 'freddy', score: 20, answered: false},
       {username: 'giselle', score: 0, answered: false},
       {username: 'herbert', score: 30, answered: false},
-      {username: 'ivy', score: 50, answered: false},
-      {username: 'jessica', score: 0, answered: false},
+      // {username: 'ivy', score: 50, answered: false},
+      // {username: 'jessica', score: 0, answered: false},
     ];
+    let finalScores = players;
     // let roomId = 'ABCD';
 
     if (screen === 'create') {
