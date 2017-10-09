@@ -2,7 +2,6 @@ import React from 'react';
 import Join from './Join';
 import Question from './Question';
 import TextScreen from './TextScreen';
-import Score from './Score';
 import io from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
@@ -61,24 +60,24 @@ class App extends React.Component {
   }
 
   render() {
-    // const { screen, question, answers } = this.state;
+    const { screen, question, answers } = this.state;
     const waitText = 'Please wait for the game to begin';
     const answeredText = 'You have submitted your answer';
     const scoreText = 'Check out the main screen!';
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
-    let screen = 'roundScores';
-    let question = 'In what year did James Madison serve as the President of the United States?';
-    let answers = [
-      '1234-1234',
-      '1234-1235',
-      '1234-1236',
-      '1234-1237',
-    ];
-    let players = [
-      { username: 'alan' },
-      { username: 'belle' },
-    ];
+    // let screen = 'finalScores';
+    // let question = 'In what year did James Madison serve as the President of the United States?';
+    // let answers = [
+    //   '1234-1234',
+    //   '1234-1235',
+    //   '1234-1236',
+    //   '1234-1237',
+    // ];
+    // let players = [
+    //   { username: 'alan' },
+    //   { username: 'belle' },
+    // ];
 
     if (screen === 'join') {
       return <Join setWaitScreen={() => this.setScreen('wait')} />;
@@ -88,10 +87,10 @@ class App extends React.Component {
       return <Question question={question} answers={answers} setScreen={this.setScreen} />;
     } else if (screen === 'answered') {
       return <TextScreen text={answeredText} />;
-    } else if (screen === 'finalScores') {
-      return <Score final leaveGame={this.leaveGame} />;
     } else if (screen === 'roundScores') {
       return <TextScreen text={scoreText} />;
+    } else if (screen === 'finalScores') {
+      return <TextScreen text={scoreText} btnText={'Play Again'} btnOnClick={this.leaveGame} />;
     } else if (screen === 'hostDisconnect') {
       return <TextScreen text={hostDisconnectText} />;
     }
