@@ -1,5 +1,4 @@
-<!-- ![OuterGameSpace Logo](/images/outergamespace_logo_small.png) -->
-<p align="center"><img src="/images/outergamespace_logo_small.png" align="left" height="50%" width="50%" ></p>
+<p align="center"><img src="/images/outergamespace_logo_small.png" height="50%" width="50%" ></p>
 
 # OuterGameSpace [![Build Status](https://travis-ci.org/outergamespace/outergamespace.svg?branch=develop)](https://travis-ci.org/outergamespace/outergamespace)
 
