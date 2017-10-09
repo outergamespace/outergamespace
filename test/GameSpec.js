@@ -27,8 +27,8 @@ describe('Game', () => {
       expect(game.answeredPlayers).to.deep.equal([]);
     });
 
-    it('Should have an array of 5 questions', () => {
-      expect(game.questions.length).to.equal(5);
+    it('Should have an array of 10 questions', () => {
+      expect(game.questions.length).to.equal(10);
 
       game.questions.forEach((question) => {
         expect(question.question).to.not.equal('');
@@ -37,6 +37,82 @@ describe('Game', () => {
         expect(question.incorrect_ans_2).to.not.equal('');
         expect(question.incorrect_ans_3).to.not.equal('');
       });
+    });
+  });
+
+  describe('Should store game configurations', () => {
+    it('Should have default properties when no configurations are provided at instantiation', () => {
+      expect(game.config.noOfQuestions).to.equal(10);
+      expect(game.config.timeForQuestion).to.equal(15);
+      expect(game.config.maxPlayers).to.equal(6);
+    });
+
+    it('Should store custom configurations if provided at instantiation', () => {
+      game = new Game({
+        noOfQuestions: 23,
+        timeForQuestion: 17,
+        maxPlayers: 3,
+      });
+      expect(game.config.noOfQuestions).to.equal(23);
+      expect(game.config.timeForQuestion).to.equal(17);
+      expect(game.config.maxPlayers).to.equal(3);
+    });
+
+    it('Should throw an error if noOfQuestions configuration is out of range', () => {
+      let errConfig;
+
+      errConfig = () => {
+        game = new Game({ noOfQuestions: 0 });
+      };
+      expect(errConfig).to.throw(/between/);
+
+      errConfig = () => {
+        game = new Game({ noOfQuestions: -3 });
+      };
+      expect(errConfig).to.throw(/between/);
+
+      errConfig = () => {
+        game = new Game({ noOfQuestions: 32 });
+      };
+      expect(errConfig).to.throw(/between/);
+    });
+
+    it('Should throw an error if timeForQuestions configuration is out of range', () => {
+      let errConfig;
+
+      errConfig = () => {
+        game = new Game({ timeForQuestion: 0 });
+      };
+      expect(errConfig).to.throw(/between/);
+
+      errConfig = () => {
+        game = new Game({ timeForQuestion: -1 });
+      };
+      expect(errConfig).to.throw(/between/);
+
+      errConfig = () => {
+        game = new Game({ timeForQuestion: 49 });
+      };
+      expect(errConfig).to.throw(/between/);
+    });
+  
+    it('Should throw an error if timeForQuestions configuration is out of range', () => {
+      let errConfig;
+
+      errConfig = () => {
+        game = new Game({ maxPlayers: 0 });
+      };
+      expect(errConfig).to.throw(/between/);
+
+      errConfig = () => {
+        game = new Game({ maxPlayers: -4 });
+      };
+      expect(errConfig).to.throw(/between/);
+
+      errConfig = () => {
+        game = new Game({ maxPlayers: 12 });
+      };
+      expect(errConfig).to.throw(/between/);
     });
   });
 
@@ -50,6 +126,9 @@ describe('Game', () => {
     });
 
     it('Should check whether the game is full with 4 players', () => {
+      // override default game config
+      game.config.maxPlayers = 4;
+
       expect(game.isFull()).to.equal(false);
       game.addPlayer('1', 'a');
       game.addPlayer('2', 'b');
@@ -70,8 +149,8 @@ describe('Game', () => {
       expect(game.hasStarted()).to.equal(true);
     });
 
-    it('Should check whether the game is at the last question after 5 questions', () => {
-      for (let i = 0; i < 5; i += 1) {
+    it('Should check whether the game is at the last question after 10 questions', () => {
+      for (let i = 0; i < 10; i += 1) {
         expect(game.atLastQuestion()).to.equal(false);
         game.nextQuestion();
       }
@@ -103,6 +182,9 @@ describe('Game', () => {
     });
 
     it('Should throw an error if the game is full with 4 players', () => {
+      // override default game config
+      game.config.maxPlayers = 4;
+
       game.addPlayer('denise', 'denise');
       const addNewPlayer = () => game.addPlayer('eddie', 'eddie');
       expect(addNewPlayer).to.throw(/full/);
