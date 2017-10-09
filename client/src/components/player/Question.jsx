@@ -10,6 +10,7 @@ const propTypes = {
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
   setScreen: PropTypes.func,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
 const defaultProps = {
@@ -25,7 +26,7 @@ class Question extends React.Component {
     };
 
     /* SOCKET CLIENT INTERFACE */
-    this.socketClientInterface = new SocketClientInterface();
+    // this.socketClientInterface = new SocketClientInterface();
 
     /* METHOD BINDING */
     this.updateAnswer = this.updateAnswer.bind(this);
@@ -42,7 +43,7 @@ class Question extends React.Component {
     // io.emit('submitAnswer', this.state.currentAns, () => {
     //   this.props.setScreen('answered');
     // });
-    this.socketClientInterface.connection.emit('submitAnswer', this.state.currentAns, () => {
+    this.props.socketClientInterface.connection.emit('submitAnswer', this.state.currentAns, () => {
       this.props.setScreen('answered');
     });
   }

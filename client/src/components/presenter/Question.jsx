@@ -11,6 +11,7 @@ const propTypes = {
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
   time: PropTypes.number.isRequired,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
 class Question extends React.Component {
@@ -21,7 +22,7 @@ class Question extends React.Component {
     };
 
     /* SOCKET CLIENT INTERFACE */
-    this.socketClientInterface = new SocketClientInterface();
+    // this.socketClientInterface = new SocketClientInterface();
 
     /* METHOD BINDING */
     this.setCorrectAns = this.setCorrectAns.bind(this);
@@ -29,12 +30,16 @@ class Question extends React.Component {
 
   componentDidMount() {
     /* SOCKET EVENT LISTENERS */
-    io.on('showAnswer', this.setCorrectAns);
+    // io.on('showAnswer', this.setCorrectAns);
+
+    // this.props.socketClientInterface.listenForPlayerEvents();
+    // register callbacks
+    this.props.socketClientInterface.registerCallbackHostShowAnswer(this.setCorrectAns);
   }
 
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
-    io.removeAllListeners('showAnswer');
+    // io.removeAllListeners('showAnswer');
   }
 
   setCorrectAns(correctAns) {

@@ -131,7 +131,13 @@ class App extends React.Component {
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
     } else if (screen === 'wait') {
-      return <WaitingRoom players={players} roomId={roomId} />;
+      return (
+        <WaitingRoom
+          players={players}
+          roomId={roomId}
+          socketClientInterface={this.socketClientInterface}
+        />
+      );
     } else if (screen === 'question') {
       return (
         <Question
@@ -139,6 +145,7 @@ class App extends React.Component {
           answers={answers}
           players={players}
           time={gameConfig.timePerQuestion}
+          socketClientInterface={this.socketClientInterface}
         />
       );
     } else if (screen === 'roundScores') {

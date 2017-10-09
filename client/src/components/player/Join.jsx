@@ -39,9 +39,6 @@ class Join extends React.Component {
 
   joinGame() {
     const { roomId, username } = this.state;
-<<<<<<< HEAD
-    io.emit('joinRoom', roomId, username, (errMsg, timePerQuestion) => {
-=======
     // io.emit('joinRoom', roomId, username, (errMsg) => {
     //   if (errMsg) {
     //     this.setState({ errMsg });
@@ -51,7 +48,6 @@ class Join extends React.Component {
     //   }
     // });
     this.socketClientInterface.connection.emit('joinRoom', roomId, username, (errMsg, timePerQuestion) => {
->>>>>>> Add additional changes to switch to SocketClientInterface
       if (errMsg) {
         this.setState({ errMsg });
       } else {

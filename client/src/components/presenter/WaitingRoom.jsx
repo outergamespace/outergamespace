@@ -6,6 +6,7 @@ const SocketClientInterface = require('../../../../socket/socketClientInterface.
 const propTypes = {
   roomId: PropTypes.string.isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
 class WaitingRoom extends React.Component {
@@ -16,7 +17,7 @@ class WaitingRoom extends React.Component {
     };
 
     /* SOCKET CLIENT INTERFACE */
-    this.socketClientInterface = new SocketClientInterface();
+    // this.socketClientInterface = new SocketClientInterface();
 
     /* METHOD BINDING */
     this.startGame = this.startGame.bind(this);
@@ -26,7 +27,7 @@ class WaitingRoom extends React.Component {
     // io.emit('startGame', (errMsg) => {
     //   this.setState({ errMsg });
     // });
-    this.socketClientInterface.connection.emit('startGame', (errMsg) => {
+    this.props.socketClientInterface.connection.emit('startGame', (errMsg) => {
       this.setState({ errMsg });
     });
   }

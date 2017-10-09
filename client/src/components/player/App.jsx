@@ -23,7 +23,16 @@ class App extends React.Component {
     this.joinGame = this.joinGame.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
+    this.showAnswer = this.showAnswer.bind(this);
+    this.showRoundScores = this.showRoundScores.bind(this);
+    this.showFinalScores = this.showFinalScores.bind(this);
     this.hostDisconnectHandler = this.hostDisconnectHandler.bind(this);
+
+    // this.socketClientInterface.registerCallbackPlayerNextQuestion(this.nextQuestion);
+    // this.socketClientInterface.registerCallbackPlayerShowAnswer(this.showAnswer);
+    // this.socketClientInterface.registerCallbackPlayerShowRoundScores(this.showRoundScores);
+    // this.socketClientInterface.registerCallbackPlayerShowFinalScores(this.showFinalScores);
+    // this.socketClientInterface.registerCallbackPlayerHostDisconnect(this.hostDisconnectHandler);
   }
 
   componentDidMount() {
@@ -35,7 +44,7 @@ class App extends React.Component {
     // io.on('hostDisconnect', this.hostDisconnectHandler);
     this.socketClientInterface.listenForPlayerEvents();
     // register the callback handlers
-    this.socketClientInterface.registerCallbackPlayerNextQuestion(this.updatePlayers);
+    this.socketClientInterface.registerCallbackPlayerNextQuestion(this.nextQuestion);
     this.socketClientInterface.registerCallbackPlayerShowAnswer(this.showAnswer);
     this.socketClientInterface.registerCallbackPlayerShowRoundScores(this.showRoundScores);
     this.socketClientInterface.registerCallbackPlayerShowFinalScores(this.showFinalScores);
@@ -101,7 +110,7 @@ class App extends React.Component {
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
     if (screen === 'join') {
-      return <Join joinGame={this.joinGame} />;
+      return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
       return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
@@ -111,6 +120,7 @@ class App extends React.Component {
           answers={answers}
           setScreen={this.setScreen}
           time={timePerQuestion}
+          socketClientInterface={this.socketClientInterface}
         />
       );
     } else if (screen === 'answered') {
