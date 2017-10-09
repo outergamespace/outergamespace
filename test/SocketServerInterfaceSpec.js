@@ -173,7 +173,7 @@ describe('SocketServerInterface', () => {
       });
     });
 
-    describe('handleStartGame', () => {
+    xdescribe('handleStartGame', () => {
       let handlerSpy;
       let unsuccessfulCallbackSpy;
       let callbackSpy;
@@ -228,7 +228,7 @@ describe('SocketServerInterface', () => {
       });
     });
 
-    describe('handleEndGame', () => {
+    xdescribe('handleEndGame', () => {
       let handlerSpy;
       let callbackSpy;
       let triviaEndGameSpy;
