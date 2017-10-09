@@ -48,7 +48,7 @@ describe('SocketServerInterface', () => {
         listenForHostEventsSpy = sinon.spy(ioServer, 'listenForHostEvents');
         triviaCreateRoomSpy = sinon.spy(ioServer.trivia, 'createRoom');
 
-        ioHost.emit('createRoom', callbackSpy);
+        ioHost.emit('createRoom', {}, callbackSpy);
       });
 
       afterEach(() => {
@@ -80,10 +80,10 @@ describe('SocketServerInterface', () => {
         expect(firstArg.id).to.equal(ioHost.id);
       });
 
-      it('Should call createRoom on its trivia instance with the socketId as argument', () => {
+      it('Should call createRoom on its trivia instance with the config object as argument', () => {
         expect(triviaCreateRoomSpy.callCount).to.equal(1);
         const firstArg = triviaCreateRoomSpy.args[0][0];
-        expect(firstArg).to.equal(ioHost.id);
+        expect(firstArg).to.deep.equal({});
       });
     });
 
@@ -105,7 +105,7 @@ describe('SocketServerInterface', () => {
         triviaJoinGameSpy = sinon.spy(ioServer.trivia, 'joinGame');
         unsuccessfulCallbackSpy = sinon.spy(() => done());
 
-        ioHost.emit('createRoom', (err, roomId) => {
+        ioHost.emit('createRoom', {}, (err, roomId) => {
           lastRoomId = roomId;
           ioClient.emit('joinRoom', roomId, 'belle', callbackSpy);
           ioClient.emit('joinRoom', roomId, 'belle', unsuccessfulCallbackSpy);
@@ -167,7 +167,7 @@ describe('SocketServerInterface', () => {
     let lastRoomId;
 
     beforeEach((done) => {
-      ioHost.emit('createRoom', (err, roomId) => {
+      ioHost.emit('createRoom', {}, (err, roomId) => {
         lastRoomId = roomId;
         done();
       });
