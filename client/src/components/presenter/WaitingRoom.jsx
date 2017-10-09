@@ -8,7 +8,7 @@ const propTypes = {
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-class PreGame extends React.Component {
+class WaitingRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,6 +40,6 @@ class PreGame extends React.Component {
   }
 }
 
-PreGame.propTypes = propTypes;
+WaitingRoom.propTypes = propTypes;
 
-export default PreGame;
+export default WaitingRoom;

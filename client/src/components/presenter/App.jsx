@@ -1,6 +1,6 @@
 import React from 'react';
 import CreateRoom from './CreateRoom';
-import PreGame from './PreGame';
+import WaitingRoom from './WaitingRoom';
 import ScoreBoard from './ScoreBoard';
 import Question from './Question';
 import io from '../../../../socket/socketClientInterface';
@@ -100,7 +100,7 @@ class App extends React.Component {
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
     } else if (screen === 'wait') {
-      return <PreGame players={players} roomId={roomId} />;
+      return <WaitingRoom players={players} roomId={roomId} />;
     } else if (screen === 'question') {
       return <Question question={question} answers={answers} players={players} />;
     } else if (screen === 'roundScores') {
