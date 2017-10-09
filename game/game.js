@@ -3,10 +3,27 @@ const db = require('../db/index.js');
 const Player = require('./player.js');
 
 const POINTS_PER_QS = 10;
-const MAX_PLAYERS = 4;
-const DEFAULT_CONFIG = {
-  timeForQuestion: 15,
-  maxPlayers: 6,
+
+const CONFIG = {
+  noOfQuestions: { min: 1, max: 30, default: 10 },
+  timeForQuestion: { min: 1, max: 30, default: 15 },
+  maxPlayers: { min: 1, max: 10, default: 6 },
+};
+const DEFAULT_CONFIG = {};
+Object.keys(CONFIG).forEach((k) => {
+  DEFAULT_CONFIG[k] = CONFIG[k].default;
+});
+
+const checkConfigRange = (config) => {
+  Object.keys(config).forEach((key) => {
+    if (CONFIG[key]) {
+      const val = config[key];
+      const { min, max } = CONFIG[key];
+      if (val < min || val > max) {
+        throw new Error(`Must be between ${min} and ${max}`);
+      }
+    }
+  });
 };
 
 /**
@@ -40,16 +57,16 @@ class Game {
     this.currentQuestionIndex = -1;
     this.answeredPlayers = [];
 
-    const { timeForQuestion, maxPlayers } = config;
-    if (timeForQuestion <= 0 || timeForQuestion > 30) {
-      throw new Error('Time for each question must be between 1-30 seconds');
-    } else if (maxPlayers <= 0 || maxPlayers > 10) {
-      throw new Error('Maximum number of players must be between 1-10');
-    }
-    this.config = {
-      timeForQuestion: timeForQuestion || DEFAULT_CONFIG.timeForQuestion,
-      maxPlayers: maxPlayers || DEFAULT_CONFIG.maxPlayers,
-    };
+    checkConfigRange(config);
+    this.config = Object.assign({}, DEFAULT_CONFIG, config);
+  }
+
+  /**
+   * Get the time allowed for each question
+   * @return {number} number of seconds allowed for each question
+   */
+  getTimeForQuestion() {
+    return this.config.timeForQuestion;
   }
 
   /**
@@ -65,7 +82,7 @@ class Game {
    * @return {boolean} if game is full
    */
   isFull() {
-    return Object.keys(this.players).length >= MAX_PLAYERS;
+    return Object.keys(this.players).length >= this.config.maxPlayers;
   }
 
   /**
