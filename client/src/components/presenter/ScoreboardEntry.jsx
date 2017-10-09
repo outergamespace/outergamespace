@@ -10,7 +10,7 @@ const propTypes = {
     .isRequired,
 };
 
-const ScoreBoardEntry = ({ player }) => (
+const ScoreboardEntry = ({ player }) => (
   <tbody>
     <tr className="score-board-entry">
       <td className="score-board-entry-name">{player.username}</td>
@@ -19,6 +19,6 @@ const ScoreBoardEntry = ({ player }) => (
   </tbody>
 );
 
-ScoreBoardEntry.propTypes = propTypes;
+ScoreboardEntry.propTypes = propTypes;
 
-export default ScoreBoardEntry;
+export default ScoreboardEntry;

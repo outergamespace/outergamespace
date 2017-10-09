@@ -1,7 +1,7 @@
 import React from 'react';
 import CreateRoom from './CreateRoom';
 import WaitingRoom from './WaitingRoom';
-import ScoreBoard from './ScoreBoard';
+import Scoreboard from './Scoreboard';
 import Question from './Question';
 import io from '../../../../socket/socketClientInterface';
 
@@ -95,20 +95,20 @@ class App extends React.Component {
   }
 
   render() {
-    const { screen, roomId, players, question, answers, finalScores } = this.state;
-    // let screen = 'create';
-    // let players = [
-    //   // {username: 'alan', score: 0, answered: false},
-    //   // {username: 'belle', score: 0, answered: false},
-    //   // {username: 'charlie', score: 0, answered: false},
-    //   // {username: 'denise', score: 0, answered: false},
-    //   // {username: 'evan', score: 0, answered: false},
-    //   // {username: 'freddy', score: 0, answered: false},
-    //   // {username: 'giselle', score: 0, answered: false},
-    //   // {username: 'herbert', score: 0, answered: false},
-    //   // {username: 'ivy', score: 0, answered: false},
-    //   // {username: 'jessica', score: 0, answered: false},
-    // ];
+    // const { screen, roomId, players, question, answers, finalScores } = this.state;
+    let screen = 'roundScores';
+    let players = [
+      {username: 'alan', score: 0, answered: false},
+      {username: 'belle', score: 10, answered: false},
+      {username: 'charlie', score: 80, answered: false},
+      {username: 'denise', score: 30, answered: false},
+      {username: 'evan', score: 60, answered: false},
+      {username: 'freddy', score: 20, answered: false},
+      {username: 'giselle', score: 0, answered: false},
+      {username: 'herbert', score: 30, answered: false},
+      {username: 'ivy', score: 50, answered: false},
+      {username: 'jessica', score: 0, answered: false},
+    ];
     // let roomId = 'ABCD';
 
     if (screen === 'create') {
@@ -118,9 +118,9 @@ class App extends React.Component {
     } else if (screen === 'question') {
       return <Question question={question} answers={answers} players={players} />;
     } else if (screen === 'roundScores') {
-      return <ScoreBoard players={players} />;
+      return <Scoreboard players={players} />;
     } else if (screen === 'finalScores') {
-      return <ScoreBoard players={finalScores} final restartGame={this.restartGame} />;
+      return <Scoreboard players={finalScores} final restartGame={this.restartGame} />;
     }
 
     // if input is not one of the expected strings
