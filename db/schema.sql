@@ -19,10 +19,10 @@ CREATE TABLE incorrect_answers(
 /* Dummy Data */
 
 INSERT INTO questions (question, correct_ans, category, difficulty)
-VALUES ('Which of the following is not a member of the team?', 'Brandon', 'Hack Reactor', '1');
+VALUES ('Which of the following is not a member of the Outer Game Space team?', 'Brandon', 'Hack Reactor', '1');
 INSERT INTO incorrect_answers (question_id, ans) VALUES (1, 'Lam');
 INSERT INTO incorrect_answers (question_id, ans) VALUES (1, 'Lynne');
-INSERT INTO incorrect_answers (question_id, ans) VALUES (1, 'Adrian');
+INSERT INTO incorrect_answers (question_id, ans) VALUES (1, 'Leo');
 
 INSERT INTO questions (question, correct_ans, category, difficulty)
 VALUES ('What is the circumference of the earth?', '40,075km', 'Astronomy', '3');
