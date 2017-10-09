@@ -2,7 +2,7 @@ import React from 'react';
 import Join from './Join';
 import Question from './Question';
 import TextScreen from './TextScreen';
-import io from '../../../../socket/socketClientInterface';
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
   constructor() {
@@ -14,29 +14,34 @@ class App extends React.Component {
       answers: [],
     };
 
+    /* SOCKET CLIENT INTERFACE */
+    this.socketClientInterface = new SocketClientInterface();
+
     /* METHOD BINDING */
     this.setScreen = this.setScreen.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
+    this.showAnswer = this.showAnswer.bind(this);
+    this.showRoundScores = this.showRoundScores.bind(this);
+    this.showFinalScores = this.showFinalScores.bind(this);
     this.hostDisconnectHandler = this.hostDisconnectHandler.bind(this);
   }
 
   componentDidMount() {
     /* SOCKET EVENT LISTENERS */
-    io.on('nextQuestion', this.nextQuestion);
-    io.on('showAnswer', () => this.setScreen('roundScores'));
-    io.on('showRoundScores', () => this.setScreen('roundScores'));
-    io.on('showFinalScores', () => this.setScreen('finalScores'));
-    io.on('hostDisconnect', this.hostDisconnectHandler);
+    this.socketClientInterface.listenForPlayerEvents();
+    // register the callback handlers
+    this.socketClientInterface.registerCallbackPlayerNextQuestion(this.nextQuestion);
+    this.socketClientInterface.registerCallbackPlayerShowAnswer(this.showAnswer);
+    this.socketClientInterface.registerCallbackPlayerShowRoundScores(this.showRoundScores);
+    this.socketClientInterface.registerCallbackPlayerShowFinalScores(this.showFinalScores);
+    this.socketClientInterface.registerCallbackPlayerHostDisconnect(this.hostDisconnectHandler);
   }
 
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
-    io.removeAllListeners('nextQuestion');
-    io.removeAllListeners('showAnswer');
-    io.removeAllListeners('showRoundScores');
-    io.removeAllListeners('showFinalScores');
+    this.socketClientInterface.removeListenersForPlayerEvents();
   }
 
   setScreen(screen) {
@@ -48,6 +53,18 @@ class App extends React.Component {
     this.setScreen('wait');
   }
 
+  showAnswer() {
+    this.setScreen('roundScores');
+  }
+
+  showRoundScores() {
+    this.setScreen('roundScores');
+  }
+
+  showFinalScores() {
+    this.setScreen('finalScores');
+  }
+
   nextQuestion(question) {
     this.setState({
       screen: 'question',
@@ -57,7 +74,10 @@ class App extends React.Component {
   }
 
   leaveGame() {
-    io.emit('leaveGame', () => {
+    // io.emit('leaveGame', () => {
+    //   this.setScreen('join');
+    // });
+    this.socketClientInterface.connection.emit('leaveGame', () => {
       this.setScreen('join');
     });
   }
@@ -74,7 +94,7 @@ class App extends React.Component {
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
     if (screen === 'join') {
-      return <Join joinGame={this.joinGame} />;
+      return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
       return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
@@ -84,6 +104,7 @@ class App extends React.Component {
           answers={answers}
           setScreen={this.setScreen}
           time={timePerQuestion}
+          socketClientInterface={this.socketClientInterface}
         />
       );
     } else if (screen === 'answered') {

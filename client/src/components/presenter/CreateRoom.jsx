@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import io from '../../../../socket/socketClientInterface';
+import SocketClientInterface from '../../../../socket/socketClientInterface';
+// import io from '../../../../socket/socketClientInterface';
 
 const DEFAULT_CONFIG = {
   noOfQuestions: '10',
@@ -10,6 +11,7 @@ const DEFAULT_CONFIG = {
 
 const propTypes = {
   createRoom: PropTypes.func.isRequired,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
 class CreateRoom extends React.Component {
@@ -52,7 +54,7 @@ class CreateRoom extends React.Component {
 
   createRoom() {
     const gameConfig = this.getConfigObj();
-    io.emit('createRoom', gameConfig, (errMsg, roomId) => {
+    this.props.socketClientInterface.connection.emit('createRoom', gameConfig, (errMsg, roomId) => {
       if (errMsg) {
         this.setState({ errMsg });
       } else {
@@ -65,7 +67,7 @@ class CreateRoom extends React.Component {
     const { noOfQuestions, timePerQuestion, maxPlayers, errMsg } = this.state;
     return (
       <div className="screen">
-        <div className="screen-top" >Game Settings</div>
+        <div className="screen-top">Game Settings</div>
 
         <div className="screen-middle screen-bordered" >
           <div className="table-body">

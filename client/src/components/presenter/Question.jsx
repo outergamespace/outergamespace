@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import AnswerList from './AnswerList';
 import AnsweredPlayerList from './AnsweredPlayerList';
 import Timer from './Timer';
-import io from '../../../../socket/socketClientInterface';
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
   time: PropTypes.number.isRequired,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
 class Question extends React.Component {
@@ -24,13 +25,15 @@ class Question extends React.Component {
   }
 
   componentDidMount() {
-    /* SOCKET EVENT LISTENERS */
-    io.on('showAnswer', this.setCorrectAns);
+    // register callbacks
+    this.props.socketClientInterface.registerCallbackHostShowAnswer(this.setCorrectAns);
   }
 
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
-    io.removeAllListeners('showAnswer');
+    // TODO: Need to remove listener for showAnswer (add more granularity
+    // here later in the interface)
+    // io.removeAllListeners('showAnswer');
   }
 
   setCorrectAns(correctAns) {

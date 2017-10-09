@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import io from '../../../../socket/socketClientInterface';
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   joinGame: PropTypes.func.isRequired,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
 class Join extends React.Component {
@@ -14,6 +15,9 @@ class Join extends React.Component {
       roomId: '',
       errMsg: null,
     };
+
+    /* SOCKET CLIENT INTERFACE */
+    // this.socketClientInterface = new SocketClientInterface();
 
     /* METHOD BINDING */
     this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -35,7 +39,7 @@ class Join extends React.Component {
 
   joinGame() {
     const { roomId, username } = this.state;
-    io.emit('joinRoom', roomId, username, (errMsg, timePerQuestion) => {
+    this.props.socketClientInterface.connection.emit('joinRoom', roomId, username, (errMsg, timePerQuestion) => {
       if (errMsg) {
         this.setState({ errMsg });
       } else {

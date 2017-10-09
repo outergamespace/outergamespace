@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AnswerList from './AnswerList';
 import Timer from './Timer';
-import io from '../../../../socket/socketClientInterface';
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   time: PropTypes.number.isRequired,
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
   setScreen: PropTypes.func,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
 const defaultProps = {
@@ -35,7 +36,7 @@ class Question extends React.Component {
   }
 
   sendAnswer() {
-    io.emit('submitAnswer', this.state.currentAns, () => {
+    this.props.socketClientInterface.connection.emit('submitAnswer', this.state.currentAns, () => {
       this.props.setScreen('answered');
     });
   }

@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import io from '../../../../socket/socketClientInterface';
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   roomId: PropTypes.string.isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
 class WaitingRoom extends React.Component {
@@ -19,7 +20,7 @@ class WaitingRoom extends React.Component {
   }
 
   startGame() {
-    io.emit('startGame', (errMsg) => {
+    this.props.socketClientInterface.connection.emit('startGame', (errMsg) => {
       this.setState({ errMsg });
     });
   }
