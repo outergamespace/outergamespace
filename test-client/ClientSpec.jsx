@@ -9,8 +9,7 @@ import Join from './../client/src/components/player/Join';
 
 
 describe('Player', () => {
-
-  describe ('Join', () => {
+  describe('Join', () => {
     const wrapper = shallow(<Join />);
 
     it('asks users to join a room', () => {
@@ -18,11 +17,10 @@ describe('Player', () => {
     });
   });
 
-  describe ('Wait', () => {
+  describe('Wait', () => {
     const wrapper = shallow(<Wait />);
 
     it('Instructs player to wait', () => {
-
       expect(wrapper.contains(<div className="center">
         Wait for all players to join.
       </div>)).to.equal(true);
