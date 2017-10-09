@@ -2,7 +2,7 @@
 
 # OuterGameSpace [![Build Status](https://travis-ci.org/outergamespace/outergamespace.svg?branch=develop)](https://travis-ci.org/outergamespace/outergamespace)
 
-> OuterGameSpace is a trivia game platform catered towards creating in-person game sessions played with Player clients and a central Host presenter. Games are meant to be played in-person with a group to deliver social real-time interaction and feedback.
+OuterGameSpace is a trivia game platform catered towards creating in-person game sessions played with Player clients and a central Host presenter. Games are meant to be played in-person with a group to deliver social real-time interaction and feedback.
 
 ## Team
 
@@ -29,6 +29,7 @@ Each player connects to the game via a desktop or mobile device. Each player use
 
 Presenter client:
 http://<YOUR_OUTERGAMESPACE_SERVER>
+
 Player client:
 http://<YOUR_OUTERGAMESPACE_SERVER>/join
 
