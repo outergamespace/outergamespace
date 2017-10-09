@@ -4,6 +4,8 @@ import AnswerList from './AnswerList';
 import Timer from './Timer';
 import io from '../../../../socket/socketClientInterface';
 
+const TIME_FOR_QS = 5;
+
 const propTypes = {
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -49,8 +51,9 @@ class Question extends React.Component {
         <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
 
         <div className="screen-bottom">
-          <Timer />
-          <button disabled={currentAns === ''} onClick={this.sendAnswer} >Submit</button>
+          <button disabled={currentAns === ''} onClick={this.sendAnswer} >
+            Submit (<Timer seconds={TIME_FOR_QS} />)
+          </button>
         </div>
       </div>
     );

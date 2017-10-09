@@ -1,46 +1,56 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+const propTypes = {
+  seconds: PropTypes.number.isRequired,
+};
 
 class Timer extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      time: 20,
-      // timer will begin countdown when page displays
-      clock: setInterval(this.decrementer.bind(this), 1000),
-      class: 'timer center',
+      remainingTime: props.seconds,
     };
+
+    /* METHOD BINDING */
+    this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
+    this.decrementTimer = this.decrementTimer.bind(this);
   }
 
-  // stop timer when component no longer used
+  componentDidMount() {
+    this.startTimer();
+  }
+
   componentWillUnmount() {
-    clearInterval(this.state.clock);
+    this.stopTimer();
   }
 
-  decrementer() {
-    if (this.state.time > 0) {
-      this.setState({ time: this.state.time - 1 });
-      if (this.state.time < 10) {
-        this.setState({ class: 'timer center warn' });
+  startTimer() {
+    this.interval = setInterval(this.decrementTimer, 1000);
+  }
+
+  stopTimer() {
+    clearInterval(this.interval);
+  }
+
+  decrementTimer() {
+    this.setState((prevState) => {
+      // stop timer when only 1 second remains
+      if (prevState.remainingTime === 1) {
+        this.stopTimer();
       }
-      if (this.state.time < 6) {
-        this.setState({ class: 'timer center danger' });
-      }
-    }
+      return ({
+        remainingTime: prevState.remainingTime - 1,
+      });
+    });
   }
 
   render() {
-    return (
-      <div>
-        <div className={this.state.class}>
-          Time Left
-          <div className="time">
-            {this.state.time}
-          </div>
-        </div>
-      </div>
-    );
+    return <span>{this.state.remainingTime}</span>;
   }
 }
+
+Timer.propTypes = propTypes;
 
 export default Timer;
