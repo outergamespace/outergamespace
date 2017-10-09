@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import io from '../../../../socket/socketClientInterface';
-const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   joinGame: PropTypes.func.isRequired,
@@ -39,6 +38,7 @@ class Join extends React.Component {
 
   joinGame() {
     const { roomId, username } = this.state;
+<<<<<<< HEAD
     // io.emit('joinRoom', roomId, username, (errMsg) => {
     //   if (errMsg) {
     //     this.setState({ errMsg });
@@ -48,6 +48,9 @@ class Join extends React.Component {
     //   }
     // });
     this.socketClientInterface.connection.emit('joinRoom', roomId, username, (errMsg, timePerQuestion) => {
+=======
+    this.props.socketClientInterface.connection.emit('joinRoom', roomId, username, (errMsg) => {
+>>>>>>> Remove unnecessary comment code
       if (errMsg) {
         this.setState({ errMsg });
       } else {

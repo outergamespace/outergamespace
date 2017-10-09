@@ -1,9 +1,4 @@
-// import io from 'socket.io-client';
 const io = require('socket.io-client');
-
-// we will use the default connection params of the host connection
-// if we want to have the ability to specify the port, we can add it to the interface as well
-// const connection = io();
 
 /* CLASS DEFINITION */
 class SocketClientInterface {
@@ -13,6 +8,8 @@ class SocketClientInterface {
     if (options) {
       this.connection = io(options);
     } else {
+      // we will use the default connection params of the host connection
+      // if we want to have the ability to specify the port, we can add it to the interface as well
       this.connection = io();
     }
     this.callbacks = {
@@ -22,22 +19,6 @@ class SocketClientInterface {
   }
 
   /* EVENT LISTENERS */
-  // io.removeAllListeners('updatePlayers');
-  // io.removeAllListeners('nextQuestion');
-  // io.removeAllListeners('showRoundScores');
-  // io.removeAllListeners('showFinalScores');
-  // io.on('updatePlayers', this.updatePlayers);
-  // io.on('nextQuestion', this.nextQuestion);
-  // io.on('showRoundScores', this.showRoundScores);
-  // io.on('showFinalScores', this.showFinalScores);
-
-  // TODO: Do we need the socket?
-  // listenForHostEvents(socket) {
-  //   socket.on('updatePlayers', this.handleUpdatePlayers.bind(this, socket));
-  //   socket.on('nextQuestion', this.handleNextQuestion.bind(this, socket));
-  //   socket.on('showRoundScores', this.handleShowRoundScores.bind(this, socket));
-  //   socket.on('showFinalScores', this.handleShowFinalScores.bind(this, socket));
-  // }
 
   listenForHostEvents() {
     this.connection.on('updatePlayers', this.handleHostUpdatePlayers.bind(this));
@@ -87,15 +68,9 @@ class SocketClientInterface {
   handleHostShowAnswer() {
     // null for now since there's no data to send back
     this.callbacks.host.showAnswer(null);
-    // io.on('showAnswer', this.setCorrectAns);
   }
 
   /* EVENT HANDLERS - PLAYER */
-  // this.connection.on('nextQuestion', this.nextQuestion);
-  // this.connection.on('showAnswer', () => this.setScreen('roundScores'));
-  // this.connection.on('showRoundScores', () => this.setScreen('roundScores'));
-  // this.connection.on('showFinalScores', () => this.setScreen('finalScores'));
-  // this.connection.on('hostDisconnect', this.hostDisconnectHandler);
 
   handlePlayerNextQuestion(question) {
     this.callbacks.player.nextQuestion(question);
@@ -153,5 +128,3 @@ class SocketClientInterface {
 }
 
 module.exports = SocketClientInterface;
-// module.exports.connection = connection;
-// export default connection;

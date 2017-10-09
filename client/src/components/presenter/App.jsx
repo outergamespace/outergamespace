@@ -3,8 +3,7 @@ import CreateRoom from './CreateRoom';
 import WaitingRoom from './WaitingRoom';
 import Scoreboard from './Scoreboard';
 import Question from './Question';
-// import io from '../../../../socket/socketClientInterface';
-const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
   constructor(props) {
@@ -34,10 +33,6 @@ class App extends React.Component {
 
   componentDidMount() {
     /* SOCKET EVENT LISTENERS */
-    // io.on('updatePlayers', this.updatePlayers);
-    // io.on('nextQuestion', this.nextQuestion);
-    // io.on('showRoundScores', this.showRoundScores);
-    // io.on('showFinalScores', this.showFinalScores);
     this.socketClientInterface.listenForHostEvents();
     // register the callback handlers
     this.socketClientInterface.registerCallbackHostUpdatePlayers(this.updatePlayers);
@@ -48,10 +43,6 @@ class App extends React.Component {
 
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
-    // io.removeAllListeners('updatePlayers');
-    // io.removeAllListeners('nextQuestion');
-    // io.removeAllListeners('showRoundScores');
-    // io.removeAllListeners('showFinalScores');
     this.socketClientInterface.removeListenersForHostEvents();
   }
 

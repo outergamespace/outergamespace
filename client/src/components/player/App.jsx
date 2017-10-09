@@ -2,8 +2,7 @@ import React from 'react';
 import Join from './Join';
 import Question from './Question';
 import TextScreen from './TextScreen';
-// import io from '../../../../socket/socketClientInterface';
-const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
   constructor() {
@@ -27,21 +26,10 @@ class App extends React.Component {
     this.showRoundScores = this.showRoundScores.bind(this);
     this.showFinalScores = this.showFinalScores.bind(this);
     this.hostDisconnectHandler = this.hostDisconnectHandler.bind(this);
-
-    // this.socketClientInterface.registerCallbackPlayerNextQuestion(this.nextQuestion);
-    // this.socketClientInterface.registerCallbackPlayerShowAnswer(this.showAnswer);
-    // this.socketClientInterface.registerCallbackPlayerShowRoundScores(this.showRoundScores);
-    // this.socketClientInterface.registerCallbackPlayerShowFinalScores(this.showFinalScores);
-    // this.socketClientInterface.registerCallbackPlayerHostDisconnect(this.hostDisconnectHandler);
   }
 
   componentDidMount() {
     /* SOCKET EVENT LISTENERS */
-    // io.on('nextQuestion', this.nextQuestion);
-    // io.on('showAnswer', () => this.setScreen('roundScores'));
-    // io.on('showRoundScores', () => this.setScreen('roundScores'));
-    // io.on('showFinalScores', () => this.setScreen('finalScores'));
-    // io.on('hostDisconnect', this.hostDisconnectHandler);
     this.socketClientInterface.listenForPlayerEvents();
     // register the callback handlers
     this.socketClientInterface.registerCallbackPlayerNextQuestion(this.nextQuestion);
@@ -53,10 +41,6 @@ class App extends React.Component {
 
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
-    // io.removeAllListeners('nextQuestion');
-    // io.removeAllListeners('showAnswer');
-    // io.removeAllListeners('showRoundScores');
-    // io.removeAllListeners('showFinalScores');
     this.socketClientInterface.removeListenersForPlayerEvents();
   }
 

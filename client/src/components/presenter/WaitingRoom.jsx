@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import io from '../../../../socket/socketClientInterface';
-const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   roomId: PropTypes.string.isRequired,
@@ -16,17 +15,11 @@ class WaitingRoom extends React.Component {
       errMsg: null,
     };
 
-    /* SOCKET CLIENT INTERFACE */
-    // this.socketClientInterface = new SocketClientInterface();
-
     /* METHOD BINDING */
     this.startGame = this.startGame.bind(this);
   }
 
   startGame() {
-    // io.emit('startGame', (errMsg) => {
-    //   this.setState({ errMsg });
-    // });
     this.props.socketClientInterface.connection.emit('startGame', (errMsg) => {
       this.setState({ errMsg });
     });

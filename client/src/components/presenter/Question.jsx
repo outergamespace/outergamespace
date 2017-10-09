@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import AnswerList from './AnswerList';
 import AnsweredPlayerList from './AnsweredPlayerList';
 import Timer from './Timer';
-// import io from '../../../../socket/socketClientInterface';
-const SocketClientInterface = require('../../../../socket/socketClientInterface.js');
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   question: PropTypes.string.isRequired,
@@ -21,24 +20,19 @@ class Question extends React.Component {
       correctAns: '',
     };
 
-    /* SOCKET CLIENT INTERFACE */
-    // this.socketClientInterface = new SocketClientInterface();
-
     /* METHOD BINDING */
     this.setCorrectAns = this.setCorrectAns.bind(this);
   }
 
   componentDidMount() {
-    /* SOCKET EVENT LISTENERS */
-    // io.on('showAnswer', this.setCorrectAns);
-
-    // this.props.socketClientInterface.listenForPlayerEvents();
     // register callbacks
     this.props.socketClientInterface.registerCallbackHostShowAnswer(this.setCorrectAns);
   }
 
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
+    // TODO: Need to remove listener for showAnswer (add more granularity
+    // here later in the interface)
     // io.removeAllListeners('showAnswer');
   }
 
