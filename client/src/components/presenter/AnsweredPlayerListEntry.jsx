@@ -10,11 +10,9 @@ const propTypes = {
     .isRequired,
 };
 
-const AnsweredPlayerListEntry = ({ player: { username, answered } }) => {
-  return (
-    <div className={`answered-player-list-entry ${!answered && 'unanswered'}`} >{username}</div>
-  );
-};
+const AnsweredPlayerListEntry = ({ player: { username, answered } }) => (
+  <div className={`answered-player-list-entry ${!answered && 'unanswered'}`} >{username}</div>
+);
 
 AnsweredPlayerListEntry.propTypes = propTypes;
 
