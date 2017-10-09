@@ -96,23 +96,27 @@ div {
 	/*border: 1px solid #000; /*!!!*/*/
 }
 
-/* =============
- * SCREEN LAYOUT
- * =============
+/* ========================
+ * SCREEN LAYOUT - VERTICAL
+ * ========================
  */
 
-.screen {
+.screen,
+.screen-main,
+.screen-sidebar {
 	height: 100%;
+}
+
+.screen-bordered {
+	border: 10px solid #666370;
+	border-radius: 25px;
+
+	padding: 1%;
 }
 
 .screen-middle {
 	height: 70%;
 	justify-content: space-evenly;
-
-	border: 10px solid #666370;
-	border-radius: 25px;
-
-	padding: 1%;
 }
 
 .screen-top,
@@ -128,6 +132,23 @@ div {
 .screen-bottom {
 	margin-top: 3%;
 	justify-content: flex-start;
+}
+
+/* ==========================
+ * SCREEN LAYOUT - HORIZONTAL
+ * ==========================
+ */
+
+.screen-horizontal {
+	flex-direction: row;
+}
+
+.screen-main {
+	width: 70%;
+}
+
+.screen-sidebar {
+	width: 30%;
 }
 
 /* ======

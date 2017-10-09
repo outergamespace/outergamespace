@@ -40,21 +40,32 @@ class Question extends React.Component {
     const { question, answers, players } = this.props;
     const { correctAns } = this.state;
     return (
-      <div className="container">
-        <div className="row">
-          <div >{question}</div>
-          <Timer />
+      <div className="screen screen-horizontal">
+        <div className="screen-main">
         </div>
-        <div className="row">
-          <AnswerList answers={answers} correctAns={correctAns} />
-        </div>
-        <div className="row">
-          <PlayerList players={players} />
+
+        <div className="screen-sidebar">
+          <div className="screen-top screen-bordered">
+            <Timer seconds={20} />
+          </div>
+
+          <div className="screen-middle screen-bordered">
+          </div>
         </div>
       </div>
     );
   }
 }
+        // <div className="row">
+        //   <div >{question}</div>
+        //   <Timer />
+        // </div>
+        // <div className="row">
+        //   <AnswerList answers={answers} correctAns={correctAns} />
+        // </div>
+        // <div className="row">
+        //   <PlayerList players={players} />
+        // </div>
 
 Question.propTypes = propTypes;
 

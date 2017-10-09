@@ -96,7 +96,7 @@ class App extends React.Component {
 
   render() {
     // const { screen, roomId, players, question, answers, finalScores } = this.state;
-    let screen = 'finalScores';
+    let screen = 'question';
     let players = [
       {username: 'alan', score: 0, answered: false},
       {username: 'belle', score: 10, answered: false},
@@ -108,6 +108,13 @@ class App extends React.Component {
       {username: 'herbert', score: 30, answered: false},
       // {username: 'ivy', score: 50, answered: false},
       // {username: 'jessica', score: 0, answered: false},
+    ];
+    let question = 'In what year did James Madison serve as the President of the United States?';
+    let answers = [
+      '1809-1817',
+      '1817-1825',
+      '1801-1809',
+      '1797-1801',
     ];
     let finalScores = players;
     // let roomId = 'ABCD';
