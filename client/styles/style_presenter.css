@@ -108,6 +108,11 @@ div {
 .screen-middle {
 	height: 70%;
 	justify-content: space-evenly;
+
+	border: 10px solid #666370;
+	border-radius: 25px;
+
+	padding: 1%;
 }
 
 .screen-top,
@@ -125,18 +130,6 @@ div {
 	justify-content: flex-start;
 }
 
-/* ===========
- * PLAYER LIST
- * ===========
- */
-
-.player-list {
-	border: 10px solid #666370;
-	border-radius: 25px;
-
-	padding: 1%;
-}
-
 /* ======
  * BUTTON
  * ======
@@ -144,7 +137,7 @@ div {
 
 button {
 	width: 60%;
-	height: 70%;
+	height: 80%;
 
 	display: block;
 

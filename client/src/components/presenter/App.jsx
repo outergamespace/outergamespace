@@ -95,21 +95,21 @@ class App extends React.Component {
   }
 
   render() {
-    // const { screen, roomId, players, question, answers, finalScores } = this.state;
-    let screen = 'wait';
-    let players = [
-      // {username: 'alan', score: 0, answered: false},
-      // {username: 'belle', score: 0, answered: false},
-      // {username: 'charlie', score: 0, answered: false},
-      // {username: 'denise', score: 0, answered: false},
-      // {username: 'evan', score: 0, answered: false},
-      // {username: 'freddy', score: 0, answered: false},
-      // {username: 'giselle', score: 0, answered: false},
-      // {username: 'herbert', score: 0, answered: false},
-      // {username: 'ivy', score: 0, answered: false},
-      // {username: 'jessica', score: 0, answered: false},
-    ];
-    let roomId = 'ABCD';
+    const { screen, roomId, players, question, answers, finalScores } = this.state;
+    // let screen = 'create';
+    // let players = [
+    //   // {username: 'alan', score: 0, answered: false},
+    //   // {username: 'belle', score: 0, answered: false},
+    //   // {username: 'charlie', score: 0, answered: false},
+    //   // {username: 'denise', score: 0, answered: false},
+    //   // {username: 'evan', score: 0, answered: false},
+    //   // {username: 'freddy', score: 0, answered: false},
+    //   // {username: 'giselle', score: 0, answered: false},
+    //   // {username: 'herbert', score: 0, answered: false},
+    //   // {username: 'ivy', score: 0, answered: false},
+    //   // {username: 'jessica', score: 0, answered: false},
+    // ];
+    // let roomId = 'ABCD';
 
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
