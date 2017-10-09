@@ -4,23 +4,28 @@ const Player = require('./player.js');
 
 const POINTS_PER_QS = 10;
 
+/* SETTINGS AND CONFIGURATIONS */
+
 const CONFIG = {
-  noOfQuestions: { min: 1, max: 30, default: 10 },
-  timeForQuestion: { min: 1, max: 30, default: 15 },
-  maxPlayers: { min: 1, max: 10, default: 6 },
+  noOfQuestions: { name: 'No of questions', min: 1, max: 30, default: 10 },
+  timeForQuestion: { name: 'Time for each question', min: 1, max: 30, default: 15 },
+  maxPlayers: { name: 'Maximum number of players', min: 1, max: 10, default: 6 },
 };
+
 const DEFAULT_CONFIG = {};
 Object.keys(CONFIG).forEach((k) => {
   DEFAULT_CONFIG[k] = CONFIG[k].default;
 });
 
+const USERNAME_MAX_LENGTH = 10;
+
 const checkConfigRange = (config = DEFAULT_CONFIG) => {
   Object.keys(config).forEach((key) => {
     if (CONFIG[key]) {
       const val = config[key];
-      const { min, max } = CONFIG[key];
+      const { name, min, max } = CONFIG[key];
       if (val < min || val > max) {
-        throw new Error(`Must be between ${min} and ${max}`);
+        throw new Error(`${name} must be between ${min} and ${max}`);
       }
     }
   });
@@ -116,12 +121,17 @@ class Game {
    * Adds a player to the game
    * @param {string} socketId - the socket id of the player to be added to the current game
    * @param {string} username - the username of the player to be added to the current game
+   * @throws if username is too short or too long
    * @throws if username is already taken in the game
    * @throws if the room is already full
    * @throws if the game has already started
    */
   addPlayer(socketId, username) {
-    if (this.hasPlayer(username)) {
+    if (username.length === 0) {
+      throw new Error('Please provide a username');
+    } else if (username.length > USERNAME_MAX_LENGTH) {
+      throw new Error(`Username cannot have more than ${USERNAME_MAX_LENGTH} characters`);
+    } else if (this.hasPlayer(username)) {
       throw new Error('Username already taken');
     } else if (this.isFull()) {
       throw new Error('The room is full');

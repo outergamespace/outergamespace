@@ -95,7 +95,7 @@ describe('Game', () => {
       };
       expect(errConfig).to.throw(/between/);
     });
-  
+
     it('Should throw an error if timeForQuestions configuration is out of range', () => {
       let errConfig;
 
