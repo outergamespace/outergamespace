@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const Game = require('../game/game.js');
 
 describe('Game', () => {
-  const DB_CALL_DELAY = 20;
+  const DB_CALL_DELAY = 200;
 
   let game;
 
