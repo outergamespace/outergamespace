@@ -95,29 +95,29 @@ class App extends React.Component {
   }
 
   render() {
-    // const { screen, roomId, players, question, answers, finalScores } = this.state;
-    let screen = 'question';
-    let players = [
-      {username: 'alan', score: 0, answered: false},
-      {username: 'belle', score: 10, answered: false},
-      {username: 'charlie', score: 80, answered: false},
-      {username: 'denise', score: 30, answered: false},
-      {username: 'evan', score: 60, answered: false},
-      {username: 'freddy', score: 20, answered: false},
-      {username: 'giselle', score: 0, answered: false},
-      {username: 'XXXXXXXX', score: 30, answered: false},
+    const { screen, roomId, players, question, answers, finalScores } = this.state;
+    // let screen = 'question';
+    // let players = [
+    //   {username: 'alan', score: 0, answered: false},
+    //   {username: 'belle', score: 10, answered: false},
+    //   {username: 'charlie', score: 80, answered: false},
+    //   {username: 'denise', score: 30, answered: false},
+    //   {username: 'evan', score: 60, answered: false},
+    //   {username: 'freddy', score: 20, answered: false},
+    //   {username: 'giselle', score: 0, answered: false},
+    //   {username: 'XXXXXXXX', score: 30, answered: false},
       // {username: 'ivy', score: 50, answered: false},
       // {username: 'jessica', score: 0, answered: false},
-    ];
-    let question = 'In what year did James Madison serve as the President of the United States?';
-    let answers = [
-      '1809-1817',
-      '1817-1825',
-      '1801-1809',
-      '1797-1801',
-    ];
-    let finalScores = players;
-    let roomId = 'ABCD';
+    // ];
+    // let question = 'In what year did James Madison serve as the President of the United States?';
+    // let answers = [
+    //   '1809-1817',
+    //   '1817-1825',
+    //   '1801-1809',
+    //   '1797-1801',
+    // ];
+    // let finalScores = players;
+    // let roomId = 'ABCD';
 
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;

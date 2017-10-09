@@ -92,7 +92,6 @@ div {
 	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
-	text-align: center;
 
 	/*border: 1px solid #000; /*!!!*/*/
 }
@@ -234,16 +233,33 @@ button:disabled {
  */
 
 .answer {
+	flex-direction: row;
+	justify-content: space-between;
+
+	height: 100px;
+
   background: ivory;
 
   box-shadow: 5px 2px 2px black;
   border-radius: 5px;
 
-  padding: 3%;
+  padding: 0 3%;
 }
 
 .selected {
 	font-weight: bold;
+}
+
+.checkmark-placeholder {
+	width: 65px;
+	height: 65px;
+}
+
+.checkmark {
+	background: #1EA896;
+	color: #FFF;
+
+	border-radius: 50%;
 }
 
 /* ===========

@@ -7,8 +7,14 @@ const propTypes = {
 };
 
 const AnswerListEntry = ({ answer, selected }) => (
-  <div className={`answer ${selected && 'selected-ans'}`} >
-    {answer}
+  <div className={`answer ${selected && 'selected'}`} >
+    <div className="checkmark-placeholder" />
+    {answer}‎
+    {
+      selected
+        ? <div className="checkmark-placeholder checkmark" >✔</div>
+        : <div className="checkmark-placeholder" />
+    }
   </div>
 );
 
