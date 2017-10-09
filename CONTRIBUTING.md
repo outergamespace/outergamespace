@@ -50,6 +50,7 @@ Your branch should follow this naming convention:
   - test-<YOUR_MODIFICATION>
   - doc-<YOUR_MODIFICATION>
   - refactor-<YOUR_MODIFICATION>
+  - design-<YOUR_MODIFICATION>
 
 These commands will help you do this:
 
