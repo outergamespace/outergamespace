@@ -275,6 +275,19 @@ button:disabled {
 	color: #D1D1D1;
 }
 
+/* =====
+ * TIMER
+ * =====
+ */
+
+.warning {
+	background: #ECBA82;
+}
+
+.danger {
+	background: #ED9390;
+}
+
 /*body {
 	font-size: 2em;
 	font-family: Arial;

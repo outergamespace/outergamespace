@@ -50,9 +50,7 @@ class Question extends React.Component {
         </div>
 
         <div className="screen-sidebar">
-          <div className="screen-top screen-bordered">
-            <Timer seconds={20} />
-          </div>
+          <Timer seconds={12} />
 
           <div className="screen-middle screen-bordered">
             <AnsweredPlayerList players={players} />

@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const DANGER_TIME = 5;
+const WARNING_TIME = 10;
+
 const propTypes = {
   seconds: PropTypes.number.isRequired,
 };
@@ -47,7 +50,14 @@ class Timer extends React.Component {
   }
 
   render() {
-    return <span>{this.state.remainingTime}</span>;
+    const { remainingTime } = this.state;
+    let color = '';
+    if (remainingTime <= DANGER_TIME) {
+      color = 'danger';
+    } else if (remainingTime <= WARNING_TIME) {
+      color = 'warning';
+    }
+    return <div className={`screen-top screen-bordered ${color}`} >{this.state.remainingTime}</div>;
   }
 }
 
