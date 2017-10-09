@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayerList from './PlayerList';
 import io from '../../../../socket/socketClientInterface';
 
 const propTypes = {
