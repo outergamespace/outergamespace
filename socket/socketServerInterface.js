@@ -35,8 +35,12 @@ class SocketServerInterface {
   }
 
   scheduleEmission(emitter, time) {
-    clearTimeout(this.scheduledEmission);
+    this.clearEmission();
     this.scheduledEmission = setTimeout(emitter, time);
+  }
+
+  clearEmission() {
+    clearTimeout(this.scheduledEmission);
   }
 
   emitToRoom(socketOrRoomId, event, ...args) {
@@ -120,6 +124,7 @@ class SocketServerInterface {
   }
 
   handleHostDisconnect(socket) {
+    this.clearEmission();
     this.emitHostDisconnect(socket);
     this.handleEndGame(socket, () => {});
   }
