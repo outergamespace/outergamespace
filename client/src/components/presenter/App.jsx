@@ -102,16 +102,6 @@ class App extends React.Component {
   }
 
   restartGame() {
-    // io.emit('endGame', () => {
-    //   this.setState({
-    //     screen: 'create',
-    //     roomId: '',
-    //     players: [],
-    //     question: '',
-    //     answers: [],
-    //     finalScores: [],
-    //   });
-    // });
     this.socketClientInterface.connection.emit('endGame', () => {
       this.setState({
         screen: 'create',
