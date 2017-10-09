@@ -32,13 +32,13 @@ class Trivia {
    * Creates a new room with a unique room code and store it in the instance
    * @return {string} room code
    */
-  createRoom() {
+  createRoom(config) {
     let roomId = getRandRoomId();
     while (this.games[roomId]) {
       // if taken, generate another roomId
       roomId = getRandRoomId();
     }
-    this.games[roomId] = new Game();
+    this.games[roomId] = new Game(config);
     return roomId;
   }
 

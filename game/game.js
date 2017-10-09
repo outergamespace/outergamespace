@@ -7,9 +7,9 @@ const POINTS_PER_QS = 10;
 /* SETTINGS AND CONFIGURATIONS */
 
 const CONFIG = {
-  noOfQuestions: { name: 'No of questions', min: 1, max: 30, default: 10 },
-  timePerQuestion: { name: 'Time for each question', min: 1, max: 30, default: 15 },
-  maxPlayers: { name: 'Maximum number of players', min: 1, max: 10, default: 6 },
+  noOfQuestions: { name: 'No. of questions', min: 1, max: 30, default: 10 },
+  timePerQuestion: { name: 'Time per question', min: 1, max: 30, default: 15 },
+  maxPlayers: { name: 'Maximum no. of players', min: 1, max: 10, default: 6 },
 };
 
 const DEFAULT_CONFIG = {};
