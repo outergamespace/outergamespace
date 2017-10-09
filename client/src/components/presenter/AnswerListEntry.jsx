@@ -7,7 +7,7 @@ const propTypes = {
 };
 
 const AnswerListEntry = ({ answer, selected }) => (
-  <div className={`answer-list-entry ${selected ? 'selected-ans' : ''}`} >
+  <div className={`answer ${selected && 'selected-ans'}`} >
     {answer}
   </div>
 );

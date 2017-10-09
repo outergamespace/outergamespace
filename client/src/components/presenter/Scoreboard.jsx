@@ -19,7 +19,7 @@ const Scoreboard = ({ players, final, restartGame }) => {
     <div className="screen">
       <div className="screen-top" >{final && 'Final'} Scoreboard</div>
 
-      <div className="screen-middle" >
+      <div className="screen-middle screen-bordered" >
         <div className="scoreboard">
           <div className="scoreboard-col">
             {sortedPlayers.map(player => (

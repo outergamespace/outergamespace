@@ -105,7 +105,7 @@ class App extends React.Component {
       {username: 'evan', score: 60, answered: false},
       {username: 'freddy', score: 20, answered: false},
       {username: 'giselle', score: 0, answered: false},
-      {username: 'herbert', score: 30, answered: false},
+      {username: 'XXXXXXXX', score: 30, answered: false},
       // {username: 'ivy', score: 50, answered: false},
       // {username: 'jessica', score: 0, answered: false},
     ];
@@ -117,7 +117,7 @@ class App extends React.Component {
       '1797-1801',
     ];
     let finalScores = players;
-    // let roomId = 'ABCD';
+    let roomId = 'ABCD';
 
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;

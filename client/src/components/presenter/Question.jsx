@@ -42,6 +42,11 @@ class Question extends React.Component {
     return (
       <div className="screen screen-horizontal">
         <div className="screen-main">
+          <div className="screen-top">
+            {question}
+          </div>
+
+          <AnswerList answers={answers} correctAns={correctAns} />
         </div>
 
         <div className="screen-sidebar">
@@ -50,6 +55,7 @@ class Question extends React.Component {
           </div>
 
           <div className="screen-middle screen-bordered">
+            {players.map(player => <div key={player.username} >{player.username}</div>)}
           </div>
         </div>
       </div>
