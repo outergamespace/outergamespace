@@ -51,11 +51,12 @@ class CreateRoom extends React.Component {
   }
 
   createRoom() {
-    io.emit('createRoom', this.getConfigObj(), (errMsg, roomId) => {
+    const gameConfig = this.getConfigObj();
+    io.emit('createRoom', gameConfig, (errMsg, roomId) => {
       if (errMsg) {
         this.setState({ errMsg });
       } else {
-        this.props.createRoom(roomId);
+        this.props.createRoom(roomId, gameConfig);
       }
     });
   }

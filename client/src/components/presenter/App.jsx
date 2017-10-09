@@ -11,6 +11,7 @@ class App extends React.Component {
     this.state = {
       screen: 'create',
       roomId: '',
+      gameConfig: {},
       players: [],
       question: '',
       answers: [],
@@ -48,8 +49,8 @@ class App extends React.Component {
     this.setState({ screen });
   }
 
-  createRoom(roomId) {
-    this.setState({ roomId });
+  createRoom(roomId, gameConfig) {
+    this.setState({ roomId, gameConfig });
     this.setScreen('wait');
   }
 
@@ -84,6 +85,7 @@ class App extends React.Component {
       this.setState({
         screen: 'create',
         roomId: '',
+        gameConfig: {},
         players: [],
         question: '',
         answers: [],
@@ -93,14 +95,21 @@ class App extends React.Component {
   }
 
   render() {
-    const { screen, roomId, players, question, answers, finalScores } = this.state;
+    const { screen, roomId, gameConfig, players, question, answers, finalScores } = this.state;
 
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
     } else if (screen === 'wait') {
       return <WaitingRoom players={players} roomId={roomId} />;
     } else if (screen === 'question') {
-      return <Question question={question} answers={answers} players={players} />;
+      return (
+        <Question
+          question={question}
+          answers={answers}
+          players={players}
+          time={gameConfig.timePerQuestion}
+        />
+      );
     } else if (screen === 'roundScores') {
       return <Scoreboard players={players} />;
     } else if (screen === 'finalScores') {

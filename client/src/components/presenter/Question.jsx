@@ -9,6 +9,7 @@ const propTypes = {
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
+  time: PropTypes.number.isRequired,
 };
 
 class Question extends React.Component {
@@ -37,7 +38,7 @@ class Question extends React.Component {
   }
 
   render() {
-    const { question, answers, players } = this.props;
+    const { question, answers, players, time } = this.props;
     const { correctAns } = this.state;
     return (
       <div className="screen screen-horizontal">
@@ -50,7 +51,7 @@ class Question extends React.Component {
         </div>
 
         <div className="screen-sidebar">
-          <Timer seconds={20} counting={correctAns === ''} />
+          <Timer seconds={time} counting={correctAns === ''} />
 
           <div className="screen-middle screen-bordered">
             <AnsweredPlayerList players={players} />
