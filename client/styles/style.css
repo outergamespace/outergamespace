@@ -66,6 +66,7 @@ html {
 	text-align: center;
 	
 	font: 24px Arial;
+	color: #555;
 }
 
 body {
@@ -133,6 +134,11 @@ button {
 	border-radius: 4px;
 	
 	font-size: 1em;
+	color: #555;
+}
+
+input::placeholder {
+	color: #AAA;
 }
 
 button {
