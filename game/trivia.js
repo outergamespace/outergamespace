@@ -47,14 +47,11 @@ class Trivia {
    * @param {string} socketId - socket id of incoming player
    * @param {string} roomId - id of the room the player wants to join
    * @param {string} username - username the player wants to use
-   * @throws if username is empty
    * @throws if roomId is invalid
    */
   joinGame(socketId, roomId, username) {
     const game = this.games[roomId];
-    if (username === '') {
-      throw new Error('Please provide a username');
-    } else if (game) {
+    if (game) {
       game.addPlayer(socketId, username);
     } else {
       throw new Error('Room does not exist');
