@@ -8,7 +8,7 @@ const POINTS_PER_QS = 10;
 
 const CONFIG = {
   noOfQuestions: { name: 'No of questions', min: 1, max: 30, default: 10 },
-  timeForQuestion: { name: 'Time for each question', min: 1, max: 30, default: 15 },
+  timePerQuestion: { name: 'Time for each question', min: 1, max: 30, default: 15 },
   maxPlayers: { name: 'Maximum number of players', min: 1, max: 10, default: 6 },
 };
 
@@ -71,8 +71,8 @@ class Game {
    * Get the time allowed for each question
    * @return {number} number of seconds allowed for each question
    */
-  getTimeForQuestion() {
-    return this.config.timeForQuestion;
+  getTimePerQuestion() {
+    return this.config.timePerQuestion;
   }
 
   /**

@@ -20,16 +20,16 @@ const Scoreboard = ({ players, final, restartGame }) => {
       <div className="screen-top" >{final && 'Final'} Scoreboard</div>
 
       <div className="screen-middle screen-bordered" >
-        <div className="scoreboard">
-          <div className="scoreboard-col">
+        <div className="table">
+          <div className="table-col">
             {sortedPlayers.map(player => (
-              <div key={player.username} className="scoreboard-row" >{player.username}</div>
+              <div key={player.username} className="table-row" >{player.username}</div>
             ))}
           </div>
 
-          <div className="scoreboard-col">
+          <div className="table-col">
             {sortedPlayers.map(player => (
-              <div key={player.username} className="scoreboard-row" >{player.score}</div>
+              <div key={player.username} className="table-row" >{player.score}</div>
             ))}
           </div>
         </div>
