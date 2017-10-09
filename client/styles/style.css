@@ -136,7 +136,7 @@ button {
 }
 
 button {
-	box-shadow: rgb(230, 122, 115) 0 39px 0 -24px inset;
+	box-shadow: 0 15px 0 0 rgb(230, 122, 115) inset;
 	background-color: rgb(228, 104, 93);
 
 	color: #FFF;
@@ -146,7 +146,7 @@ button {
 }
 
 button:disabled {
-	box-shadow: rgb(148, 138, 138) 0 39px 0 -24px inset;
+	box-shadow: 0 15px 0 0 rgb(148, 138, 138) inset;
 	background-color: rgb(140, 129, 127);
 
 	cursor: not-allowed;
