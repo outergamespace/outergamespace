@@ -16,6 +16,8 @@ class SocketClientInterface {
       this.connection = io();
     }
     this.callbacks = {
+      host: {},
+      player: {},
     };
   }
 
@@ -38,10 +40,18 @@ class SocketClientInterface {
   // }
 
   listenForHostEvents() {
-    this.connection.on('updatePlayers', this.handleUpdatePlayers.bind(this));
-    this.connection.on('nextQuestion', this.handleNextQuestion.bind(this));
-    this.connection.on('showRoundScores', this.handleShowRoundScores.bind(this));
-    this.connection.on('showFinalScores', this.handleShowFinalScores.bind(this));
+    this.connection.on('updatePlayers', this.handleHostUpdatePlayers.bind(this));
+    this.connection.on('nextQuestion', this.handleHostNextQuestion.bind(this));
+    this.connection.on('showRoundScores', this.handleHostShowRoundScores.bind(this));
+    this.connection.on('showFinalScores', this.handleHostShowFinalScores.bind(this));
+  }
+
+  listenForPlayerEvents() {
+    this.connection.on('nextQuestion', this.nextQuestion);
+    this.connection.on('showAnswer', () => this.setScreen('roundScores'));
+    this.connection.on('showRoundScores', () => this.setScreen('roundScores'));
+    this.connection.on('showFinalScores', () => this.setScreen('finalScores'));
+    this.connection.on('hostDisconnect', this.hostDisconnectHandler);
   }
 
   removeListenersForHostEvents() {
@@ -52,35 +62,76 @@ class SocketClientInterface {
   }
 
   /* EVENT HANDLERS - HOST */
-  handleUpdatePlayers(players) {
+  handleHostUpdatePlayers(players) {
     // TODO: Add some error handling if there was no callback defined
-    this.callbacks.updatePlayers(null, players);
+    this.callbacks.host.updatePlayers(null, players);
+  }
+  handleHostNextQuestion(question, players) {
+    this.callbacks.host.nextQuestion(null, question, players);
+  }
+  handleHostShowRoundScores(players) {
+    this.callbacks.host.showRoundScores(null, players);
+  }
+  handleHostShowFinalScores(players) {
+    this.callbacks.host.showFinalScores(null, players);
   }
 
-  handleNextQuestion(question, players) {
-    this.callbacks.nextQuestion(null, question, players);
+  /* EVENT HANDLERS - PLAYER */
+  // this.connection.on('nextQuestion', this.nextQuestion);
+  // this.connection.on('showAnswer', () => this.setScreen('roundScores'));
+  // this.connection.on('showRoundScores', () => this.setScreen('roundScores'));
+  // this.connection.on('showFinalScores', () => this.setScreen('finalScores'));
+  // this.connection.on('hostDisconnect', this.hostDisconnectHandler);
+
+  handlePlayerNextQuestion(question) {
+    this.callbacks.player.nextQuestion(null, question);
+  }
+  handlePlayerShowAnswer() {
+    // null for now since there's no data to send back
+    this.callbacks.player.showAnswer(null, null);
+  }
+  handlePlayerShowRoundScores() {
+    // null for now since there's no data to send back
+    this.callbacks.player.showRoundScores(null, null);
+  }
+  handlePlayerShowFinalScores() {
+    // null for now since there's no data to send back
+    this.callbacks.player.showFinalScores(null, null);
+  }
+  handlePlayerHostDisconnect() {
+    // null for now since there's no data to send back
+    this.callbacks.player.hostDisconnect(null, null);
   }
 
-  handleShowRoundScores(players) {
-    this.callbacks.showRoundScores(null, players);
+  /* EVENT CALLBACK REGISTRY - HOST */
+  registerCallbackHostUpdatePlayers(callback) {
+    this.callbacks.host.updatePlayers = callback;
+  }
+  registerCallbackHostNextQuestion(callback) {
+    this.callbacks.host.nextQuestion = callback;
+  }
+  registerCallbackHostShowRoundScores(callback) {
+    this.callbacks.host.showRoundScores = callback;
+  }
+  registerCallbackHostShowFinalScores(callback) {
+    this.callbacks.host.showFinalScores = callback;
   }
 
-  handleShowFinalScores(players) {
-    this.callbacks.showFinalScores(null, players);
+  /* EVENT CALLBACK REGISTRY - PLAYER */
+  registerCallbackPlayerNextQuestion(callback) {
+    this.callbacks.player.nextQuestion = callback;
   }
-
-  /* EVENT CALLBACK REGISTRY */
-  registerCallbackUpdatePlayers(callback) {
-    this.callbacks.updatePlayers = callback;
+  registerCallbackPlayerShowAnswer(callback) {
+    this.callbacks.player.showAnswer = callback;
   }
-  registerCallbackNextQuestion(callback) {
-    this.callbacks.nextQuestion = callback;
+  registerCallbackPlayerShowRoundScores(callback) {
+    this.callbacks.player.showRoundScores = callback;
   }
-  registerCallbackShowRoundScores(callback) {
-    this.callbacks.showRoundScores = callback;
+  registerCallbackPlayerShowFinalScores(callback) {
+    this.callbacks.player.showFinalScores = callback;
   }
-  registerCallbackShowFinalScores(callback) {
-    this.callbacks.showFinalScores = callback;
+  registerCallbackPlayerHostDisconnect(callback) {
+    this.callbacks.player.hostDisconnect = callback;
   }
 }
 

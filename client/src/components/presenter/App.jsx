@@ -40,10 +40,10 @@ class App extends React.Component {
     // io.on('showFinalScores', this.showFinalScores);
     this.socketClientInterface.listenForHostEvents();
     // register the callback handlers
-    this.socketClientInterface.registerCallbackUpdatePlayers(this.updatePlayers);
-    this.socketClientInterface.registerCallbackNextQuestion(this.nextQuestion);
-    this.socketClientInterface.registerCallbackShowFinalScores(this.showFinalScores);
-    this.socketClientInterface.registerCallbackShowRoundScores(this.showRoundScores);
+    this.socketClientInterface.registerCallbackHostUpdatePlayers(this.updatePlayers);
+    this.socketClientInterface.registerCallbackHostNextQuestion(this.nextQuestion);
+    this.socketClientInterface.registerCallbackHostShowFinalScores(this.showFinalScores);
+    this.socketClientInterface.registerCallbackHostShowRoundScores(this.showRoundScores);
   }
 
   componentWillUnmount() {
