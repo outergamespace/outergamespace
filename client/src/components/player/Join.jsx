@@ -48,18 +48,28 @@ class Join extends React.Component {
   render() {
     const { roomId, username, errMsg } = this.state;
     return (
-      <div>
-        <div className="center">
-          Room Code
-          <input className="join" type="text" value={roomId} onChange={this.onChangeRoomId} />
+      <div className="screen">
+        <div className="screen-top" />
 
-          Choose a name
-          <input className="join" type="text" value={username} onChange={this.onChangeUsername} />
-        </div>
-        <div>
-          {errMsg ? <div className="center" >{errMsg}</div> : '' }
+        <div className="screen-middle">
+          <input
+            type="text"
+            placeholder="4-Digit Room Code"
+            value={roomId}
+            onChange={this.onChangeRoomId}
+          />
+
+          <input
+            type="text"
+            placeholder="Your Username"
+            value={username}
+            onChange={this.onChangeUsername}
+          />
+
           <button onClick={this.joinGame} >Join</button>
         </div>
+
+        <div className="screen-bottom err-msg">{errMsg}</div>
       </div>
     );
   }

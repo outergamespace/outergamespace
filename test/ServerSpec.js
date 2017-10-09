@@ -54,7 +54,15 @@ describe('Server', () => {
 
     it('Should serve css file', (done) => {
       request(server)
-        .get('/styles/style.css')
+        .get('/styles/style_player.css')
+        .expect('Content-Type', /text\/css/)
+        .expect(200)
+        .end(done);
+    });
+
+    it('Should serve css file', (done) => {
+      request(server)
+        .get('/styles/style_presenter.css')
         .expect('Content-Type', /text\/css/)
         .expect(200)
         .end(done);

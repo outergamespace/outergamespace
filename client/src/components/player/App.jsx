@@ -1,8 +1,7 @@
 import React from 'react';
 import Join from './Join';
-import Wait from './Wait';
 import Question from './Question';
-import Score from './Score';
+import TextScreen from './TextScreen';
 import io from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
@@ -62,24 +61,27 @@ class App extends React.Component {
 
   render() {
     const { screen, question, answers } = this.state;
+    const waitText = 'Please wait for the game to begin';
+    const answeredText = 'You have submitted your answer';
+    const scoreText = 'Check out the main screen!';
+    const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
+
     if (screen === 'join') {
       return <Join setWaitScreen={() => this.setScreen('wait')} />;
     } else if (screen === 'wait') {
-      return <Wait />;
+      return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
       return <Question question={question} answers={answers} setScreen={this.setScreen} />;
     } else if (screen === 'answered') {
-      return <div className="center">You have submitted your answer</div>;
-    } else if (screen === 'finalScores') {
-      return <Score final leaveGame={this.leaveGame} />;
+      return <TextScreen text={answeredText} />;
     } else if (screen === 'roundScores') {
-      return <Score />;
+      return <TextScreen text={scoreText} />;
+    } else if (screen === 'finalScores') {
+      return <TextScreen text={scoreText} btnText={'Play Again'} btnOnClick={this.leaveGame} />;
     } else if (screen === 'hostDisconnect') {
-      return <div>The game ended unexpectedly because we lost connection with the host</div>;
+      return <TextScreen text={hostDisconnectText} />;
     }
-
-    // if input is not one of the expected strings
-    return <div>Error: unknown screen state: {screen}</div>;
+    return <div />;
   }
 }
 
