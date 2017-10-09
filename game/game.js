@@ -14,7 +14,7 @@ Object.keys(CONFIG).forEach((k) => {
   DEFAULT_CONFIG[k] = CONFIG[k].default;
 });
 
-const checkConfigRange = (config) => {
+const checkConfigRange = (config = DEFAULT_CONFIG) => {
   Object.keys(config).forEach((key) => {
     if (CONFIG[key]) {
       const val = config[key];
@@ -50,15 +50,16 @@ class Game {
   /** Create a game instance */
   constructor(config) {
     this.players = {};
-    db.getQuestions()
-      .then((results) => {
-        this.questions = results;
-      });
     this.currentQuestionIndex = -1;
     this.answeredPlayers = [];
 
     checkConfigRange(config);
     this.config = Object.assign({}, DEFAULT_CONFIG, config);
+
+    db.getQuestions(this.config.noOfQuestions)
+      .then((results) => {
+        this.questions = results;
+      });
   }
 
   /**
