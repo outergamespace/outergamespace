@@ -4,6 +4,10 @@ const Player = require('./player.js');
 
 const POINTS_PER_QS = 10;
 const MAX_PLAYERS = 4;
+const DEFAULT_CONFIG = {
+  timeForQuestion: 15,
+  maxPlayers: 6,
+};
 
 /**
  * Shuffle the answers of a given question
@@ -27,7 +31,7 @@ const scrambleAnswers = question => (
 /** Class representing a Game class */
 class Game {
   /** Create a game instance */
-  constructor() {
+  constructor(config) {
     this.players = {};
     db.getQuestions()
       .then((results) => {
@@ -35,6 +39,17 @@ class Game {
       });
     this.currentQuestionIndex = -1;
     this.answeredPlayers = [];
+
+    const { timeForQuestion, maxPlayers } = config;
+    if (timeForQuestion <= 0 || timeForQuestion > 30) {
+      throw new Error('Time for each question must be between 1-30 seconds');
+    } else if (maxPlayers <= 0 || maxPlayers > 10) {
+      throw new Error('Maximum number of players must be between 1-10');
+    }
+    this.config = {
+      timeForQuestion: timeForQuestion || DEFAULT_CONFIG.timeForQuestion,
+      maxPlayers: maxPlayers || DEFAULT_CONFIG.maxPlayers,
+    };
   }
 
   /**
