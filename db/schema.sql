@@ -1,4 +1,4 @@
--- CREATE DATABASE trivia;
+CREATE DATABASE trivia;
 
 USE trivia;
 
