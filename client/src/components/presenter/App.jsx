@@ -110,7 +110,12 @@ class App extends React.Component {
     const { screen, roomId, gameConfig, players, question, answers, finalScores } = this.state;
 
     if (screen === 'create') {
-      return <CreateRoom createRoom={this.createRoom} />;
+      return (
+        <CreateRoom
+          createRoom={this.createRoom}
+          socketClientInterface={this.socketClientInterface}
+        />
+      );
     } else if (screen === 'wait') {
       return (
         <WaitingRoom

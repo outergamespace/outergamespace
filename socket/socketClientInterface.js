@@ -52,6 +52,7 @@ class SocketClientInterface {
   }
 
   /* EVENT HANDLERS - HOST */
+
   handleHostUpdatePlayers(players) {
     // TODO: Add some error handling if there was no callback defined
     this.callbacks.host.updatePlayers(players);
@@ -65,9 +66,8 @@ class SocketClientInterface {
   handleHostShowFinalScores(players) {
     this.callbacks.host.showFinalScores(players);
   }
-  handleHostShowAnswer() {
-    // null for now since there's no data to send back
-    this.callbacks.host.showAnswer(null);
+  handleHostShowAnswer(answer) {
+    this.callbacks.host.showAnswer(answer);
   }
 
   /* EVENT HANDLERS - PLAYER */
@@ -75,9 +75,8 @@ class SocketClientInterface {
   handlePlayerNextQuestion(question) {
     this.callbacks.player.nextQuestion(question);
   }
-  handlePlayerShowAnswer() {
-    // null for now since there's no data to send back
-    this.callbacks.player.showAnswer(null);
+  handlePlayerShowAnswer(answer) {
+    this.callbacks.player.showAnswer(answer);
   }
   handlePlayerShowRoundScores() {
     // null for now since there's no data to send back
@@ -93,6 +92,7 @@ class SocketClientInterface {
   }
 
   /* EVENT CALLBACK REGISTRY - HOST */
+
   registerCallbackHostUpdatePlayers(callback) {
     this.callbacks.host.updatePlayers = callback;
   }
@@ -110,6 +110,7 @@ class SocketClientInterface {
   }
 
   /* EVENT CALLBACK REGISTRY - PLAYER */
+
   registerCallbackPlayerNextQuestion(callback) {
     this.callbacks.player.nextQuestion = callback;
   }
