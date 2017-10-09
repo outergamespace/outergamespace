@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import io from '../../../../socket/socketClientInterface';
 
 const propTypes = {
-  setWaitScreen: PropTypes.func.isRequired,
+  joinGame: PropTypes.func.isRequired,
 };
 
 class Join extends React.Component {
@@ -35,12 +35,12 @@ class Join extends React.Component {
 
   joinGame() {
     const { roomId, username } = this.state;
-    io.emit('joinRoom', roomId, username, (errMsg) => {
+    io.emit('joinRoom', roomId, username, (errMsg, timePerQuestion) => {
       if (errMsg) {
         this.setState({ errMsg });
       } else {
         // joined game successfully
-        this.props.setWaitScreen();
+        this.props.joinGame(timePerQuestion);
       }
     });
   }

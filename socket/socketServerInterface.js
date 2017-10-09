@@ -3,7 +3,6 @@ const Trivia = require('../game/trivia.js');
 
 /* GAME CONTROLS */
 
-const TIME_FOR_QS = 5 * 1000;
 const TIME_FOR_SHOW_ANS = 3 * 1000;
 const TIME_FOR_SCORES = 5 * 1000;
 
@@ -84,6 +83,7 @@ class SocketServerInterface {
   handleJoinRoom(socket, roomId, username, callback) {
     try {
       this.trivia.joinGame(socket.id, roomId, username);
+      const game = this.getGame(roomId);
 
       socket.join(roomId);
       this.listenForPlayerEvents(socket);
@@ -91,7 +91,7 @@ class SocketServerInterface {
       this.emitUpdatePlayers(roomId);
 
       // successful
-      callback(null);
+      callback(null, game.getTimePerQuestion());
     } catch (error) {
       // unsuccessful
       callback(error.message);
@@ -170,7 +170,7 @@ class SocketServerInterface {
     const game = this.getGame(socket);
     this.emitToRoom(socket, 'nextQuestion', game.nextQuestion(), game.getPlayers());
 
-    this.scheduleEmission(this.emitShowAnswer.bind(this, socket), TIME_FOR_QS);
+    this.scheduleEmission(this.emitShowAnswer.bind(this, socket), game.getTimePerQuestion() * 1000);
   }
 
   emitReceiveAnswer(socket) {

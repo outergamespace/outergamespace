@@ -9,12 +9,14 @@ class App extends React.Component {
     super();
     this.state = {
       screen: 'join',
+      timePerQuestion: 0,
       question: '',
       answers: [],
     };
 
     /* METHOD BINDING */
     this.setScreen = this.setScreen.bind(this);
+    this.joinGame = this.joinGame.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
     this.hostDisconnectHandler = this.hostDisconnectHandler.bind(this);
@@ -41,6 +43,11 @@ class App extends React.Component {
     this.setState({ screen });
   }
 
+  joinGame(timePerQuestion) {
+    this.setState({ timePerQuestion });
+    this.setScreen('wait');
+  }
+
   nextQuestion(question) {
     this.setState({
       screen: 'question',
@@ -60,18 +67,25 @@ class App extends React.Component {
   }
 
   render() {
-    const { screen, question, answers } = this.state;
+    const { screen, timePerQuestion, question, answers } = this.state;
     const waitText = 'Please wait for the game to begin';
     const answeredText = 'You have submitted your answer';
     const scoreText = 'Check out the main screen!';
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
     if (screen === 'join') {
-      return <Join setWaitScreen={() => this.setScreen('wait')} />;
+      return <Join joinGame={this.joinGame} />;
     } else if (screen === 'wait') {
       return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
-      return <Question question={question} answers={answers} setScreen={this.setScreen} />;
+      return (
+        <Question
+          question={question}
+          answers={answers}
+          setScreen={this.setScreen}
+          time={timePerQuestion}
+        />
+      );
     } else if (screen === 'answered') {
       return <TextScreen text={answeredText} />;
     } else if (screen === 'roundScores') {
