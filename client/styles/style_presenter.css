@@ -154,10 +154,29 @@ div {
 	justify-content: space-evenly;
 }
 
-/* ======
- * BUTTON
- * ======
+/* ==============
+ * INPUT & BUTTON
+ * ==============
  */
+
+input {
+	width: 60%;
+
+	display: block;
+	padding: 5% 5%;
+
+	border: 0;
+	border-radius: 4px;
+	
+	font-size: 1em;
+	color: #555;
+
+	text-align: center;
+}
+
+input::placeholder {
+	color: #AAA;
+}
 
 button {
 	width: 60%;
@@ -184,6 +203,59 @@ button:disabled {
 
 	cursor: not-allowed;
 }
+
+/* =====
+ * TABLE
+ * =====
+ */
+
+.table {
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+  justify-content: center;
+}
+
+.table-col {
+	width: auto;
+	min-width: 30%;
+	height: 100%;
+	
+	justify-content: space-around;
+}
+
+.table-col:first-child {
+	align-items: flex-end;
+}
+
+.table-col:last-child {
+	align-items: flex-start;
+}
+
+.table-col:first-child > .table-row {
+	align-items: flex-start;
+}
+
+.table-col:last-child > .table-row {
+	align-items: flex-end;
+}
+
+.table-row {
+	height: 100%;
+
+	border-bottom: 1px solid #666370;
+	justify-content: center;
+}
+
+.table-row:last-child {
+	border-bottom: 0;
+}
+
+.table-input {
+	width: 20%;
+	min-width: 20%;
+}
+
 
 /* ===========
  * ANSWER LIST
@@ -244,43 +316,4 @@ button:disabled {
 
 .answered-player-list-entry.unanswered {
 	color: #D1D1D1;
-}
-
-/* ==========
- * SCOREBOARD
- * ==========
- */
-
-.scoreboard {
-	height: 100%;
-	display: flex;
-	flex-direction: row;
-  justify-content: center;
-}
-
-.scoreboard-col {
-	width: auto;
-	min-width: 30%;
-	height: 100%;
-	
-	justify-content: space-around;
-}
-
-.scoreboard-col:first-child > .scoreboard-row {
-	align-items: flex-start;
-}
-
-.scoreboard-col:last-child > .scoreboard-row {
-	align-items: flex-end;
-}
-
-.scoreboard-row {
-	height: 100%;
-
-	border-bottom: 1px solid #666370;
-	justify-content: center;
-}
-
-.scoreboard-row:last-child {
-	border-bottom: 0;
 }
