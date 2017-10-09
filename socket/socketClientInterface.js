@@ -1,8 +1,9 @@
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
+const io = require('socket.io-client');
 
 // we will use the default connection params of the host connection
 // if we want to have the ability to specify the port, we can add it to the interface as well
-const connection = io();
+// const connection = io();
 
 /* CLASS DEFINITION */
 class SocketClientInterface {
@@ -10,9 +11,9 @@ class SocketClientInterface {
     // not sure if this is necessary, it depends if io() will work when it's
     // passed an empty or undefined object
     if (options) {
-      this.io = io(options);
+      this.connection = io(options);
     } else {
-      this.io = io();
+      this.connection = io();
     }
     this.callbacks = {
     };
@@ -29,35 +30,42 @@ class SocketClientInterface {
   // io.on('showFinalScores', this.showFinalScores);
 
   // TODO: Do we need the socket?
-  listenForHostEvents(socket) {
-    socket.on('updatePlayers', this.handleUpdatePlayers.bind(this, socket));
-    socket.on('nextQuestion', this.handleNextQuestion.bind(this, socket));
-    socket.on('showRoundScores', this.handleShowRoundScores.bind(this, socket));
-    socket.on('showFinalScores', this.handleShowFinalScores.bind(this, socket));
-  }
-
-  // removeListenersForHostEvents(socket) {
-  //   socket.removeAllListeners('updatePlayers');
-  //   socket.removeAllListeners('nextQuestion');
-  //   socket.removeAllListeners('showRoundScores');
-  //   socket.removeAllListeners('showFinalScores');
+  // listenForHostEvents(socket) {
+  //   socket.on('updatePlayers', this.handleUpdatePlayers.bind(this, socket));
+  //   socket.on('nextQuestion', this.handleNextQuestion.bind(this, socket));
+  //   socket.on('showRoundScores', this.handleShowRoundScores.bind(this, socket));
+  //   socket.on('showFinalScores', this.handleShowFinalScores.bind(this, socket));
   // }
 
+  listenForHostEvents() {
+    this.connection.on('updatePlayers', this.handleUpdatePlayers.bind(this));
+    this.connection.on('nextQuestion', this.handleNextQuestion.bind(this));
+    this.connection.on('showRoundScores', this.handleShowRoundScores.bind(this));
+    this.connection.on('showFinalScores', this.handleShowFinalScores.bind(this));
+  }
+
+  removeListenersForHostEvents() {
+    this.connection.removeAllListeners('updatePlayers');
+    this.connection.removeAllListeners('nextQuestion');
+    this.connection.removeAllListeners('showRoundScores');
+    this.connection.removeAllListeners('showFinalScores');
+  }
+
   /* EVENT HANDLERS - HOST */
-  handleUpdatePlayers(socket, players) {
+  handleUpdatePlayers(players) {
     // TODO: Add some error handling if there was no callback defined
     this.callbacks.updatePlayers(null, players);
   }
 
-  handleNextQuestion(socket, question, players) {
+  handleNextQuestion(question, players) {
     this.callbacks.nextQuestion(null, question, players);
   }
 
-  handleShowRoundScores(socket, players) {
+  handleShowRoundScores(players) {
     this.callbacks.showRoundScores(null, players);
   }
 
-  handleShowFinalScores(socket, players) {
+  handleShowFinalScores(players) {
     this.callbacks.showFinalScores(null, players);
   }
 
@@ -77,5 +85,5 @@ class SocketClientInterface {
 }
 
 module.exports = SocketClientInterface;
-module.exports.connection = connection;
+// module.exports.connection = connection;
 // export default connection;

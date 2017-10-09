@@ -39,14 +39,20 @@ class App extends React.Component {
     // io.on('showRoundScores', this.showRoundScores);
     // io.on('showFinalScores', this.showFinalScores);
     this.socketClientInterface.listenForHostEvents();
+    // register the callback handlers
+    this.socketClientInterface.registerCallbackUpdatePlayers(this.updatePlayers);
+    this.socketClientInterface.registerCallbackNextQuestion(this.nextQuestion);
+    this.socketClientInterface.registerCallbackShowFinalScores(this.showFinalScores);
+    this.socketClientInterface.registerCallbackShowRoundScores(this.showRoundScores);
   }
 
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
-    io.removeAllListeners('updatePlayers');
-    io.removeAllListeners('nextQuestion');
-    io.removeAllListeners('showRoundScores');
-    io.removeAllListeners('showFinalScores');
+    // io.removeAllListeners('updatePlayers');
+    // io.removeAllListeners('nextQuestion');
+    // io.removeAllListeners('showRoundScores');
+    // io.removeAllListeners('showFinalScores');
+    this.socketClientInterface.removeListenersForHostEvents();
   }
 
   // screen can be one of: 'create', 'wait', 'question', 'roundScores', 'finalScores'
@@ -54,9 +60,19 @@ class App extends React.Component {
     this.setState({ screen });
   }
 
+
   createRoom(roomId, gameConfig) {
     this.setState({ roomId, gameConfig });
     this.setScreen('wait');
+  // createRoom() {
+  //   // io.emit('createRoom', (err, roomId) => {
+  //   //   this.setState({ roomId });
+  //   //   this.setScreen('wait');
+  //   // });
+  //   this.socketClientInterface.connection.emit('createRoom', (err, roomId) => {
+  //     this.setState({ roomId });
+  //     this.setScreen('wait');
+  //   });
   }
 
   updatePlayers(players) {
@@ -86,7 +102,17 @@ class App extends React.Component {
   }
 
   restartGame() {
-    io.emit('endGame', () => {
+    // io.emit('endGame', () => {
+    //   this.setState({
+    //     screen: 'create',
+    //     roomId: '',
+    //     players: [],
+    //     question: '',
+    //     answers: [],
+    //     finalScores: [],
+    //   });
+    // });
+    this.socketClientInterface.connection.emit('endGame', () => {
       this.setState({
         screen: 'create',
         roomId: '',
