@@ -2,6 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import io from '../../../../socket/socketClientInterface';
 
+const DEFAULT_CONFIG = {
+  noOfQuestions: '10',
+  timePerQuestion: '15',
+  maxPlayers: '6',
+};
+
 const propTypes = {
   createRoom: PropTypes.func.isRequired,
 };
@@ -9,17 +15,14 @@ const propTypes = {
 class CreateRoom extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      noOfQuestions: '10',
-      timePerQuestion: '15',
-      maxPlayers: '6',
-      errMsg: '',
-    };
+    this.state = Object.assign({}, DEFAULT_CONFIG, { errMsg: '' });
 
     /* METHOD BINDING */
     this.onChangeInput = this.onChangeInput.bind(this);
     this.getConfig = this.getConfig.bind(this);
     this.createRoom = this.createRoom.bind(this);
+    this.getConfig = this.getConfig.bind(this);
+    this.getConfigObj = this.getConfigObj.bind(this);
   }
 
   onChangeInput(event, stateName) {
@@ -31,17 +34,24 @@ class CreateRoom extends React.Component {
     }
   }
 
-  getConfig() {
-    const { noOfQuestions, timePerQuestion, maxPlayers } = this.state;
+  getConfig(configName) {
+    let val = this.state[configName];
+    if (!val) {
+      val = DEFAULT_CONFIG[configName];
+    }
+    return parseInt(val, 10);
+  }
+
+  getConfigObj() {
     return {
-      noOfQuestions,
-      timePerQuestion,
-      maxPlayers,
+      noOfQuestions: this.getConfig('noOfQuestions'),
+      timePerQuestion: this.getConfig('timePerQuestion'),
+      maxPlayers: this.getConfig('maxPlayers'),
     };
   }
 
   createRoom() {
-    io.emit('createRoom', this.getConfig(), (errMsg, roomId) => {
+    io.emit('createRoom', this.getConfigObj(), (errMsg, roomId) => {
       if (errMsg) {
         this.setState({ errMsg });
       } else {
@@ -57,44 +67,44 @@ class CreateRoom extends React.Component {
         <div className="screen-top" >Game Settings</div>
 
         <div className="screen-middle screen-bordered" >
-            <div className="table-body">
-              <div className="table-col">
-                <div className="table-row">No. of Questions</div>
-                <div className="table-row">Time per Question (Seconds)</div>
-                <div className="table-row">Maximum No. of Players</div>
-              </div>
-
-              <div className="table-col table-input">
-                <div className="table-row">
-                  <input
-                    type="text"
-                    value={noOfQuestions}
-                    placeholder="10"
-                    onChange={e => this.onChangeInput(e, 'noOfQuestions')}
-                  />
-                </div>
-
-                <div className="table-row">
-                  <input
-                    type="text"
-                    value={timePerQuestion}
-                    placeholder="15"
-                    onChange={e => this.onChangeInput(e, 'timePerQuestion')}
-                  />
-                </div>
-
-                <div className="table-row">
-                  <input
-                    type="text"
-                    value={maxPlayers}
-                    placeholder="6"
-                    onChange={e => this.onChangeInput(e, 'maxPlayers')}
-                  />
-                </div>
-              </div>
+          <div className="table-body">
+            <div className="table-col">
+              <div className="table-row">No. of Questions</div>
+              <div className="table-row">Time per Question (Seconds)</div>
+              <div className="table-row">Maximum No. of Players</div>
             </div>
 
-            {errMsg && <div className="table-footer err-msg">{errMsg}</div>}
+            <div className="table-col table-input">
+              <div className="table-row">
+                <input
+                  type="text"
+                  value={noOfQuestions}
+                  placeholder="10"
+                  onChange={e => this.onChangeInput(e, 'noOfQuestions')}
+                />
+              </div>
+
+              <div className="table-row">
+                <input
+                  type="text"
+                  value={timePerQuestion}
+                  placeholder="15"
+                  onChange={e => this.onChangeInput(e, 'timePerQuestion')}
+                />
+              </div>
+
+              <div className="table-row">
+                <input
+                  type="text"
+                  value={maxPlayers}
+                  placeholder="6"
+                  onChange={e => this.onChangeInput(e, 'maxPlayers')}
+                />
+              </div>
+            </div>
+          </div>
+
+          {errMsg && <div className="table-footer err-msg">{errMsg}</div>}
         </div>
 
         <div className="screen-bottom">

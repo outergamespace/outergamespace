@@ -93,22 +93,7 @@ class App extends React.Component {
   }
 
   render() {
-    // const { screen, roomId, players, question, answers, finalScores } = this.state;
-    let screen = 'create';
-    let players = [
-      {username: 'alan', score: 0, answered: false},
-      {username: 'belle', score: 10, answered: false},
-      {username: 'charlie', score: 80, answered: false},
-      {username: 'denise', score: 30, answered: false},
-      {username: 'evan', score: 60, answered: false},
-      {username: 'freddy', score: 20, answered: false},
-      {username: 'giselle', score: 0, answered: false},
-      {username: 'herbert', score: 30, answered: false},
-      // {username: 'ivy', score: 50, answered: false},
-      // {username: 'jessica', score: 0, answered: false},
-    ];
-    let finalScores = players;
-    // let roomId = 'ABCD';
+    const { screen, roomId, players, question, answers, finalScores } = this.state;
 
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
