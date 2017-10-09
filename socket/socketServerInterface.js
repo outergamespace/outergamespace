@@ -68,13 +68,17 @@ class SocketServerInterface {
 
   /* EVENT HANDLERS - PREGAME */
 
-  handleCreateRoom(socket, callback) {
-    const roomId = this.trivia.createRoom(socket.id);
+  handleCreateRoom(socket, config, callback) {
+    try {
+      const roomId = this.trivia.createRoom(config);
 
-    callback(null, roomId);
+      callback(null, roomId);
 
-    socket.join(roomId);
-    this.listenForHostEvents(socket);
+      socket.join(roomId);
+      this.listenForHostEvents(socket);
+    } catch (error) {
+      callback(error.message);
+    }
   }
 
   handleJoinRoom(socket, roomId, username, callback) {

@@ -48,11 +48,9 @@ class App extends React.Component {
     this.setState({ screen });
   }
 
-  createRoom() {
-    io.emit('createRoom', (err, roomId) => {
-      this.setState({ roomId });
-      this.setScreen('wait');
-    });
+  createRoom(roomId) {
+    this.setState({ roomId });
+    this.setScreen('wait');
   }
 
   updatePlayers(players) {
