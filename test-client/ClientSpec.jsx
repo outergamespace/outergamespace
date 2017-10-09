@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { sinon, spy } from 'sinon';
 import { mount, render, shallow } from 'enzyme';
 import React from 'react';
-import Wait from './../client/src/components/player/Wait';
+import Question from './../client/src/components/player/Question';
 import Join from './../client/src/components/player/Join';
 
 
@@ -13,17 +13,20 @@ describe('Player', () => {
     const wrapper = shallow(<Join />);
 
     it('asks users to join a room', () => {
-      expect(wrapper.contains('Room Code')).to.equal(true);
+      expect(wrapper.contains('Join')).to.equal(true);
     });
   });
 
-  describe('Wait', () => {
-    const wrapper = shallow(<Wait />);
+  describe('Question', () => {
+    const wrapper = shallow(<Question />);
 
-    it('Instructs player to wait', () => {
-      expect(wrapper.contains(<div className="center">
-        Wait for all players to join.
-      </div>)).to.equal(true);
+    it('Question renders a Question', () => {
+      wrapper.setProps({
+        question: 'Is sleeping optional?',
+        answers: ['lots', 'of', 'props', 'here'],
+        setScreen: () =>{},
+      });
+      expect(wrapper.contains('Is sleeping optional?')).to.equal(true);
     });
   });
 });
