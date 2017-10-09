@@ -8,7 +8,7 @@ const propTypes = {
 };
 
 const AnswerList = ({ answers, correctAns }) => (
-  <div className="player-list">
+  <div className="screen-middle">
     {answers.map(answer => (
       <AnswerListEntry
         key={answer}

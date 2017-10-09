@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayerList from './PlayerList';
 import AnswerList from './AnswerList';
+import AnsweredPlayerList from './AnsweredPlayerList';
 import Timer from './Timer';
 import io from '../../../../socket/socketClientInterface';
 
@@ -40,16 +40,21 @@ class Question extends React.Component {
     const { question, answers, players } = this.props;
     const { correctAns } = this.state;
     return (
-      <div className="container">
-        <div className="row">
-          <div >{question}</div>
-          <Timer />
-        </div>
-        <div className="row">
+      <div className="screen screen-horizontal">
+        <div className="screen-main">
+          <div className="screen-top">
+            {question}
+          </div>
+
           <AnswerList answers={answers} correctAns={correctAns} />
         </div>
-        <div className="row">
-          <PlayerList players={players} />
+
+        <div className="screen-sidebar">
+          <Timer seconds={20} counting={correctAns === ''} />
+
+          <div className="screen-middle screen-bordered">
+            <AnsweredPlayerList players={players} />
+          </div>
         </div>
       </div>
     );

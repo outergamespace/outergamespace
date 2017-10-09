@@ -1,48 +1,67 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+const DANGER_TIME = 5;
+const WARNING_TIME = 10;
+
+const propTypes = {
+  seconds: PropTypes.number.isRequired,
+  counting: PropTypes.bool.isRequired,
+};
 
 class Timer extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      on: false,
-      time: 20,
+      remainingTime: props.seconds,
     };
-    this.start = this.start.bind(this);
-    this.decrementer = this.decrementer.bind(this);
-    this.countdown = this.countdown.bind(this);
+
+    /* METHOD BINDING */
+    this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
+    this.decrementTimer = this.decrementTimer.bind(this);
   }
 
-  start() {
-    this.setState({ on: true });
-  }
-  decrementer() {
-    if (this.state.time > 0) {
-      this.setState({ time: this.state.time - 1 });
-      // TODO change background to yellow at 5 sec and red at 1
-    }
-  }
-  // timer will begin countdown when page displays
   componentDidMount() {
-    this.countdown(true);
-    setInterval(() => this.countdown(false), 20000);
+    this.startTimer();
   }
-  // Call with 'true' to start countdown or false to stop
-  countdown() {
-    setInterval(this.decrementer, 1000);
+
+  componentWillUnmount() {
+    this.stopTimer();
+  }
+
+  startTimer() {
+    this.interval = setInterval(this.decrementTimer, 1000);
+  }
+
+  stopTimer() {
+    clearInterval(this.interval);
+  }
+
+  decrementTimer() {
+    this.setState((prevState) => {
+      // stop timer when only 1 second remains, or when correct answer is shown
+      if (prevState.remainingTime === 1 || !this.props.counting) {
+        this.stopTimer();
+      }
+      return ({
+        remainingTime: prevState.remainingTime - 1,
+      });
+    });
   }
 
   render() {
-    return (
-      <div>
-        <h3>Timer</h3>
-        <div className="time">
-          {this.state.time}
-        </div>
-        seconds remaining
-      </div>
-    );
+    const { remainingTime } = this.state;
+    let color = '';
+    if (remainingTime <= DANGER_TIME) {
+      color = 'danger';
+    } else if (remainingTime <= WARNING_TIME) {
+      color = 'warning';
+    }
+    return <div className={`screen-top screen-bordered ${color}`} >{this.state.remainingTime}</div>;
   }
 }
+
+Timer.propTypes = propTypes;
 
 export default Timer;

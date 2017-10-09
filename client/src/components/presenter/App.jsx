@@ -1,7 +1,7 @@
 import React from 'react';
 import CreateRoom from './CreateRoom';
-import PreGame from './PreGame';
-import ScoreBoard from './ScoreBoard';
+import WaitingRoom from './WaitingRoom';
+import Scoreboard from './Scoreboard';
 import Question from './Question';
 import io from '../../../../socket/socketClientInterface';
 
@@ -100,17 +100,15 @@ class App extends React.Component {
     if (screen === 'create') {
       return <CreateRoom createRoom={this.createRoom} />;
     } else if (screen === 'wait') {
-      return <PreGame players={players} roomId={roomId} />;
+      return <WaitingRoom players={players} roomId={roomId} />;
     } else if (screen === 'question') {
       return <Question question={question} answers={answers} players={players} />;
     } else if (screen === 'roundScores') {
-      return <ScoreBoard players={players} />;
+      return <Scoreboard players={players} />;
     } else if (screen === 'finalScores') {
-      return <ScoreBoard players={finalScores} final restartGame={this.restartGame} />;
+      return <Scoreboard players={finalScores} final restartGame={this.restartGame} />;
     }
-
-    // if input is not one of the expected strings
-    return <div>Error: unknown screen state: {screen}</div>;
+    return <div />;
   }
 }
 

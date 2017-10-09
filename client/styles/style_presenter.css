@@ -65,8 +65,8 @@ html {
 	height: 100%;
 	text-align: center;
 	
-	font: 24px Arial;
-	color: #555;
+	font: 40px Arial;
+	color: #666370;
 }
 
 body {
@@ -81,10 +81,8 @@ body {
 }
  
 #app {
-	width: 80vw;
-	max-width: 400px;
-	height: 80vh;
-	max-height: 600px;
+	width: 95vw;
+	height: 95vh;
 }
 
 div {
@@ -92,59 +90,88 @@ div {
 
 	display: flex;
 	flex-direction: column;
+	justify-content: space-evenly;
 	align-items: center;
-	text-align: center;
-
-	/*border: 1px solid #000; /*!!!*/*/
 }
 
-/* =============
- * SCREEN LAYOUT
- * =============
+/* ========================
+ * SCREEN LAYOUT - VERTICAL
+ * ========================
  */
 
-.screen {
+.screen,
+.screen-main,
+.screen-sidebar {
 	height: 100%;
 }
 
+.screen-bordered {
+	border: 10px solid #666370;
+	border-radius: 25px;
+
+	padding: 1%;
+}
+
 .screen-middle {
-	height: 60%;
-	justify-content: space-evenly;
+	height: 70%;
 }
 
 .screen-top,
 .screen-bottom {
-	min-height: 20%;
-	justify-content: center;
+	height: 15%;
 }
 
-/* ================
- * INPUT AND BUTTON
- * ================
+.screen-top {
+	margin-bottom: 3%;
+	justify-content: flex-end;
+}
+
+.screen-bottom {
+	margin-top: 3%;
+	justify-content: flex-start;
+}
+
+/* ==========================
+ * SCREEN LAYOUT - HORIZONTAL
+ * ==========================
  */
 
-input,
+.screen-horizontal {
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.screen-main {
+	width: 70%;
+}
+
+.screen-sidebar {
+	width: 25%;
+}
+
+.screen-sidebar > div,
+.screen-main > div {
+	justify-content: space-evenly;
+}
+
+/* ======
+ * BUTTON
+ * ======
+ */
+
 button {
-	width: 100%;
+	width: 60%;
+	height: 80%;
 
 	display: block;
-	padding: 5% 5%;
 
 	border: 0;
 	border-radius: 4px;
 	
-	font-size: 1em;
-	color: #555;
-}
-
-input::placeholder {
-	color: #AAA;
-}
-
-button {
-	box-shadow: 0 15px 0 0 rgb(230, 122, 115) inset;
+	box-shadow: 0 30px 0 0 rgb(230, 122, 115) inset;
 	background-color: rgb(228, 104, 93);
 
+	font-size: 1em;
 	color: #FFF;
 	text-shadow: rgb(178, 62, 53) 0 1px 0;
 
@@ -152,7 +179,7 @@ button {
 }
 
 button:disabled {
-	box-shadow: 0 15px 0 0 rgb(148, 138, 138) inset;
+	box-shadow: 0 30px 0 0 rgb(148, 138, 138) inset;
 	background-color: rgb(140, 129, 127);
 
 	cursor: not-allowed;
@@ -164,120 +191,96 @@ button:disabled {
  */
 
 .answer {
+	flex-direction: row;
+	justify-content: space-between;
+
+	height: 100px;
+
   background: ivory;
 
   box-shadow: 5px 2px 2px black;
   border-radius: 5px;
 
-  padding: 3%;
+  padding: 0 3%;
 }
 
 .selected {
 	font-weight: bold;
 }
 
+.checkmark-placeholder {
+	width: 65px;
+	height: 65px;
+}
+
+.checkmark {
+	background: #1EA896;
+	color: #FFF;
+
+	border-radius: 50%;
+}
+
+/* =====
+ * TIMER
+ * =====
+ */
+
+.warning {
+	background: #ECBA82;
+}
+
+.danger {
+	background: #ED9390;
+}
+
 /* ===========
- * TEXT SCREEN
+ * PLAYER LIST
  * ===========
  */
 
-.text-screen {
-	line-height: 1.5em;
+.answered-player-list {
+	height: 100%;
 }
 
-/*body {
-	font-size: 2em;
-	font-family: Arial;
-	margin: 5px 0px 0px 0px;
+.answered-player-list-entry.unanswered {
+	color: #D1D1D1;
 }
 
-div {
-	margin: auto;
-}
-input {
-	display: block;
-	width: 90%;
-	max-width: 400px;
-	border: 1px solid gray;
-	height: 2em;
-	font-size: 1em;
-	margin: auto;
-	margin-top: .5em;
-	margin-bottom: .5em;
-}
-label {
-	display: block;
-	width: 90%;
-	max-width: 400px;
-	margin: auto;
-}
-.container {
-	max-width: 850px;
-}
-.center {
-	text-align: center;
-}
-.ul {
-	list-style-type: none;
-}
-button {
-	box-shadow: rgb(230, 122, 115) 0px 39px 0px -24px inset;
-	background-color: rgb(228, 104, 93);
-	border-radius: 4px;
-	border: 1px solid rgb(255, 255, 255);
-	display: block;
-	cursor: pointer;
-	color: rgb(255, 255, 255);
-	font-family: Arial;
-	font-size: 25px;
-	padding: 6px 15px;
-	text-decoration: none;
-	text-shadow: rgb(178, 62, 53) 0px 1px 0px;
-	min-width: 80px;
-    min-height: 60px;
-    width: 150px;
-    margin: auto;
-    margin-top: .5em;
+/* ==========
+ * SCOREBOARD
+ * ==========
+ */
 
-}
-.row {
+.scoreboard {
+	height: 100%;
 	display: flex;
 	flex-direction: row;
-	max-width: 600px;
-	min-width: 300px;
-	height: auto;
-	background: #f9f1db;
+  justify-content: center;
 }
-.row > div .row-item {
-	flex: 1 1 auto;
-	width: 30px;
-	margin: 0;
-	transition: width 0.7s ease-out;
+
+.scoreboard-col {
+	width: auto;
+	min-width: 30%;
+	height: 100%;
+	
+	justify-content: space-around;
 }
-.row > div {
-	margin: .3em;
+
+.scoreboard-col:first-child > .scoreboard-row {
+	align-items: flex-start;
 }
-.timer {
-	font-size: .5em;
-	margin: .1em .1em 1em 1em;
-	float: right;
-	padding: 2px;
-	border-radius: 4px;
+
+.scoreboard-col:last-child > .scoreboard-row {
+	align-items: flex-end;
 }
-.answer-list-entry {
-  background: ivory;
-  margin: .2em;
-  box-shadow: 5px 2px 2px black;
+
+.scoreboard-row {
+	height: 100%;
+
+	border-bottom: 1px solid #666370;
+	justify-content: center;
 }
-.selected-ans,
-.player-answered {
-	font-weight: bold;
+
+.scoreboard-row:last-child {
+	border-bottom: 0;
 }
-.warn {
-	background-color: yellow;
-}
-.danger {
-	background-color: red;
-	color: white;
-}
-*/
