@@ -27,14 +27,21 @@ class WaitingRoom extends React.Component {
 
   render() {
     const { roomId, players } = this.props;
-    const { errMsg } = this.state;
     return (
-      <div>
-        <div className="center" >Room Code: {roomId}</div>
-        <div className="center" >Waiting for Players to Join</div>
-        <PlayerList players={players} />
-        {errMsg ? <div className="center" >{errMsg}</div> : ''}
-        <button onClick={this.startGame} >Start</button>
+      <div className="screen">
+        <div className="screen-top" >Room Code: {roomId}</div>
+
+        <div className="screen-middle player-list" >
+          {
+            players.length === 0
+              ? 'Waiting for players to join...'
+              : players.map(player => <div key={player.username} >{player.username}</div>)
+          }
+        </div>
+
+        <div className="screen-bottom">
+          <button disabled={players.length === 0} onClick={this.startGame} >Start Game</button>
+        </div>
       </div>
     );
   }
