@@ -11,7 +11,7 @@
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
     "test": "mocha --recursive test",
-    "test-client": "mocha --compilers js:babel-register --require ./test-client/helpers.js --require ./test-client/dom.js --recursive test-client",
+    "test-client": "mocha --compilers js:babel-register --require ./test-client/dom.js --recursive test-client",
     "start": "node server/index.js",
     "generate-jsdoc": "jsdoc -R README.md -c jsdoc_conf.json -d documentation",
     "lint": "node_modules/.bin/eslint ./**/*.js ./**/*.jsx"
