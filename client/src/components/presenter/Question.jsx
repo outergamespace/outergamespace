@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlayerList from './PlayerList';
 import AnswerList from './AnswerList';
+import AnsweredPlayerList from './AnsweredPlayerList';
 import Timer from './Timer';
 import io from '../../../../socket/socketClientInterface';
 
@@ -55,23 +55,13 @@ class Question extends React.Component {
           </div>
 
           <div className="screen-middle screen-bordered">
-            {players.map(player => <div key={player.username} >{player.username}</div>)}
+            <AnsweredPlayerList players={players} />
           </div>
         </div>
       </div>
     );
   }
 }
-        // <div className="row">
-        //   <div >{question}</div>
-        //   <Timer />
-        // </div>
-        // <div className="row">
-        //   <AnswerList answers={answers} correctAns={correctAns} />
-        // </div>
-        // <div className="row">
-        //   <PlayerList players={players} />
-        // </div>
 
 Question.propTypes = propTypes;
 

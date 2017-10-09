@@ -263,12 +263,16 @@ button:disabled {
 }
 
 /* ===========
- * TEXT SCREEN
+ * PLAYER LIST
  * ===========
  */
 
-.text-screen {
-	line-height: 1.5em;
+.answered-player-list {
+	height: 100%;
+}
+
+.answered-player-list-entry.unanswered {
+	color: #D1D1D1;
 }
 
 /*body {
