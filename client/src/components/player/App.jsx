@@ -60,24 +60,24 @@ class App extends React.Component {
   }
 
   render() {
-    const { screen, question, answers } = this.state;
+    // const { screen, question, answers } = this.state;
     const waitText = 'Please wait for the game to begin';
     const answeredText = 'You have submitted your answer';
     const scoreText = 'Check out the main screen!';
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
-    // let screen = 'finalScores';
-    // let question = 'In what year did James Madison serve as the President of the United States?';
-    // let answers = [
-    //   '1234-1234',
-    //   '1234-1235',
-    //   '1234-1236',
-    //   '1234-1237',
-    // ];
-    // let players = [
-    //   { username: 'alan' },
-    //   { username: 'belle' },
-    // ];
+    let screen = 'question';
+    let question = 'In what year did James Madison serve as the President of the United States?';
+    let answers = [
+      '1234-1234',
+      '1234-1235',
+      '1234-1236',
+      '1234-1237',
+    ];
+    let players = [
+      { username: 'alan' },
+      { username: 'belle' },
+    ];
 
     if (screen === 'join') {
       return <Join setWaitScreen={() => this.setScreen('wait')} />;

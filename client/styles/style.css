@@ -136,13 +136,20 @@ button {
 }
 
 button {
-	box-shadow: rgb(230, 122, 115) 0px 39px 0px -24px inset;
+	box-shadow: rgb(230, 122, 115) 0 39px 0 -24px inset;
 	background-color: rgb(228, 104, 93);
 
 	color: #FFF;
-	text-shadow: rgb(178, 62, 53) 0px 1px 0px;
+	text-shadow: rgb(178, 62, 53) 0 1px 0;
 
 	cursor: pointer;
+}
+
+button:disabled {
+	box-shadow: rgb(148, 138, 138) 0 39px 0 -24px inset;
+	background-color: rgb(140, 129, 127);
+
+	cursor: not-allowed;
 }
 
 /* ===========

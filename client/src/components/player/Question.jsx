@@ -50,7 +50,7 @@ class Question extends React.Component {
 
         <div className="screen-bottom">
           <Timer />
-          <button onClick={this.sendAnswer} >Submit</button>
+          <button disabled={currentAns === ''} onClick={this.sendAnswer} >Submit</button>
         </div>
       </div>
     );
