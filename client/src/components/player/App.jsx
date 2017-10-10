@@ -8,7 +8,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'join',
+      screen: 'front',
       timePerQuestion: 0,
       question: '',
       answers: [],
@@ -78,7 +78,7 @@ class App extends React.Component {
     //   this.setScreen('join');
     // });
     this.socketClientInterface.connection.emit('leaveGame', () => {
-      this.setScreen('join');
+      this.setScreen('front');
     });
   }
 
@@ -93,7 +93,9 @@ class App extends React.Component {
     const scoreText = 'Check out the main screen!';
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
-    if (screen === 'join') {
+    if (screen === 'front') {
+      return <FrontPage />
+    } else if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
       return <TextScreen text={waitText} />;

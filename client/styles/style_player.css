@@ -118,6 +118,14 @@ div {
 }
 
 /* ================
+ * FRONT PAGE
+ * ================
+ */
+ #welcome {
+	 background-image: url('../../images/mars_nasa.jpg');
+ }
+
+/* ================
  * INPUT AND BUTTON
  * ================
  */
