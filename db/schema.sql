@@ -2,6 +2,11 @@ CREATE DATABASE trivia;
 
 USE trivia;
 
+CREATE TABLE trivia_categories(
+  id INT PRIMARY KEY NOT NULL,
+  name VARCHAR(40) NOT NULL
+);
+
 CREATE TABLE questions(
   id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   question VARCHAR(120) NOT NULL,
@@ -26,6 +31,17 @@ CREATE TABLE users(
 );
 
 /* Dummy Data */
+INSERT INTO trivia_categories (id, name)
+VALUES (9, 'General Knowledge');
+
+INSERT INTO trivia_categories (id, name)
+VALUES (10, 'Entertainment: Books');
+
+INSERT INTO trivia_categories (id, name)
+VALUES (11, 'Entertainment: Film');
+
+INSERT INTO trivia_categories (id, name)
+VALUES (12, 'Entertainment: Music');
 
 INSERT INTO questions (question, correct_ans, category, type, difficulty)
 VALUES ('Which of the following is not a member of the Outer Game Space team?', 'Brandon', 'Hack Reactor', 'multiple', 'easy');
