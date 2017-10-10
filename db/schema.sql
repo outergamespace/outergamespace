@@ -22,7 +22,7 @@ CREATE TABLE users(
   total_points INT NOT NULL,
   games_played INT NOT NULL,
   badge VARCHAR(120) NOT NULL
-)
+);
 
 /* Dummy Data */
 
