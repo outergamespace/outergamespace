@@ -10,6 +10,7 @@ const SocketServerInterface = require('../socket/socketServerInterface.js');
 const io = new SocketServerInterface(server);
 
 const CLIENT_DIR = path.join(__dirname, '../client');
+const IMAGE_DIR = path.join(__dirname, '../images');
 const SERVER_PORT = process.env.PORT || 8080;
 
 server.listen(SERVER_PORT);
@@ -20,6 +21,7 @@ console.log(`Server listening on port ${SERVER_PORT}`);
 /* MIDDLEWARE */
 
 app.use(express.static(CLIENT_DIR));
+app.use(express.static(IMAGE_DIR));
 app.use((req, res, next) => {
   console.log(`${req.method} request on ${req.url}`);
   next();

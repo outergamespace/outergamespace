@@ -2,6 +2,7 @@ import React from 'react';
 import Join from './Join';
 import Question from './Question';
 import TextScreen from './TextScreen';
+import FrontPage from './FrontPage';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
