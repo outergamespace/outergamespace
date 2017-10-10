@@ -86,7 +86,7 @@ INSERT INTO incorrect_answers (question_id, ans) VALUES (11, "Eater of Souls");
 INSERT INTO incorrect_answers (question_id, ans) VALUES (11, "The Lich King");
 
 INSERT INTO questions (question, correct_ans, category, type, difficulty)
-VALUES ("What is the capital of Chile?", "Santiago", "Geography", 'medium');
+VALUES ("What is the capital of Chile?", "Santiago", "Geography", 'multiple', 'medium');
 INSERT INTO incorrect_answers (question_id, ans) VALUES (12, "Valpara&iacute;so");
 INSERT INTO incorrect_answers (question_id, ans) VALUES (12, "Copiap&oacute;");
 INSERT INTO incorrect_answers (question_id, ans) VALUES (12, "Antofagasta");
