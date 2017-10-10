@@ -128,7 +128,7 @@ INSERT INTO incorrect_answers (question_id, ans) VALUES (18, "Zero Escape Virtue
 INSERT INTO incorrect_answers (question_id, ans) VALUES (18, "The Nonary Game: Sigma's Last Life");
 
 INSERT INTO questions (question, correct_ans, category, type, difficulty)
-VALUES ("Where is Earth's South Magnetic Pole?", "The North Pole", "Geography", 'medium');
+VALUES ("Where is Earth's South Magnetic Pole?", "The North Pole", "Geography", 'multiple', 'medium');
 INSERT INTO incorrect_answers (question_id, ans) VALUES (19, "The South Pole");
 INSERT INTO incorrect_answers (question_id, ans) VALUES (19, "The Tropic of Cancer");
 INSERT INTO incorrect_answers (question_id, ans) VALUES (19, "The Equator");
