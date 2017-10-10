@@ -140,7 +140,7 @@ class App extends React.Component {
     } else if (screen === 'finalScores') {
       return <Scoreboard players={finalScores} final restartGame={this.restartGame} />;
     } else if (screen === 'login') {
-      return <Login />
+      return <Login />;
     }
     return <div />;
   }
