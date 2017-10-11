@@ -8,33 +8,82 @@ class FrontPage extends React.Component {
       loginText: '',
       guestText: '',
       registerText: '',
+      registerTextTop: 'hidden',
       loginForm: 'hidden',
+      guestTextTop: 'hidden',
+      passwordField: 'hidden',
+      mode: 'welcome',
 
       // form values
       username: '',
-      password: ''
+      password: '',
     }
 
     // function binding
+    this.setGuestView = this.setGuestView.bind(this);
     this.loginHandler = this.loginHandler.bind(this);
     this.setLoginView = this.setLoginView.bind(this);
-  }
+    this.resetView = this.resetView.bind(this);
+    this.setRegisterView = this.setRegisterView.bind(this);
+  };
 
   setLoginView() {
-    this.setState({
-      guestText: 'animated bounceOutRight',
-      registerText: 'animated bounceOutRight',
-      loginForm: 'animated bounceInLeft'
-    })
-  }
+    if (this.state.mode === 'welcome') {
+      this.setState({
+        mode: 'login',
+        guestText: 'animated bounceOutRight',
+        registerText: 'animated bounceOutRight',
+        loginForm: 'animated bounceInLeft',
+        passwordField: 'animated bounceInLeft'
+      });
+    } else if (this.state.mode === 'login') {
+      this.resetView();
+    }
+  };
 
   loginHandler(event) {
     const name = event.target.name;
     const input = event.target.value;
     this.setState({
       [name]: input
-    })
-  }
+    });
+  };
+
+  setGuestView() {
+    this.setState({
+      mode: 'guest',
+      loginText: 'animated bounceOutUp',
+      guestText: 'animated bounceOutUp',
+      guestTextTop: 'animated bounceInUp',
+      loginForm: 'animated bounceInUp',
+      registerText: 'animated bounceOutUp',
+      passwordField: 'hidden'
+    });
+  };
+
+  setRegisterView() {
+    this.setState({
+      mode: 'register',
+      loginText: 'animated bounceOutUp',
+      guestText: 'animated bounceOutUp',
+      registerText: 'animated bounceOutUp',
+      loginForm: 'animated bounceInUp',
+      passwordField: 'animated bounceInUp',
+      registerTextTop: 'animated BounceInUp'
+    });
+  };
+
+  resetView() {
+    this.setState({
+      mode: 'welcome',
+      loginText: 'animated bounceInLeft',
+      guestText: 'animated bounceInLeft',
+      registerText: 'animated bounceInLeft',
+      registerTextTop: 'animated bounceOutRight',
+      loginForm: 'animated bounceOutRight',
+      guestTextTop: 'animated bounceOutRight'
+    });
+  };
 
   render() {
     return (
@@ -42,8 +91,10 @@ class FrontPage extends React.Component {
         <img className="marsBackground" src="../../mars.jpg" alt="mars"/>
         <h1 className="titleText">OuterGameSpace</h1>
         <h1 onClick={this.setLoginView} className={`loginText ${this.state.loginText}`}>Login</h1>
-        <h1 className={`guestText ${this.state.guestText}`}>Guest</h1>
-        <h1 className={`registerText ${this.state.registerText}`}>Register</h1>
+        <h1 onClick={this.resetView} className={`registerTextTop ${this.state.registerTextTop}`}>Register</h1>
+        <h1 onClick={this.resetView} className={`guestTextTop ${this.state.guestTextTop}`}>Guest</h1>
+        <h1 onClick={this.setGuestView} className={`guestText ${this.state.guestText}`}>Guest</h1>
+        <h1 onClick={this.setRegisterView} className={`registerText ${this.state.registerText}`}>Register</h1>
         <form className={`loginForm ${this.state.loginForm}`}>
           <input 
             className="loginInput" 
@@ -54,7 +105,7 @@ class FrontPage extends React.Component {
             value={this.state.username}>
           </input>
           <input 
-            className="loginInput" 
+            className={`loginInput ${this.state.passwordField}`}
             type="password" 
             name="password" 
             placeholder="password"
@@ -70,8 +121,8 @@ class FrontPage extends React.Component {
 export default FrontPage;
 
 
-// Login triggers
-//   Guest fadeout
-//     Username fadein
-//   Register fadeout
-//     Password fadein
+/*
+guest button <--
+  - float up to cover login
+  - input field floats up to cover the guest field
+*/
