@@ -63,5 +63,56 @@ db.getQuestions = (n = 5) => {
   });
 };
 
+db.clearCategories = () =>
+  new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        connection.query('DELETE FROM trivia_categories', (error) => {
+          if (error) {
+            reject(error);
+            connection.release();
+          } else {
+            resolve();
+            connection.release();
+          }
+        });
+      }
+    });
+  });
+
+db.saveCategories = categories =>
+  db.clearCategories()
+    .then(() => {
+      const dbInserts = categories.map((category) => {
+        const queryString = `
+        INSERT INTO trivia_categories (id, name)
+        VALUES (${category.id}, '${category.name}')
+        `;
+        return new Promise((resolve, reject) => {
+          pool.getConnection((err, connection) => {
+            if (err) {
+              reject(err);
+              connection.release();
+            } else {
+              connection.query(queryString, (error, results) => {
+                if (error) {
+                  reject(error);
+                  connection.release();
+                } else {
+                  resolve(results);
+                  connection.release();
+                }
+              });
+            }
+          });
+        });
+      });
+      return Promise.all(dbInserts);
+    })
+    .catch(console.error);
+
 /** exports a database connection object */
 module.exports = db;
