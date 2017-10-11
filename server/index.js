@@ -38,5 +38,9 @@ app.get('/join', (req, res) => {
   res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
 });
 
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
+});
+
 // Export for testing
 module.exports = app;
