@@ -83,7 +83,7 @@ db.clearCategories = () =>
     });
   });
 
-db.saveCategories = categories =>
+db.updateCategories = categories =>
   db.clearCategories()
     .then(() => {
       const dbInserts = categories.map((category) => {
@@ -97,12 +97,12 @@ db.saveCategories = categories =>
               reject(err);
               connection.release();
             } else {
-              connection.query(queryString, (error, results) => {
+              connection.query(queryString, (error) => {
                 if (error) {
                   reject(error);
                   connection.release();
                 } else {
-                  resolve(results);
+                  resolve();
                   connection.release();
                 }
               });
@@ -113,6 +113,26 @@ db.saveCategories = categories =>
       return Promise.all(dbInserts);
     })
     .catch(console.error);
+
+db.getCategories = () =>
+  new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        connection.query('SELECT * FROM trivia_categories', (error, results) => {
+          if (error) {
+            reject(error);
+            connection.release();
+          } else {
+            resolve(results);
+            connection.release();
+          }
+        });
+      }
+    });
+  });
 
 /** exports a database connection object */
 module.exports = db;
