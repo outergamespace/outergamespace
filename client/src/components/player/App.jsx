@@ -3,6 +3,7 @@ import Join from './Join';
 import Question from './Question';
 import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
+import Lobby from './Lobby';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
@@ -13,12 +14,15 @@ class App extends React.Component {
       timePerQuestion: 0,
       question: '',
       answers: [],
+      username: '',
+      password: ''
     };
 
     /* SOCKET CLIENT INTERFACE */
     this.socketClientInterface = new SocketClientInterface();
 
     /* METHOD BINDING */
+    this.handleLogin = this.handleLogin.bind(this);
     this.setScreen = this.setScreen.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -43,6 +47,16 @@ class App extends React.Component {
   componentWillUnmount() {
     /* SOCKET EVENT LISTENERS */
     this.socketClientInterface.removeListenersForPlayerEvents();
+  }
+
+  handleLogin(username, password) {
+    console.log('Logging in...', username);
+    this.setState({
+      username: username,
+      password: password,
+      // Authentication routing should occur here, instantly routing to lobby is for testing only
+      screen: 'lobby'
+    });
   }
 
   setScreen(screen) {
@@ -95,8 +109,10 @@ class App extends React.Component {
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
     if (screen === 'front') {
-      return <FrontPage />;
-    } else if (screen === 'join') {
+      return <FrontPage handleLogin={this.handleLogin}/>;
+    } else if (screen === 'lobby') {
+      return <Lobby username={this.state.username}/>
+    } if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
       return <TextScreen text={waitText} />;

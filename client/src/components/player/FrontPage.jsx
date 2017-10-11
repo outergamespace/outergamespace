@@ -19,7 +19,10 @@ class FrontPage extends React.Component {
       password: '',
     }
 
+    this.handleLogin = props.handleLogin;
+
     // function binding
+    this.checkSubmit = this.checkSubmit.bind(this);
     this.setGuestView = this.setGuestView.bind(this);
     this.loginHandler = this.loginHandler.bind(this);
     this.setLoginView = this.setLoginView.bind(this);
@@ -40,6 +43,13 @@ class FrontPage extends React.Component {
       this.resetView();
     }
   };
+
+  checkSubmit(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.handleLogin(this.state.username, this.state.password);
+    }
+  }
 
   loginHandler(event) {
     const name = event.target.name;
@@ -77,23 +87,21 @@ class FrontPage extends React.Component {
     if (this.state.mode === 'guest') {
       this.setState({
         guestTextTop: 'animated bounceOutRight',
-        loginText: 'animated bounceInLeft',
-      
-      })
+        loginText: 'animated bounceInLeft'
+      });
     }
     if (this.state.mode === 'register') {
       this.setState({
         registerTextTop: 'animated bounceOutRight',
-        loginText: 'animated bounceInLeft',
-      
-      })
+        loginText: 'animated bounceInLeft'
+      });
     }
     this.setState({
       mode: 'welcome',
       // loginText: 'animated bounceInLeft',
       guestText: 'animated bounceInLeft',
       registerText: 'animated bounceInLeft',
-      loginForm: 'animated bounceOutRight',
+      loginForm: 'animated bounceOutRight'
     });
   };
 
@@ -107,12 +115,13 @@ class FrontPage extends React.Component {
         <h1 onClick={this.resetView} className={`guestTextTop ${this.state.guestTextTop}`}>Guest</h1>
         <h1 onClick={this.setGuestView} className={`guestText ${this.state.guestText}`}>Guest</h1>
         <h1 onClick={this.setRegisterView} className={`registerText ${this.state.registerText}`}>Register</h1>
-        <form className={`loginForm ${this.state.loginForm}`}>
+        <form onSubmit={this.handleLogin} className={`loginForm ${this.state.loginForm}`}>
           <input 
             className="loginInput" 
             type="text" 
             name="username" 
-            placeholder="username" 
+            placeholder="username"
+            onKeyDown={this.checkSubmit}
             onChange={this.loginHandler}
             value={this.state.username}>
           </input>
@@ -121,6 +130,7 @@ class FrontPage extends React.Component {
             type="password" 
             name="password" 
             placeholder="password"
+            onKeyDown={this.checkSubmit}
             onChange={this.loginHandler} 
             value={this.state.password}>
           </input>
