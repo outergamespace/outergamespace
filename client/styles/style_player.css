@@ -194,7 +194,7 @@ button:disabled {
 	height: 100%;
 }
 
-.titleText, .loginText, .guestText, .registerText {
+.titleText, .loginText, .guestText, .registerText, .registerTextTop, .guestTextTop, .guestInput {
 	font-family: 'Comfortaa';
 	color: white;
 	position: absolute;
@@ -202,7 +202,7 @@ button:disabled {
 	z-index: 1000;
 }
 
-.loginText, .guestText, .registerText {
+.loginText, .guestText, .registerText, .guestTextTop, .registerTextTop {
 	font-size: 35px;
 }
 
@@ -216,6 +216,10 @@ button:disabled {
 
 .registerText {
 	top: 41%;
+}
+
+.registerTextTop {
+	top: 27%;
 }
 
 .titleText {
@@ -234,6 +238,11 @@ button:disabled {
 	font-size: 25px;
 	margin-bottom: 25px;
 }
+
+.guestTextTop {
+	top: 27%;
+}
+
 
 
 .hidden {
