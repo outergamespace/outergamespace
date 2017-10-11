@@ -69,19 +69,31 @@ class FrontPage extends React.Component {
       registerText: 'animated bounceOutUp',
       loginForm: 'animated bounceInUp',
       passwordField: 'animated bounceInUp',
-      registerTextTop: 'animated BounceInUp'
+      registerTextTop: 'animated bounceInUp'
     });
   };
 
   resetView() {
+    if (this.state.mode === 'guest') {
+      this.setState({
+        guestTextTop: 'animated bounceOutRight',
+        loginText: 'animated bounceInLeft',
+      
+      })
+    }
+    if (this.state.mode === 'register') {
+      this.setState({
+        registerTextTop: 'animated bounceOutRight',
+        loginText: 'animated bounceInLeft',
+      
+      })
+    }
     this.setState({
       mode: 'welcome',
-      loginText: 'animated bounceInLeft',
+      // loginText: 'animated bounceInLeft',
       guestText: 'animated bounceInLeft',
       registerText: 'animated bounceInLeft',
-      registerTextTop: 'animated bounceOutRight',
       loginForm: 'animated bounceOutRight',
-      guestTextTop: 'animated bounceOutRight'
     });
   };
 
