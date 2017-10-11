@@ -3,14 +3,13 @@ import CreateRoom from './CreateRoom';
 import WaitingRoom from './WaitingRoom';
 import Scoreboard from './Scoreboard';
 import Question from './Question';
-import Login from './Login';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      screen: 'login',
+      screen: 'create',
       roomId: '',
       gameConfig: {},
       players: [],
@@ -139,8 +138,6 @@ class App extends React.Component {
       return <Scoreboard players={players} />;
     } else if (screen === 'finalScores') {
       return <Scoreboard players={finalScores} final restartGame={this.restartGame} />;
-    } else if (screen === 'login') {
-      return <Login />;
     }
     return <div />;
   }
