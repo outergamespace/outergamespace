@@ -97,6 +97,99 @@ div {
 	text-align: center;
 }
 
+
+/* =============
+* SCREEN LAYOUT
+* =============
+*/
+
+.screen {
+	height: 100%;
+}
+
+.screen-middle {
+	height: 60%;
+	justify-content: space-evenly;
+}
+
+.screen-top,
+.screen-bottom {
+	min-height: 20%;
+	justify-content: center;
+}
+
+/* ================
+* INPUT AND BUTTON
+* ================
+*/
+
+input,
+button {
+	width: 100%;
+	
+	display: block;
+	padding: 5% 5%;
+	
+	border: 0;
+	border-radius: 4px;
+	
+	font-size: 1em;
+	color: #555;
+}
+
+input::placeholder {
+	color: #AAA;
+}
+
+button {
+	box-shadow: 0 15px 0 0 rgb(230, 122, 115) inset;
+	background-color: rgb(228, 104, 93);
+	
+	color: #FFF;
+	text-shadow: rgb(178, 62, 53) 0 1px 0;
+	
+	cursor: pointer;
+}
+
+button:disabled {
+	box-shadow: 0 15px 0 0 rgb(148, 138, 138) inset;
+	background-color: rgb(140, 129, 127);
+	
+	cursor: not-allowed;
+}
+
+/* ===========
+* ANSWER LIST
+* ===========
+*/
+
+.answer {
+	background: ivory;
+	
+  box-shadow: 5px 2px 2px black;
+  border-radius: 5px;
+	
+  padding: 3%;
+}
+
+.selected {
+	font-weight: bold;
+}
+
+/* ===========
+* TEXT SCREEN
+* ===========
+*/
+
+.text-screen {
+	line-height: 1.5em;
+}
+
+/* =============
+ * FRONT PAGE
+ * =============
+ */
+
 .marsBackground {
 	height: 100%;
 }
@@ -130,89 +223,19 @@ div {
 	top: 15%;
 }
 
-/* =============
- * SCREEN LAYOUT
- * =============
- */
-
-.screen {
-	height: 100%;
+.loginForm {
+	position: absolute;
+	top: 34%;
+	z-index: 100;
 }
 
-.screen-middle {
-	height: 60%;
-	justify-content: space-evenly;
+.loginInput {
+	font-family: 'Comfortaa';
+	font-size: 25px;
+	margin-bottom: 25px;
 }
 
-.screen-top,
-.screen-bottom {
-	min-height: 20%;
-	justify-content: center;
-}
 
-/* ================
- * INPUT AND BUTTON
- * ================
- */
-
-input,
-button {
-	width: 100%;
-
-	display: block;
-	padding: 5% 5%;
-
-	border: 0;
-	border-radius: 4px;
-	
-	font-size: 1em;
-	color: #555;
-}
-
-input::placeholder {
-	color: #AAA;
-}
-
-button {
-	box-shadow: 0 15px 0 0 rgb(230, 122, 115) inset;
-	background-color: rgb(228, 104, 93);
-
-	color: #FFF;
-	text-shadow: rgb(178, 62, 53) 0 1px 0;
-
-	cursor: pointer;
-}
-
-button:disabled {
-	box-shadow: 0 15px 0 0 rgb(148, 138, 138) inset;
-	background-color: rgb(140, 129, 127);
-
-	cursor: not-allowed;
-}
-
-/* ===========
- * ANSWER LIST
- * ===========
- */
-
-.answer {
-  background: ivory;
-
-  box-shadow: 5px 2px 2px black;
-  border-radius: 5px;
-
-  padding: 3%;
-}
-
-.selected {
-	font-weight: bold;
-}
-
-/* ===========
- * TEXT SCREEN
- * ===========
- */
-
-.text-screen {
-	line-height: 1.5em;
+.hidden {
+	display: none;
 }
