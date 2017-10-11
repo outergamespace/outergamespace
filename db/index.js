@@ -20,10 +20,35 @@ const db = {};
 
 db.storeUser = (name, hash) => {
   const queryString = `
-  INSERT INTO users
-  (name, hash, total_points, games_played, badge)
-  VALUES
-  ('${name}', '${hash}', 0, 0, 'member')
+    INSERT INTO users
+    (name, hash, total_points, games_played, badge)
+    VALUES
+    ('${name}', '${hash}', 0, 0, 'member')
+  `;
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        connection.query(queryString, (error, results) => {
+          if (err) {
+            reject(err);
+            connection.release();
+          } else {
+            resolve(results);
+            connection.release();
+          }
+        });
+      }
+    });
+  });
+};
+
+db.getUser = (name) => {
+  const queryString = `
+    SELECT * FROM users
+    WHERE name='${name}'
   `;
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
