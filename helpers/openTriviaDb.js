@@ -2,7 +2,7 @@ const request = require('request');
 const Promise = require('bluebird');
 const db = require('../db/index.js');
 
-const OPEN_TRIVIA_DB_URL = 'https://opentdb.comx';
+const OPEN_TRIVIA_DB_URL = 'https://opentdb.com';
 
 const openTriviaDB = {};
 
