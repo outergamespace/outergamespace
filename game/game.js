@@ -1,6 +1,6 @@
 const _ = require('underscore');
-const db = require('../db/index.js');
 const Player = require('./player.js');
+const openTriviaDB = require('../helpers/openTriviaDb.js');
 
 const POINTS_PER_QS = 10;
 
@@ -61,10 +61,11 @@ class Game {
     checkConfigRange(config);
     this.config = Object.assign({}, DEFAULT_CONFIG, config);
 
-    db.getQuestions(this.config.noOfQuestions)
+    openTriviaDB.fetchQuestions(this.config.noOfQuestions)
       .then((results) => {
         this.questions = results;
-      });
+      })
+      .catch(console.error);
   }
 
   /**

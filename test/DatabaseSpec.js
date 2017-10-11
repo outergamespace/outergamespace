@@ -2,8 +2,10 @@
 const expect = require('chai').expect;
 const db = require('../db/index.js');
 
+// The database test related to question retrieval have been commented out since
+// questions are being pulled from the Open Trivia DB API
 describe('Database', () => {
-  describe('Retrieve questions from database', () => {
+  xdescribe('Retrieve questions from database', () => {
     it('Should retrieve n questions when n is less than the number of items in the database', (done) => {
       db.getQuestions(3)
         .then((results) => {
