@@ -1,5 +1,6 @@
 const socketIO = require('socket.io');
 const Trivia = require('../game/trivia.js');
+const openTriviaDB = require('../helpers/openTriviaDb.js');
 
 /* GAME CONTROLS */
 
@@ -16,6 +17,11 @@ class SocketServerInterface {
   constructor(server, options) {
     this.io = socketIO(server, options);
     this.trivia = new Trivia();
+    openTriviaDB.fetchCategories()
+      .then((categories) => {
+        this.triviaCategories = categories;
+      })
+      .catch(console.error);
     this.scheduledEmission = null;
   }
 
