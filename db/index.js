@@ -20,10 +20,10 @@ const db = {};
 
 db.storeUser = (name, hash) => {
   const queryString = `
-  INSERT INTO trivia
+  INSERT INTO users
   (name, hash, total_points, games_played, badge)
   VALUES
-  (${name}, ${hash}, 0, 0, 'member');
+  ('${name}', '${hash}', 0, 0, 'member');
   `;
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {

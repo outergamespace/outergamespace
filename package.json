@@ -17,9 +17,9 @@
     "lint": "node_modules/.bin/eslint ./**/*.js ./**/*.jsx"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.2",
-    "brcypt": "^1.0.1",
     "express": "^4.16.0",
     "html-entities": "^1.2.1",
     "mysql": "^2.14.1",

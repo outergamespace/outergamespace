@@ -2,6 +2,10 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const bcrypt = require('bcrypt');
+// how many rounds of salt https://www.npmjs.com/package/bcrypt
+const saltRounds = 10;
+const db = require('../db');
 
 const app = express();
 const server = require('http').Server(app);
@@ -45,7 +49,15 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-  res.send(req.body);
+  const { username, password } = req.body;
+  bcrypt.hash(password, saltRounds)
+    .then((hash) => {
+      return db.storeUser(username, hash);
+    })
+    .then((result) => {
+      if (!result) { res.status(403).send('That user already exists'); }
+      res.send(result);
+    });
 });
 
 // Export for testing
