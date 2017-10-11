@@ -47,13 +47,23 @@ app.get('/join', (req, res) => {
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
   db.getUser(username)
-    .then(results => results[0].hash)
-    .then((hash) => {
-      return bcrypt.compare(password, hash)
+    .tap((results) => {
+      if (results.length === 0) {
+        throw res.status(403).send('That user does not exist');
+      }
     })
+    .then(results =>
+      results[0].hash
+    )
+    .then(hash =>
+      bcrypt.compare(password, hash)
+    )
     .then((isValidPass) => {
       res.send({ isValidPass });
     })
+    .catch(() => {
+      console.log('attempted to signin using non-existant user');
+    });
 });
 
 app.post('/register', (req, res) => {
