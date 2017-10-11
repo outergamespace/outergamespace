@@ -18,26 +18,5 @@ const pool = mysql.createPool(databaseQueryString);
 
 const db = {};
 
-
-db.getCategories = () =>
-  new Promise((resolve, reject) => {
-    pool.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        connection.release();
-      } else {
-        connection.query('SELECT * FROM trivia_categories', (error, results) => {
-          if (error) {
-            reject(error);
-            connection.release();
-          } else {
-            resolve(results);
-            connection.release();
-          }
-        });
-      }
-    });
-  });
-
 /** exports a database connection object */
 module.exports = db;
