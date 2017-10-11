@@ -52,11 +52,13 @@ app.post('/register', (req, res) => {
   const { username, password } = req.body;
   bcrypt.hash(password, saltRounds)
     .then((hash) => {
-      return db.storeUser(username, hash);
-    })
-    .then((result) => {
-      if (!result) { res.status(403).send('That user already exists'); }
-      res.send(result);
+      db.storeUser(username, hash)
+        .then((result) => {
+          console.log(result);
+          if (!result) { res.status(403).send('That user already exists'); }
+          res.send(result);
+        })
+        .catch(err => console.error(err));
     });
 });
 

@@ -23,7 +23,7 @@ db.storeUser = (name, hash) => {
   INSERT INTO users
   (name, hash, total_points, games_played, badge)
   VALUES
-  ('${name}', '${hash}', 0, 0, 'member');
+  ('${name}', '${hash}', 0, 0, 'member')
   `;
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
