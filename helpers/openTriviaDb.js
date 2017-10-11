@@ -33,7 +33,7 @@ openTriviaDB.fetchQuestions = (num, type = 'multiple') => {
         };
         [question.incorrect_ans_1,
           question.incorrect_ans_2,
-          question.incorrect_ans_3] = result.incorrect_answers;
+          question.incorrect_ans_3] = result.incorrect_answers.map(entities.decode);
         return question;
       });
       resolve(questions);
