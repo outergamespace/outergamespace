@@ -11,7 +11,7 @@ class FrontPage extends React.Component {
       registerTextTop: 'hidden',
       loginForm: 'hidden',
       guestTextTop: 'hidden',
-      passwordField: 'hidden',
+      passwordField: '',
       mode: 'welcome',
 
       // form values
@@ -37,7 +37,7 @@ class FrontPage extends React.Component {
         guestText: 'animated bounceOutRight',
         registerText: 'animated bounceOutRight',
         loginForm: 'animated bounceInLeft',
-        passwordField: 'animated bounceInLeft'
+        passwordField: ''
       });
     } else if (this.state.mode === 'login') {
       this.resetView();
@@ -67,7 +67,7 @@ class FrontPage extends React.Component {
       guestTextTop: 'animated bounceInUp',
       loginForm: 'animated bounceInUp',
       registerText: 'animated bounceOutUp',
-      passwordField: 'hidden'
+      passwordField: 'invisible'
     });
   };
 
@@ -93,7 +93,8 @@ class FrontPage extends React.Component {
     if (this.state.mode === 'register') {
       this.setState({
         registerTextTop: 'animated bounceOutRight',
-        loginText: 'animated bounceInLeft'
+        loginText: 'animated bounceInLeft',
+        passwordField: 'animated bounceOutRight'
       });
     }
     if (this.state.mode === 'login' || this.state.mode === 'register') {
