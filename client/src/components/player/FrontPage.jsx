@@ -96,6 +96,11 @@ class FrontPage extends React.Component {
         loginText: 'animated bounceInLeft'
       });
     }
+    if (this.state.mode === 'login' || this.state.mode === 'register') {
+      this.setState({
+        passwordField: 'animated bounceOutRight'
+      })
+    }
     this.setState({
       mode: 'welcome',
       // loginText: 'animated bounceInLeft',
@@ -107,33 +112,39 @@ class FrontPage extends React.Component {
 
   render() {
     return (
-      <div className="frontpageBackground">
+      <div className="frontpageBackground container-fluid">
         <img className="marsBackground" src="../../mars.jpg" alt="mars"/>
-        <h1 className="titleText">OuterGameSpace</h1>
-        <h1 onClick={this.setLoginView} className={`loginText ${this.state.loginText}`}>Login</h1>
-        <h1 onClick={this.resetView} className={`registerTextTop ${this.state.registerTextTop}`}>Register</h1>
-        <h1 onClick={this.resetView} className={`guestTextTop ${this.state.guestTextTop}`}>Guest</h1>
-        <h1 onClick={this.setGuestView} className={`guestText ${this.state.guestText}`}>Guest</h1>
-        <h1 onClick={this.setRegisterView} className={`registerText ${this.state.registerText}`}>Register</h1>
-        <form onSubmit={this.handleLogin} className={`loginForm ${this.state.loginForm}`}>
-          <input 
-            className="loginInput" 
-            type="text" 
-            name="username" 
-            placeholder="username"
-            onKeyDown={this.checkSubmit}
-            onChange={this.loginHandler}
-            value={this.state.username}>
-          </input>
-          <input 
-            className={`loginInput ${this.state.passwordField}`}
-            type="password" 
-            name="password" 
-            placeholder="password"
-            onKeyDown={this.checkSubmit}
-            onChange={this.loginHandler} 
-            value={this.state.password}>
-          </input>
+        <div className="row">
+          <h1 className="titleText col text-center">OuterGameSpace</h1>
+        </div>
+        <h1 onClick={this.setLoginView} className={`loginText col text-center ${this.state.loginText}`}>Login</h1>
+        <h1 onClick={this.resetView} className={`registerTextTop col text-center ${this.state.registerTextTop}`}>Register</h1>
+        <h1 onClick={this.resetView} className={`guestTextTop col text-center ${this.state.guestTextTop}`}>Guest</h1>
+        <h1 onClick={this.setGuestView} className={`guestText col text-center ${this.state.guestText}`}>Guest</h1>
+        <h1 onClick={this.setRegisterView} className={`registerText col text-center ${this.state.registerText}`}>Register</h1>
+        <form onSubmit={this.handleLogin} className={`loginForm col text-center ${this.state.loginForm}`}>
+          <div className="row justify-content-md-center input-group">
+            <input 
+              className="loginInput form-control col col-sm-4" 
+              type="text" 
+              name="username" 
+              placeholder="username"
+              onKeyDown={this.checkSubmit}
+              onChange={this.loginHandler}
+              value={this.state.username}>
+            </input>
+          </div>
+          <div className="row justify-content-md-center input-group">
+            <input 
+              className={`loginInput col col-sm-4 form-control mt-4 ${this.state.passwordField}`}
+              type="password" 
+              name="password" 
+              placeholder="password"
+              onKeyDown={this.checkSubmit}
+              onChange={this.loginHandler} 
+              value={this.state.password}>
+            </input>
+          </div>
         </form>
       </div>
     )
