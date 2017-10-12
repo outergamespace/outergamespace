@@ -12,7 +12,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE games(
-  id VARCHAR(4) PRIMARY KEY NOT NULL,
+  room_id VARCHAR(10) PRIMARY KEY NOT NULL,
   host_username VARCHAR(20) NOT NULL UNIQUE,
   num_questions INT NOT NULL,
   time_per_question INT NOT NULL,
