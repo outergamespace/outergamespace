@@ -5,6 +5,7 @@ import Question from './Question';
 import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
 import Lobby from './Lobby';
+import Host from '../presenter/Host';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
@@ -24,6 +25,7 @@ class App extends React.Component {
     /* METHOD BINDING */
     this.handleLogin = this.handleLogin.bind(this);
     this.setScreen = this.setScreen.bind(this);
+    this.createGame = this.createGame.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
@@ -51,6 +53,11 @@ class App extends React.Component {
 
   setScreen(screen) {
     this.setState({ screen });
+  }
+  
+  createGame() {
+    console.log('set screen to host');
+    this.setScreen('host');
   }
 
   handleLogin(username, password, mode) {
@@ -136,10 +143,12 @@ class App extends React.Component {
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
     if (screen === 'front') {
-      return <FrontPage handleLogin={this.handleLogin}/>;
+      return <FrontPage handleLogin={this.handleLogin} />;
     } else if (screen === 'lobby') {
-      return <Lobby username={this.state.username}/>
-    } if (screen === 'join') {
+      return <Lobby username={this.state.username} createGame={this.createGame} />;
+    } else if (screen === 'host') {
+      return <Host username={this.state.username} />;
+    } else if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
       return <TextScreen text={waitText} />;
