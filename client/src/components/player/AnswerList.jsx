@@ -9,7 +9,7 @@ const propTypes = {
 };
 
 const AnswerList = ({ answers, currentAns, updateAnswer }) => (
-  <div className="screen-middle">
+  <ul className="list-group list-group-flush">
     {answers.map((answer, index) => (
       <AnswerListEntry
         key={answer}
@@ -19,7 +19,7 @@ const AnswerList = ({ answers, currentAns, updateAnswer }) => (
         updateAnswer={() => updateAnswer(answer)}
       />
     ))}
-  </div>
+  </ul>
 );
 
 AnswerList.propTypes = propTypes;

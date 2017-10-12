@@ -5,7 +5,7 @@ import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const DEFAULT_CONFIG = {
   noOfQuestions: '10',
-  timePerQuestion: '15',
+  timePerQuestion: '20',
   maxPlayers: '6',
 };
 

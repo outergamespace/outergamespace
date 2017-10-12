@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Join from './Join';
+import TriviaCard from './TriviaCard';
 import Question from './Question';
 import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
@@ -12,7 +13,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'front',
+      screen: 'join',
       timePerQuestion: 0,
       question: '',
       answers: [],
@@ -153,6 +154,7 @@ class App extends React.Component {
     if (screen === 'front') {
       return <FrontPage handleLogin={this.handleLogin} />;
     } else if (screen === 'lobby') {
+<<<<<<< HEAD
       return (
         <Lobby
           username={this.state.username}
@@ -163,13 +165,16 @@ class App extends React.Component {
       );
     } else if (screen === 'host') {
       return <Host username={this.state.username} />;
+=======
+      return <Lobby username={this.state.username}/>
+>>>>>>> Refactor game screen with bootstrap and animations
     } else if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
       return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
       return (
-        <Question
+        <TriviaCard
           question={question}
           answers={answers}
           setScreen={this.setScreen}

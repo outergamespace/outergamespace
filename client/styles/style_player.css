@@ -28,10 +28,17 @@ body {
 	z-index: 400;
 }
 
-.blur {
-	filter: blur(10px);
-	z-index: 400;
+.gameBackground {
+	height: 65vw;
+	background-image: url(../mars-surface.jpg);	
 }
+
+.triviaCard {
+	height: 325px;
+	background-color: rgba(255, 255, 255, 0.26)
+}
+
+
 /* =============
  * FRONT PAGE
  * =============
