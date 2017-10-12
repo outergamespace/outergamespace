@@ -1,5 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import GameListItem from './GameListItem';
+
+const propTypes = {
+  createGame: PropTypes.func.isRequired,
+  joinGame: PropTypes.func.isRequired
+};
 
 class GameList extends React.Component {
   constructor(props) {
@@ -22,20 +28,20 @@ class GameList extends React.Component {
 
   render() {
     const gameListItems = this.state.games.map(game =>
-      <GameListItem game={game} />
+      <GameListItem key={game.room_id} game={game} joinGame={this.props.joinGame} />
     );
 
     return (
       <div>
         <ul>{gameListItems}</ul>
-        <form>
+        <div>
           <button className="btn btn-light ml-1 mr-3" onClick={this.props.createGame}>Create Game</button>
-          <button className="btn btn-light mr-3">Join Game</button>
-          <button className="btn btn-light">User Page</button>
-        </form>
+        </div>
       </div>
     );
   }
 }
+
+GameList.propTypes = propTypes;
 
 export default GameList;

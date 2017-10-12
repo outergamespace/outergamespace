@@ -55,11 +55,6 @@ class App extends React.Component {
     this.setState({ screen });
   }
 
-  createGame() {
-    console.log('set screen to host');
-    this.setScreen('host');
-  }
-
   handleLogin(username, password, mode) {
     if (mode === 'register') {
       axios.post('/register', { username, password })
@@ -97,6 +92,10 @@ class App extends React.Component {
         screen: 'lobby'
       });
     }
+  }
+
+  createGame() {
+    this.setScreen('host');
   }
 
   joinGame(timePerQuestion) {
@@ -147,7 +146,14 @@ class App extends React.Component {
     if (screen === 'front') {
       return <FrontPage handleLogin={this.handleLogin} />;
     } else if (screen === 'lobby') {
-      return <Lobby username={this.state.username} createGame={this.createGame} />;
+      return (
+        <Lobby
+          username={this.state.username}
+          createGame={this.createGame}
+          joinGame={this.joinGame}
+          socketClientInterface={this.socketClientInterface}
+        />
+      );
     } else if (screen === 'host') {
       return <Host username={this.state.username} />;
     } else if (screen === 'join') {
