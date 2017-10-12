@@ -44,22 +44,27 @@ app.get('/join', (req, res) => {
   res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
 });
 
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  db.getUser(username)
+    .then(results => results[0].hash)
+    .then((hash) => {
+      return bcrypt.compare(password, hash)
+    })
+    .then((isValidPass) => {
+      res.send({ isValidPass });
+    })
 });
 
 app.post('/register', (req, res) => {
   const { username, password } = req.body;
   bcrypt.hash(password, saltRounds)
-    .then((hash) => {
-      db.storeUser(username, hash)
-        .then((result) => {
-          console.log(result);
-          if (!result) { res.status(403).send('That user already exists'); }
-          res.send(result);
-        })
-        .catch(err => console.error(err));
-    });
+    .then(hash => db.storeUser(username, hash))
+    .then((result) => {
+      if (!result) { res.status(403).send('That user already exists'); }
+      res.send(result);
+    })
+    .catch(err => console.error(err));
 });
 
 // Export for testing
