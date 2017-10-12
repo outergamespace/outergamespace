@@ -91,5 +91,17 @@ app.get('/users', (req, res) => {
     });
 });
 
+app.get('/games', (req, res) => {
+  db.getGames()
+    .then((results) => {
+      console.log(results);
+      res.send(results);
+    })
+    .catch((err) => {
+      res.status(500).send('Error retrieving games data');
+      console.error(err);
+    });
+});
+
 // Export for testing
 module.exports = app;

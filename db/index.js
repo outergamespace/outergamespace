@@ -25,21 +25,18 @@ const executeQuery = queryString =>
         reject(err);
         connection.release();
       } else {
-        resolve(connection);
+        connection.query(queryString, (error, results) => {
+          if (err) {
+            reject(err);
+            connection.release();
+          } else {
+            resolve(results);
+            connection.release();
+          }
+        });
       }
     });
   })
-    .then((connection) => {
-      connection.query(queryString, (error, results) => {
-        if (error) {
-          connection.release();
-          throw error;
-        } else {
-          connection.release();
-          return results;
-        }
-      });
-    })
     .catch(console.error);
 
 db.storeUser = (name, hash) => {
@@ -116,7 +113,7 @@ db.getAllUsers = () => {
       }
     });
   });
-}
+};
 
 db.addGame = (game) => {
   const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers } = game;
@@ -126,6 +123,11 @@ db.addGame = (game) => {
     VALUES
     ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers}, 0, 0)
  `;
+  return executeQuery(queryString);
+};
+
+db.getGames = () => {
+  const queryString = 'SELECT * FROM games WHERE isStarted = 0';
   return executeQuery(queryString);
 };
 
