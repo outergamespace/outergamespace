@@ -92,6 +92,38 @@ db.getAllUsers = () => {
       }
     });
   });
+}
+  
+db.addGame = (game) => {
+  const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers } = game;
+  const queryString = `
+    INSERT INTO games
+    (room_id, host_username, num_questions, time_per_question, max_players, num_players, isStarted)
+    VALUES
+    ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers}, 0, 0)
+ `;
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        resolve(connection);
+      }
+    });
+  })
+    .then((connection) => {
+      connection.query(queryString, (error, results) => {
+        if (error) {
+          connection.release();
+          throw error;
+        } else {
+          connection.release();
+          return results;
+        }
+      });
+    })
+    .catch(console.error);
 };
 
 /** exports a database connection object */

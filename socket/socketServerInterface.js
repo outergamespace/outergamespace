@@ -1,6 +1,7 @@
 const socketIO = require('socket.io');
 const Trivia = require('../game/trivia.js');
 const openTriviaDB = require('../helpers/openTriviaDb.js');
+const db = require('../db/index');
 
 /* GAME CONTROLS */
 
@@ -77,14 +78,18 @@ class SocketServerInterface {
 
   /* EVENT HANDLERS - PREGAME */
 
-  handleCreateRoom(socket, config, callback) {
+  handleCreateRoom(socket, username, config, callback) {
     try {
       const roomId = this.trivia.createRoom(config);
+      db.addGame(Object.assign({ roomId: roomId, username: username }, config))
+        .then(() => {
+          callback(null, roomId);
 
-      callback(null, roomId);
+          socket.join(roomId);
+          this.listenForHostEvents(socket);
+        })
+        .catch(console.error);
 
-      socket.join(roomId);
-      this.listenForHostEvents(socket);
     } catch (error) {
       callback(error.message);
     }
