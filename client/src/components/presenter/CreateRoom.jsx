@@ -11,6 +11,7 @@ const DEFAULT_CONFIG = {
 
 const propTypes = {
   createRoom: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
   socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
@@ -54,7 +55,7 @@ class CreateRoom extends React.Component {
 
   createRoom() {
     const gameConfig = this.getConfigObj();
-    this.props.socketClientInterface.connection.emit('createRoom', gameConfig, (errMsg, roomId) => {
+    this.props.socketClientInterface.connection.emit('createRoom', this.props.username, gameConfig, (errMsg, roomId) => {
       if (errMsg) {
         this.setState({ errMsg });
       } else {
