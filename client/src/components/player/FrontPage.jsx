@@ -96,6 +96,11 @@ class FrontPage extends React.Component {
         loginText: 'animated bounceInLeft'
       });
     }
+    if (this.state.mode === 'login' || this.state.mode === 'register') {
+      this.setState({
+        passwordField: 'animated bounceOutRight'
+      })
+    }
     this.setState({
       mode: 'welcome',
       // loginText: 'animated bounceInLeft',
@@ -118,9 +123,9 @@ class FrontPage extends React.Component {
         <h1 onClick={this.setGuestView} className={`guestText col text-center ${this.state.guestText}`}>Guest</h1>
         <h1 onClick={this.setRegisterView} className={`registerText col text-center ${this.state.registerText}`}>Register</h1>
         <form onSubmit={this.handleLogin} className={`loginForm col text-center ${this.state.loginForm}`}>
-          <div className="row">
+          <div className="row justify-content-md-center input-group">
             <input 
-              className="loginInput col col-sm-4 self-align-center" 
+              className="loginInput form-control col col-sm-4" 
               type="text" 
               name="username" 
               placeholder="username"
@@ -129,9 +134,9 @@ class FrontPage extends React.Component {
               value={this.state.username}>
             </input>
           </div>
-          <div className="row">
+          <div className="row justify-content-md-center input-group">
             <input 
-              className={`loginInput col col-sm-4 self-align-center ${this.state.passwordField}`}
+              className={`loginInput col col-sm-4 form-control mt-4 ${this.state.passwordField}`}
               type="password" 
               name="password" 
               placeholder="password"
