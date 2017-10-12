@@ -13,19 +13,15 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'join',
+      screen: 'front',
       timePerQuestion: 0,
       question: '',
       answers: [],
-<<<<<<< HEAD
-      username: ''
-=======
       username: '',
       password: '',
       // visibilility states for animation renders
       triviaCardRender: 'invisible',
       textCardRender: 'invisible',
->>>>>>> Refactor App.jsx rendering logic to allow better animations
     };
 
     /* SOCKET CLIENT INTERFACE */
@@ -75,12 +71,12 @@ class App extends React.Component {
           screen: screen
         }
       } else {
-        return {  
+        return {
           screen: screen
         }
       }
     });
-    
+
   }
 
   handleLogin(username, password, mode) {
@@ -181,7 +177,6 @@ class App extends React.Component {
     if (screen === 'front') {
       return <FrontPage handleLogin={this.handleLogin} />;
     } else if (screen === 'lobby') {
-<<<<<<< HEAD
       return (
         <Lobby
           username={this.state.username}
@@ -192,9 +187,6 @@ class App extends React.Component {
       );
     } else if (screen === 'host') {
       return <Host username={this.state.username} />;
-=======
-      return <Lobby username={this.state.username}/>
->>>>>>> Refactor game screen with bootstrap and animations
     } else if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
