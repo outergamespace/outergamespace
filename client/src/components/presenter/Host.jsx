@@ -5,7 +5,7 @@ import Scoreboard from './Scoreboard';
 import Question from './Question';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
-class App extends React.Component {
+class Host extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -143,4 +143,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Host;
