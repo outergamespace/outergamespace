@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GameList from './GameList';
+import Leaderboard from './Leaderboard';
 
 const propTypes = {
   username: PropTypes.string.isRequired,
@@ -65,7 +66,7 @@ class Lobby extends React.Component {
         />
         <div className="container-fluid">
           <div className="row justify-content-sm-center">
-            <div className={`col-sm-3 leaderboard mr-3 ${this.state.leaderboardRender}`} />
+            <Leaderboard leaderboardRender={this.state.leaderboardRender} />
             <div className={`col-sm-5 chat-window mr-3 ${this.state.chatPanelRender}`}>
               <div className="input-group chatInput">
                 <span className="input-group-addon" id="basic-addon3">{this.props.username}</span>
