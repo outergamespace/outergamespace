@@ -3,10 +3,13 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import GameList from './GameList';
 import Leaderboard from './Leaderboard';
+import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   username: PropTypes.string.isRequired,
-  createGame: PropTypes.func.isRequired
+  createGame: PropTypes.func.isRequired,
+  joinGame: PropTypes.func.isRequired,
+  socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired
 };
 
 class Lobby extends React.Component {
@@ -21,7 +24,7 @@ class Lobby extends React.Component {
     };
 
     this.chatHandler = this.chatHandler.bind(this);
-    this.createGame = this.createGame.bind(this);
+    this.joinGame = this.joinGame.bind(this);
     this.getAllUsers = this.getAllUsers.bind(this);
   }
 
@@ -54,9 +57,15 @@ class Lobby extends React.Component {
     }
   }
 
-  createGame(event) {
-    event.preventDefault();
-    this.props.createGame();
+  joinGame(roomId) {
+    this.props.socketClientInterface.connection.emit('joinRoom', roomId, this.props.username, (errMsg, timePerQuestion) => {
+      if (errMsg) {
+        console.error(errMsg);
+      } else {
+        // joined game successfully
+        this.props.joinGame(timePerQuestion);
+      }
+    });
   }
 
   getAllUsers() {
@@ -100,7 +109,10 @@ class Lobby extends React.Component {
               </div>
             </div>
             <div className={`col-sm-3 game-list ${this.state.gamePanelRender}`}>
-              <GameList createGame={this.createGame} />
+              <GameList
+                createGame={this.props.createGame}
+                joinGame={this.joinGame}
+              />
             </div>
           </div>
         </div>
