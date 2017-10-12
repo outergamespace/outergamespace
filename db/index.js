@@ -70,6 +70,30 @@ db.getUser = (name) => {
   });
 };
 
+db.getAllUsers = () => {
+  const queryString = `
+    SELECT * FROM users
+  `;
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        connection.query(queryString, (error, results) => {
+          if (err) {
+            reject(err);
+            connection.release();
+          } else {
+            resolve(results);
+            connection.release();
+          }
+        });
+      }
+    });
+  });
+}
+  
 db.addGame = (game) => {
   const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers } = game;
   const queryString = `
@@ -77,7 +101,7 @@ db.addGame = (game) => {
     (room_id, host_username, num_questions, time_per_question, max_players, num_players, isStarted)
     VALUES
     ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers}, 0, 0)
-  `;
+ `;
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
