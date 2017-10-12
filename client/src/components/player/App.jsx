@@ -54,18 +54,18 @@ class App extends React.Component {
   setScreen(screen) {
     this.setState({ screen });
   }
-  
+
   createGame() {
     console.log('set screen to host');
     this.setScreen('host');
   }
 
   handleLogin(username, password, mode) {
-    console.log('Logging in...', username);
     if (mode === 'register') {
       axios.post('/register', { username, password })
         .then(response => response.status)
         .then(() => {
+          console.log('Logging in...', username);
           this.setState({
             username,
             screen: 'lobby'
@@ -77,6 +77,7 @@ class App extends React.Component {
         .then(response => response.data.isValidPass)
         .then((isValidPass) => {
           if (isValidPass) {
+            console.log('Logging in...', username);
             this.setState({
               username,
               screen: 'lobby'
@@ -90,6 +91,7 @@ class App extends React.Component {
         })
         .catch(err => console.error(err));
     } else {
+      console.log('Logging in...', username);
       this.setState({
         username,
         screen: 'lobby'

@@ -1,6 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import GameList from './GameList';
+import Leaderboard from './Leaderboard';
 
 const propTypes = {
   username: PropTypes.string.isRequired,
@@ -14,11 +16,13 @@ class Lobby extends React.Component {
       chatPanelRender: 'hidden',
       gamePanelRender: 'hidden',
       leaderboardRender: 'hidden',
-      chatInput: ''
+      chatInput: '',
+      users: []
     };
 
     this.chatHandler = this.chatHandler.bind(this);
     this.createGame = this.createGame.bind(this);
+    this.getAllUsers = this.getAllUsers.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +33,7 @@ class Lobby extends React.Component {
         leaderboardRender: 'animated slideInLeft'
       });
     }, 600);
+    this.getAllUsers();
   }
 
   chatHandler(event) {
@@ -54,6 +59,16 @@ class Lobby extends React.Component {
     this.props.createGame();
   }
 
+  getAllUsers() {
+    axios.get('/users')
+      .then((response) => {
+        this.setState({
+          users: response.data
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
   render() {
     return (
       <div className="container-fluid main-lobby">
@@ -65,7 +80,10 @@ class Lobby extends React.Component {
         />
         <div className="container-fluid">
           <div className="row justify-content-sm-center">
-            <div className={`col-sm-3 leaderboard mr-3 ${this.state.leaderboardRender}`} />
+            <Leaderboard
+              users={this.state.users}
+              leaderboardRender={this.state.leaderboardRender}
+            />
             <div className={`col-sm-5 chat-window mr-3 ${this.state.chatPanelRender}`}>
               <div className="input-group chatInput">
                 <span className="input-group-addon" id="basic-addon3">{this.props.username}</span>
