@@ -18,6 +18,30 @@ const pool = mysql.createPool(databaseQueryString);
 
 const db = {};
 
+const executeQuery = queryString =>
+  new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        resolve(connection);
+      }
+    });
+  })
+    .then((connection) => {
+      connection.query(queryString, (error, results) => {
+        if (error) {
+          connection.release();
+          throw error;
+        } else {
+          connection.release();
+          return results;
+        }
+      });
+    })
+    .catch(console.error);
+
 db.storeUser = (name, hash) => {
   const queryString = `
     INSERT INTO users
@@ -93,7 +117,7 @@ db.getAllUsers = () => {
     });
   });
 }
-  
+
 db.addGame = (game) => {
   const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers } = game;
   const queryString = `
@@ -102,28 +126,12 @@ db.addGame = (game) => {
     VALUES
     ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers}, 0, 0)
  `;
-  return new Promise((resolve, reject) => {
-    pool.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        connection.release();
-      } else {
-        resolve(connection);
-      }
-    });
-  })
-    .then((connection) => {
-      connection.query(queryString, (error, results) => {
-        if (error) {
-          connection.release();
-          throw error;
-        } else {
-          connection.release();
-          return results;
-        }
-      });
-    })
-    .catch(console.error);
+  return executeQuery(queryString);
+};
+
+db.removeGame = (roomId) => {
+  const queryString = `DELETE FROM games WHERE room_id = '${roomId}'`;
+  return executeQuery(queryString);
 };
 
 /** exports a database connection object */

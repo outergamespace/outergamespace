@@ -129,9 +129,12 @@ class SocketServerInterface {
   handleEndGame(socket, callback) {
     const roomId = getRoom(socket);
     socket.leave(roomId);
-
-    this.trivia.endGame(roomId);
-    callback(null);
+    db.removeGame(roomId)
+      .then(() => {
+        this.trivia.endGame(roomId);
+        callback(null);
+      })
+      .catch(console.error);
   }
 
   handleHostDisconnect(socket) {
