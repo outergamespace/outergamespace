@@ -5,7 +5,6 @@ import TextScreen from './TextScreen';
 import FrontPage from './FrontPage';
 import Lobby from './Lobby';
 import Host from '../presenter/Host';
-import CreateRoom from '../presenter/CreateRoom';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
