@@ -71,7 +71,10 @@ class App extends React.Component {
             screen: 'lobby'
           });
         })
-        .catch(err => console.error(err));
+        .catch((err) => {
+          alert('That username already exists');
+          console.error(err);
+        });
     } else if (mode === 'login') {
       axios.post('/login', { username, password })
         .then(response => response.data.isValidPass)
@@ -83,13 +86,17 @@ class App extends React.Component {
               screen: 'lobby'
             });
           } else {
+            alert('You entered the wrong password');
             this.setState({
               username: '',
               screen: 'front'
             });
           }
         })
-        .catch(err => console.error(err));
+        .catch((err) => {
+          alert('That user does not exist');
+          console.error(err);
+        });
     } else {
       console.log('Logging in...', username);
       this.setState({
