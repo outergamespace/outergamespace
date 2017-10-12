@@ -11,7 +11,6 @@ class Lobby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: this.props.username,
       chatPanelRender: 'hidden',
       gamePanelRender: 'hidden',
       leaderboardRender: 'hidden',
@@ -69,7 +68,7 @@ class Lobby extends React.Component {
             <div className={`col-sm-3 leaderboard mr-3 ${this.state.leaderboardRender}`} />
             <div className={`col-sm-5 chat-window mr-3 ${this.state.chatPanelRender}`}>
               <div className="input-group chatInput">
-                <span className="input-group-addon" id="basic-addon3">{this.state.username}</span>
+                <span className="input-group-addon" id="basic-addon3">{this.props.username}</span>
                 <input
                   type="text"
                   className="form-control"
