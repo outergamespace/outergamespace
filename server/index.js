@@ -67,5 +67,16 @@ app.post('/register', (req, res) => {
     .catch(err => console.error(err));
 });
 
+app.get('/users', (req, res) => {
+  db.getAllUsers()
+    .then((results) => {
+      res.send(results);
+    })
+    .catch((err) => {
+      res.status(500).send('Could not grab users');
+      console.error(err);
+    });
+});
+
 // Export for testing
 module.exports = app;
