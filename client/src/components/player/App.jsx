@@ -65,6 +65,28 @@ class App extends React.Component {
           });
         })
         .catch(err => console.error(err));
+    } else if (mode === 'login') {
+      axios.post('/login', { username, password })
+        .then(response => response.data.isValidPass)
+        .then((isValidPass) => {
+          if (isValidPass) {
+            this.setState({
+              username,
+              screen: 'lobby'
+            });
+          } else {
+            this.setState({
+              username: '',
+              screen: 'front'
+            });
+          }
+        })
+        .catch(err => console.error(err));
+    } else {
+      this.setState({
+        username,
+        screen: 'lobby'
+      });
     }
   }
 
