@@ -18,7 +18,7 @@ CREATE TABLE games(
   time_per_question INT NOT NULL,
   max_players INT NOT NULL,
   num_players INT NOT NULL DEFAULT 0,
-  isStarted TINYINT NOT NULL DEFAULT 0
+  is_started TINYINT NOT NULL DEFAULT 0
 );
 
 INSERT INTO users (name, hash, total_points, games_played, badge)

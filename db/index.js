@@ -119,7 +119,7 @@ db.addGame = (game) => {
   const { roomId, username, noOfQuestions, timePerQuestion, maxPlayers } = game;
   const queryString = `
     INSERT INTO games
-    (room_id, host_username, num_questions, time_per_question, max_players, num_players, isStarted)
+    (room_id, host_username, num_questions, time_per_question, max_players, num_players, is_started)
     VALUES
     ('${roomId}', '${username}', ${noOfQuestions}, ${timePerQuestion}, ${maxPlayers}, 0, 0)
  `;
@@ -127,7 +127,7 @@ db.addGame = (game) => {
 };
 
 db.getGames = () => {
-  const queryString = 'SELECT * FROM games WHERE isStarted = 0';
+  const queryString = 'SELECT * FROM games WHERE is_started = 0';
   return executeQuery(queryString);
 };
 
