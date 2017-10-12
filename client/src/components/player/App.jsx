@@ -121,7 +121,7 @@ class App extends React.Component {
     } else if (screen === 'lobby') {
       return <Lobby username={this.state.username} createGame={this.createGame} />;
     } else if (screen === 'host') {
-      return <Host />;
+      return <Host username={this.state.username} />;
     } else if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {

@@ -1,9 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CreateRoom from './CreateRoom';
 import WaitingRoom from './WaitingRoom';
 import Scoreboard from './Scoreboard';
 import Question from './Question';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
+
+const propTypes = {
+  username: PropTypes.string.isRequired
+};
 
 class Host extends React.Component {
   constructor(props) {
@@ -113,6 +118,7 @@ class Host extends React.Component {
       return (
         <CreateRoom
           createRoom={this.createRoom}
+          username={this.props.username}
           socketClientInterface={this.socketClientInterface}
         />
       );
@@ -142,5 +148,7 @@ class Host extends React.Component {
     return <div />;
   }
 }
+
+Host.propTypes = propTypes;
 
 export default Host;
