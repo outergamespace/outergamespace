@@ -8,9 +8,9 @@ class FrontPage extends React.Component {
       loginText: '',
       guestText: '',
       registerText: '',
-      registerTextTop: 'hidden',
-      loginForm: 'hidden',
-      guestTextTop: 'hidden',
+      registerTextTop: 'invisible',
+      loginForm: 'invisible',
+      guestTextTop: 'invisible',
       passwordField: '',
       mode: 'welcome',
 
