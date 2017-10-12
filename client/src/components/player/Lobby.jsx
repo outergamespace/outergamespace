@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import GameList from './GameList';
 
 const propTypes = {
   username: PropTypes.string.isRequired,
@@ -82,11 +83,7 @@ class Lobby extends React.Component {
               </div>
             </div>
             <div className={`col-sm-3 game-list ${this.state.gamePanelRender}`}>
-              <form>
-                <button className="btn btn-light ml-1 mr-3" onClick={this.createGame}>Create Game</button>
-                <button className="btn btn-light mr-3">Join Game</button>
-                <button className="btn btn-light">User Page</button>
-              </form>
+              <GameList createGame={this.createGame} />
             </div>
           </div>
         </div>
