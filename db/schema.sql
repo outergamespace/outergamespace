@@ -20,3 +20,6 @@ CREATE TABLE games(
   num_players INT NOT NULL DEFAULT 0,
   isStarted TINYINT NOT NULL DEFAULT 0
 );
+
+INSERT INTO users (name, hash, total_points, games_played, badge)
+VALUES ('Backbone', '$2a$10$WZDCgP6R1OiAIiHYUtXAe.UPvJp0ez.DqSv58E3BJK2drc8yVmj2a', 10000, 100, 'top_dog');
