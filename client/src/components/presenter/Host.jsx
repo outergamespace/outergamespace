@@ -1,11 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CreateRoom from './CreateRoom';
 import WaitingRoom from './WaitingRoom';
 import Scoreboard from './Scoreboard';
 import Question from './Question';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
-class App extends React.Component {
+const propTypes = {
+  username: PropTypes.string.isRequired
+};
+
+class Host extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -113,6 +118,7 @@ class App extends React.Component {
       return (
         <CreateRoom
           createRoom={this.createRoom}
+          username={this.props.username}
           socketClientInterface={this.socketClientInterface}
         />
       );
@@ -143,4 +149,6 @@ class App extends React.Component {
   }
 }
 
-export default App;
+Host.propTypes = propTypes;
+
+export default Host;

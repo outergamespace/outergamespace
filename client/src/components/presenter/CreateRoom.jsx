@@ -5,12 +5,13 @@ import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const DEFAULT_CONFIG = {
   noOfQuestions: '10',
-  timePerQuestion: '15',
+  timePerQuestion: '20',
   maxPlayers: '6',
 };
 
 const propTypes = {
   createRoom: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
   socketClientInterface: PropTypes.instanceOf(SocketClientInterface).isRequired,
 };
 
@@ -54,7 +55,7 @@ class CreateRoom extends React.Component {
 
   createRoom() {
     const gameConfig = this.getConfigObj();
-    this.props.socketClientInterface.connection.emit('createRoom', gameConfig, (errMsg, roomId) => {
+    this.props.socketClientInterface.connection.emit('createRoom', this.props.username, gameConfig, (errMsg, roomId) => {
       if (errMsg) {
         this.setState({ errMsg });
       } else {

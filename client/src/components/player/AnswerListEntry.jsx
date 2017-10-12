@@ -9,15 +9,13 @@ const propTypes = {
 };
 
 const AnswerListEntry = ({ answer, index, selected, updateAnswer }) => (
-  <div
-    className={`answer ${selected && 'selected'}`}
-    role="menuitemradio"
-    aria-checked={selected}
+  <li
+    className={`list-group-item answer ${selected}`}
     tabIndex={index}
     onClick={updateAnswer}
   >
     {answer}
-  </div>
+  </li>
 );
 
 AnswerListEntry.propTypes = propTypes;

@@ -1,5 +1,7 @@
 const socketIO = require('socket.io');
 const Trivia = require('../game/trivia.js');
+const openTriviaDB = require('../helpers/openTriviaDb.js');
+const db = require('../db/index');
 
 /* GAME CONTROLS */
 
@@ -16,6 +18,11 @@ class SocketServerInterface {
   constructor(server, options) {
     this.io = socketIO(server, options);
     this.trivia = new Trivia();
+    openTriviaDB.fetchCategories()
+      .then((categories) => {
+        this.triviaCategories = categories;
+      })
+      .catch(console.error);
     this.scheduledEmission = null;
   }
 
@@ -71,14 +78,18 @@ class SocketServerInterface {
 
   /* EVENT HANDLERS - PREGAME */
 
-  handleCreateRoom(socket, config, callback) {
+  handleCreateRoom(socket, username, config, callback) {
     try {
       const roomId = this.trivia.createRoom(config);
+      db.addGame(Object.assign({ roomId: roomId, username: username }, config))
+        .then(() => {
+          callback(null, roomId);
 
-      callback(null, roomId);
+          socket.join(roomId);
+          this.listenForHostEvents(socket);
+        })
+        .catch(console.error);
 
-      socket.join(roomId);
-      this.listenForHostEvents(socket);
     } catch (error) {
       callback(error.message);
     }
@@ -118,9 +129,12 @@ class SocketServerInterface {
   handleEndGame(socket, callback) {
     const roomId = getRoom(socket);
     socket.leave(roomId);
-
-    this.trivia.endGame(roomId);
-    callback(null);
+    db.removeGame(roomId)
+      .then(() => {
+        this.trivia.endGame(roomId);
+        callback(null);
+      })
+      .catch(console.error);
   }
 
   handleHostDisconnect(socket) {

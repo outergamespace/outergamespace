@@ -1,24 +1,36 @@
 import React from 'react';
+import axios from 'axios';
 import Join from './Join';
+import TriviaCard from './TriviaCard';
 import Question from './Question';
 import TextScreen from './TextScreen';
+import FrontPage from './FrontPage';
+import Lobby from './Lobby';
+import Host from '../presenter/Host';
 import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      screen: 'join',
+      screen: 'front',
       timePerQuestion: 0,
       question: '',
       answers: [],
+      username: '',
+      password: '',
+      // visibilility states for animation renders
+      triviaCardRender: 'invisible',
+      textCardRender: 'invisible',
     };
 
     /* SOCKET CLIENT INTERFACE */
     this.socketClientInterface = new SocketClientInterface();
 
     /* METHOD BINDING */
+    this.handleLogin = this.handleLogin.bind(this);
     this.setScreen = this.setScreen.bind(this);
+    this.createGame = this.createGame.bind(this);
     this.joinGame = this.joinGame.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
@@ -45,7 +57,76 @@ class App extends React.Component {
   }
 
   setScreen(screen) {
-    this.setState({ screen });
+    this.setState((state, props) => {
+      if (state.screen === 'question' && screen !== 'information') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else if (state.screen === 'information' && screen === 'question') {
+        return {
+          informationRender: 'animated slideOutRight',
+          triviaCardRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else {
+        return {
+          screen: screen
+        }
+      }
+    });
+
+  }
+
+  handleLogin(username, password, mode) {
+    if (mode === 'register') {
+      axios.post('/register', { username, password })
+        .then(response => response.status)
+        .then(() => {
+          console.log('Logging in...', username);
+          this.setState({
+            username,
+            screen: 'lobby'
+          });
+        })
+        .catch((err) => {
+          alert('That username already exists');
+          console.error(err);
+        });
+    } else if (mode === 'login') {
+      axios.post('/login', { username, password })
+        .then(response => response.data.isValidPass)
+        .then((isValidPass) => {
+          if (isValidPass) {
+            console.log('Logging in...', username);
+            this.setState({
+              username,
+              screen: 'lobby'
+            });
+          } else {
+            alert('You entered the wrong password');
+            this.setState({
+              username: '',
+              screen: 'front'
+            });
+          }
+        })
+        .catch((err) => {
+          alert('That user does not exist');
+          console.error(err);
+        });
+    } else {
+      console.log('Logging in...', username);
+      this.setState({
+        username,
+        screen: 'lobby'
+      });
+    }
+  }
+
+  createGame() {
+    this.setScreen('host');
   }
 
   joinGame(timePerQuestion) {
@@ -78,7 +159,7 @@ class App extends React.Component {
     //   this.setScreen('join');
     // });
     this.socketClientInterface.connection.emit('leaveGame', () => {
-      this.setScreen('join');
+      this.setScreen('front');
     });
   }
 
@@ -93,13 +174,28 @@ class App extends React.Component {
     const scoreText = 'Check out the main screen!';
     const hostDisconnectText = 'The game ended unexpectedly because we lost connection with the host :-(';
 
-    if (screen === 'join') {
+    if (screen === 'front') {
+      return <FrontPage handleLogin={this.handleLogin} />;
+    } else if (screen === 'lobby') {
+      return (
+        <Lobby
+          username={this.state.username}
+          createGame={this.createGame}
+          joinGame={this.joinGame}
+          socketClientInterface={this.socketClientInterface}
+        />
+      );
+    } else if (screen === 'host') {
+      return <Host username={this.state.username} />;
+    } else if (screen === 'join') {
       return <Join joinGame={this.joinGame} socketClientInterface={this.socketClientInterface} />;
     } else if (screen === 'wait') {
       return <TextScreen text={waitText} />;
     } else if (screen === 'question') {
       return (
-        <Question
+        <TriviaCard
+          visibility={this.state.triviaCardRender}
+          screen={screen}
           question={question}
           answers={answers}
           setScreen={this.setScreen}
