@@ -1,6 +1,11 @@
 const express = require('express');
 const path = require('path');
-const passport = require('passport')
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const bcrypt = require('bcrypt');
+// how many rounds of salt https://www.npmjs.com/package/bcrypt
+const saltRounds = 10;
+const db = require('../db');
 
 const app = express();
 const server = require('http').Server(app);
@@ -23,6 +28,7 @@ console.log(`Server listening on port ${SERVER_PORT}`);
 
 app.use(express.static(CLIENT_DIR));
 app.use(express.static(IMAGE_DIR));
+app.use(bodyParser.json());
 app.use((req, res, next) => {
   console.log(`${req.method} request on ${req.url}`);
   next();
@@ -40,6 +46,20 @@ app.get('/join', (req, res) => {
 
 app.get('/login', (req, res) => {
   res.sendFile(path.join(CLIENT_DIR, 'index_player.html'));
+});
+
+app.post('/register', (req, res) => {
+  const { username, password } = req.body;
+  bcrypt.hash(password, saltRounds)
+    .then((hash) => {
+      db.storeUser(username, hash)
+        .then((result) => {
+          console.log(result);
+          if (!result) { res.status(403).send('That user already exists'); }
+          res.send(result);
+        })
+        .catch(err => console.error(err));
+    });
 });
 
 // Export for testing

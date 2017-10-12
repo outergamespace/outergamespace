@@ -18,5 +18,32 @@ const pool = mysql.createPool(databaseQueryString);
 
 const db = {};
 
+db.storeUser = (name, hash) => {
+  const queryString = `
+  INSERT INTO users
+  (name, hash, total_points, games_played, badge)
+  VALUES
+  ('${name}', '${hash}', 0, 0, 'member')
+  `;
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        connection.release();
+      } else {
+        connection.query(queryString, (error, results) => {
+          if (err) {
+            reject(err);
+            connection.release();
+          } else {
+            resolve(results);
+            connection.release();
+          }
+        });
+      }
+    });
+  });
+};
+
 /** exports a database connection object */
 module.exports = db;
