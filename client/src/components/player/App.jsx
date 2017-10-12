@@ -17,7 +17,15 @@ class App extends React.Component {
       timePerQuestion: 0,
       question: '',
       answers: [],
+<<<<<<< HEAD
       username: ''
+=======
+      username: '',
+      password: '',
+      // visibilility states for animation renders
+      triviaCardRender: 'invisible',
+      textCardRender: 'invisible',
+>>>>>>> Refactor App.jsx rendering logic to allow better animations
     };
 
     /* SOCKET CLIENT INTERFACE */
@@ -53,7 +61,26 @@ class App extends React.Component {
   }
 
   setScreen(screen) {
-    this.setState({ screen });
+    this.setState((state, props) => {
+      if (state.screen === 'question' && screen !== 'information') {
+        return {
+          triviaCardRender: 'animated slideOutRight',
+          informationRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else if (state.screen === 'information' && screen === 'question') {
+        return {
+          informationRender: 'animated slideOutRight',
+          triviaCardRender: 'animated slideInLeft',
+          screen: screen
+        }
+      } else {
+        return {  
+          screen: screen
+        }
+      }
+    });
+    
   }
 
   handleLogin(username, password, mode) {
@@ -175,6 +202,8 @@ class App extends React.Component {
     } else if (screen === 'question') {
       return (
         <TriviaCard
+          visibility={this.state.triviaCardRender}
+          screen={screen}
           question={question}
           answers={answers}
           setScreen={this.setScreen}

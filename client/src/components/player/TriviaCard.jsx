@@ -6,6 +6,7 @@ import SocketClientInterface from '../../../../socket/socketClientInterface';
 
 const propTypes = {
   time: PropTypes.number.isRequired,
+  screen: PropTypes.string.isRequired,
   question: PropTypes.string.isRequired,
   answers: PropTypes.arrayOf(PropTypes.string).isRequired,
   setScreen: PropTypes.func,
@@ -21,7 +22,8 @@ class TriviaCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentAnswer: ''
+      currentAnswer: '',
+      visibility: props.visibility
     };
 
     this.updateAnswer = this.updateAnswer.bind(this);
@@ -42,12 +44,12 @@ class TriviaCard extends React.Component {
 
   render() {
     const { question, answers, time } = this.props;
-    const { currentAns } = this.state;
+    const { currentAns } = this.state.currentAnswer;
     return(
-      <div className="container-fluid">
+      <div className={`container-fluid class=${this.state.visibility}`}>
         <div className="gameBackground row align-items-center justify-content-md-center">
           <div className="card col-lg-4 col-md-5 col-sm-9 col-xs-12 triviaCard animated slideInLeft">
-            <div className="card-header card-title">{question}</div>
+            <div className="card-block">{question}</div>
 
             <AnswerList answers={answers} currentAns={currentAns} updateAnswer={this.updateAnswer} />
 

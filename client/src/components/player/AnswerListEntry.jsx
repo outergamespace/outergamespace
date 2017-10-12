@@ -10,7 +10,7 @@ const propTypes = {
 
 const AnswerListEntry = ({ answer, index, selected, updateAnswer }) => (
   <li
-    className={`list-group-item answer ${selected} animated slideInUp`}
+    className={`list-group-item answer ${selected}`}
     tabIndex={index}
     onClick={updateAnswer}
   >
