@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Join from './Join';
 import Question from './Question';
 import TextScreen from './TextScreen';
@@ -14,8 +15,7 @@ class App extends React.Component {
       timePerQuestion: 0,
       question: '',
       answers: [],
-      username: '',
-      password: ''
+      username: ''
     };
 
     /* SOCKET CLIENT INTERFACE */
@@ -49,18 +49,23 @@ class App extends React.Component {
     this.socketClientInterface.removeListenersForPlayerEvents();
   }
 
-  handleLogin(username, password) {
-    console.log('Logging in...', username);
-    this.setState({
-      username: username,
-      password: password,
-      // Authentication routing should occur here, instantly routing to lobby is for testing only
-      screen: 'lobby'
-    });
-  }
-
   setScreen(screen) {
     this.setState({ screen });
+  }
+
+  handleLogin(username, password, mode) {
+    console.log('Logging in...', username);
+    if (mode === 'register') {
+      axios.post('/register', { username, password })
+        .then(response => response.status)
+        .then(() => {
+          this.setState({
+            username,
+            screen: 'lobby'
+          });
+        })
+        .catch(err => console.error(err));
+    }
   }
 
   joinGame(timePerQuestion) {

@@ -17,6 +17,7 @@
     "lint": "node_modules/.bin/eslint ./**/*.js ./**/*.jsx"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "bcrypt": "^1.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.2",
