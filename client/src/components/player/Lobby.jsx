@@ -81,16 +81,12 @@ class Lobby extends React.Component {
   render() {
     return (
       <div className="container-fluid main-lobby">
-<<<<<<< HEAD
         <img
           id="lobby-background"
           src="../..//mars-surface.jpg"
           alt="mars-surface"
           className="animated zoomIn"
         />
-=======
-        <img id="lobby-background" src="../../mars-surface.jpg" alt="mars-surface" className="animated zoomIn"/>
->>>>>>> Refactor game screen with bootstrap and animations
         <div className="container-fluid">
           <div className="row justify-content-sm-center">
             <Leaderboard
