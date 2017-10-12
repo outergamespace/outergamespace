@@ -1,10 +1,11 @@
 import React from 'react';
+import LeaderboardEntry from './LeaderboardEntry';
 
-const Leaderboard = (props) => (
+const Leaderboard = props => (
   <div className={`col-sm-3 leaderboard mr-3 ${props.leaderboardRender}`}>
-    <ul>
-      <li>Hello</li>
-    </ul>
+    <ol>
+      {props.users.map(user => <LeaderboardEntry key={user.id} user={user} />)}
+    </ol>
   </div>
 );
 
